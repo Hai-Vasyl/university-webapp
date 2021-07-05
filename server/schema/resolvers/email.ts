@@ -47,7 +47,7 @@ export const Mutation = {
         },
       })
 
-      const response = await transporter.sendMail({
+      const response: any = await transporter.sendMail({
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
         subject: "Нове повідомлення",

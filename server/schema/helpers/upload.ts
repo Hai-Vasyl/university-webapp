@@ -3,9 +3,7 @@ import fs from "fs"
 import path from "path"
 import { v4 as uuidv4 } from "uuid"
 import * as Sentry from "@sentry/node"
-// @ts-ignore
 import imagemin from "imagemin"
-// @ts-ignore
 import mozjpeg from "imagemin-mozjpeg"
 
 const convertToJpg = async (input: Buffer) => {

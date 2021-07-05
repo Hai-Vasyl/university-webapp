@@ -5,6 +5,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const dotenv = require("dotenv")
+// import path from "path"
+// import webpack from "webpack"
+// import HTMLWebPackPlugin from "html-webpack-plugin"
+// import MiniCssExtractPlugin from "mini-css-extract-plugin"
+// import { CleanWebpackPlugin } from "clean-webpack-plugin"
+// import CopyWebpackPlugin from "copy-webpack-plugin"
+// import dotenv from "dotenv"
 
 const env = dotenv.config().parsed
 
