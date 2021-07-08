@@ -9,7 +9,6 @@ import { BsX } from "react-icons/bs"
 import { LIGHTBOX_LIGHT_CLOSE } from "../redux/toggle/toggleTypes"
 import { useDispatch } from "react-redux"
 import ButtonTab from "./ButtonTab"
-import { setPath } from "../index"
 
 const ImageLightBoxLight: React.FC = () => {
   const dispatch = useDispatch()
@@ -22,11 +21,7 @@ const ImageLightBoxLight: React.FC = () => {
   return (
     <div className={`${styles.lightbox} ${toggle && styles.lightbox__open}`}>
       {image.length && (
-        <img
-          className={styles.lightbox__image}
-          src={setPath(image)}
-          alt='image'
-        />
+        <img className={styles.lightbox__image} src={image} alt='image' />
       )}
       <div className={styles.lightbox__header_area}>
         <div className={styles.lightbox__header}>

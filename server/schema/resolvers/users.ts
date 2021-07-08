@@ -7,10 +7,9 @@ import { registerValid, loginValid } from "../validation/auth"
 import { IField, IIsAuth } from "../interfaces"
 import { getColor } from "../helpers/randomColor"
 import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
-import { uploadPath } from "../../modules/uploadTypes"
 import { types } from "../../modules/messageTypes"
 config({ path: "../../../.env" })
-const { JWT_SECRET }: any = process.env
+const { UPLOAD = "", JWT_SECRET = "" } = process.env
 
 export const Query = {
   async register(_: any, args: IField) {
@@ -107,15 +106,15 @@ export const Mutation = {
         let ava = ""
         if (deleting) {
           if (user.ava) {
-            await deleteFile(user.ava)
+            await deleteFile(user.ava, UPLOAD)
           }
         } else {
           if (!!uploadImage) {
             if (user.ava) {
-              const Location = await updateFile(uploadImage, user.ava)
+              const Location = await updateFile(user.ava, uploadImage, UPLOAD)
               ava = Location
             } else {
-              const Location = await uploadFile(uploadImage, uploadPath.upload)
+              const Location = await uploadFile(uploadImage, UPLOAD)
               ava = Location
             }
           }

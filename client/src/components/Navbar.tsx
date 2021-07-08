@@ -22,7 +22,6 @@ import { ILink } from "../interfaces"
 import UserAva from "./UserAva"
 import { RESET_AUTH } from "../redux/auth/authTypes"
 import ButtonTab from "./ButtonTab"
-import { setPath } from "../index"
 
 const Navbar: React.FC = () => {
   const history = useHistory()
@@ -144,7 +143,7 @@ const Navbar: React.FC = () => {
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <img
-                src={setPath("/upload/logo_45.svg")}
+                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_45.svg'
                 className={styles.nav__logo_img}
                 alt='logotype'
               />
@@ -194,7 +193,7 @@ const Navbar: React.FC = () => {
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <img
-                src={setPath("/upload/logo_45_mini.svg")}
+                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_45_mini.svg'
                 className={styles.nav__logo_mini_img}
                 alt='logotype'
               />

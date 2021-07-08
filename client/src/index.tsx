@@ -75,10 +75,6 @@ if (!isDev) {
   host = window.location.origin
 }
 
-export const setPath = (fileLocation: string) => {
-  return `${isDev ? defaultHost : ""}${fileLocation}`
-}
-
 const httpLink = createUploadLink({
   uri: `${host}/graphql`,
 })

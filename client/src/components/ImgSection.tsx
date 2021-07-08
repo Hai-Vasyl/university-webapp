@@ -12,7 +12,6 @@ import { RootStore } from "../redux/store"
 import useLightBox from "../hooks/useLightBox"
 import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
 import { types } from "../modules/uploadTypes"
-import { setPath } from "../index"
 
 interface IImgSectionProps {
   infoId: string
@@ -114,7 +113,7 @@ const ImgSection: React.FC<IImgSectionProps> = ({
       {upload ? (
         <img
           className={styles.content__img}
-          src={setPath(upload.location)}
+          src={upload.location}
           alt='imgPreview'
         />
       ) : (

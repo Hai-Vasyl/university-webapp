@@ -8,7 +8,6 @@ import { RootStore } from "../redux/store"
 import { access } from "../modules/accessModifiers"
 import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
 import { types } from "../modules/uploadTypes"
-import { setPath } from "../index"
 
 interface IButtonDownloadProps {
   title?: string
@@ -62,7 +61,7 @@ const ButtonDownload: React.FC<IButtonDownloadProps> = ({
         }`}
       >
         <BsDownload className={styles.btn_download__icon} />
-        <a className={styles.btn_download__title} href={setPath(link)} download>
+        <a className={styles.btn_download__title} href={link} download>
           {title ? title : "Прикріплений файл"}
         </a>
       </div>

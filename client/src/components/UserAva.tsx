@@ -1,5 +1,4 @@
 import React from "react"
-import { setPath } from "../index"
 
 interface IUserAvaProps {
   color: string
@@ -19,7 +18,7 @@ const UserAva: React.FC<IUserAvaProps> = ({
   large,
 }) => {
   if (ava && ava.length) {
-    return <img className='avatar' src={setPath(ava)} alt='userAva' />
+    return <img className='avatar' src={ava} alt='userAva' />
   }
   return (
     <span

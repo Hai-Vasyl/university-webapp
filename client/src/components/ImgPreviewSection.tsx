@@ -3,7 +3,6 @@ import React from "react"
 import styles from "../styles/pages.module"
 import { BsImages, BsInfoSquare } from "react-icons/bs"
 import { Link } from "react-router-dom"
-import { setPath } from "../index"
 
 interface IImgSectionProps {
   imgLocation: string
@@ -30,7 +29,7 @@ const ImgPreviewSection: React.FC<IImgSectionProps> = ({
       {imgLocation ? (
         <img
           className={styles.content__img}
-          src={setPath(imgLocation)}
+          src={imgLocation}
           alt='imgPreview'
         />
       ) : (

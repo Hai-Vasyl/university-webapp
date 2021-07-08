@@ -173,7 +173,7 @@ const Gallery: React.FC = () => {
           >
             {loadImages ? (
               <Loader />
-            ) : imagesJSX.length ? (
+            ) : imagesJSX?.length ? (
               imagesJSX
             ) : (
               <div className='plug-text'>Порожньо</div>

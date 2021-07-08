@@ -16,7 +16,6 @@ import { RootStore } from "../redux/store"
 import { SET_TOAST } from "../redux/toasts/toastsTypes"
 import { access } from "../modules/accessModifiers"
 import { RiImageAddFill } from "react-icons/ri"
-import { setPath } from "../index"
 
 interface ITitleProps {
   title: string
@@ -37,10 +36,8 @@ const Title: React.FC<ITitleProps> = ({ title, path }) => {
   } = useQuery(GET_PAGE, {
     variables: { url: path || pathname },
   })
-  const [
-    setPageImage,
-    { data: dataSetImage, loading: loadSetImage, error },
-  ] = useMutation(SET_PAGE_IMAGE)
+  const [setPageImage, { data: dataSetImage, loading: loadSetImage, error }] =
+    useMutation(SET_PAGE_IMAGE)
 
   useEffect(() => {
     const data = dataSetImage && dataSetImage.setPageImage
@@ -80,11 +77,7 @@ const Title: React.FC<ITitleProps> = ({ title, path }) => {
     <div className={styles.title}>
       <LoaderData load={loadImage || loadSetImage} noSpiner />
       {!!image.length && (
-        <img
-          src={setPath(image)}
-          className={styles.title__image}
-          alt='bgImage'
-        />
+        <img src={image} className={styles.title__image} alt='bgImage' />
       )}
       <div className={styles.title__layer}></div>
       {user.role === access.admin.keyWord && (

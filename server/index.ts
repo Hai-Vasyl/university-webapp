@@ -64,7 +64,7 @@
 // })()
 ////////////////// apollo-server-express without sockets
 import express from "express"
-import { ApolloServer, gql } from "apollo-server-express"
+import { ApolloServer } from "apollo-server-express"
 import path from "path"
 import mongoose from "mongoose"
 import { config } from "dotenv"
@@ -94,16 +94,6 @@ const isDev = NODE_ENV === "development"
 
     const server = new ApolloServer({
       ...schema,
-      // typeDefs: gql`
-      //   type Query {
-      //     books: String!
-      //   }
-      // `,
-      // resolvers: {
-      //   Query: {
-      //     books: () => "books",
-      //   },
-      // },
       playground: isDev,
       context: ({ req, res }: { req: any; res: any }) => ({
         req,
@@ -112,8 +102,6 @@ const isDev = NODE_ENV === "development"
       }),
     })
     server.applyMiddleware({ app })
-
-    app.use(express.static(path.join(__dirname, "../", "../", "public")))
 
     if (!isDev) {
       app.use(express.static(path.join(__dirname, "../", "client")))

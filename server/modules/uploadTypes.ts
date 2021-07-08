@@ -12,8 +12,3 @@ export const types = {
     keyWord: "other",
   },
 }
-
-export const uploadPath = {
-  uploads: "uploads",
-  upload: "upload",
-}

@@ -149,7 +149,6 @@ export default gql`
       password: String!
       isAdmin: Boolean
       role: String
-      group: String
     ): Auth
     getImages(from: Int!, to: Int!, search: String, type: String): Images!
     getImage(imageId: ID!): UploadFile!

@@ -38,7 +38,6 @@ import { getUserAccess } from "../modules/accessModifiers"
 import Field from "../components/Field"
 import { convertDate } from "../helpers/convertDate"
 import useSetErrorsFields from "../hooks/useSetErrorsFields"
-import { setPath } from "../index"
 
 const Profile: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
@@ -109,9 +108,8 @@ const Profile: React.FC = () => {
   const [getUser, { data: dataUser }] = useLazyQuery(GET_DATA_USER, {
     fetchPolicy: "no-cache",
   })
-  const [setUserAva, { data: dataUserAva, loading: loadUserAva }] = useMutation(
-    SET_USER_AVA
-  )
+  const [setUserAva, { data: dataUserAva, loading: loadUserAva }] =
+    useMutation(SET_USER_AVA)
   const [
     updateUserData,
     { data: dataUserData, error: errorUserData, loading: loadUserData },
@@ -233,15 +231,8 @@ const Profile: React.FC = () => {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const [
-      firstname,
-      lastname,
-      middlename,
-      email,
-      phone,
-      address,
-      password,
-    ] = form
+    const [firstname, lastname, middlename, email, phone, address, password] =
+      form
 
     updateUserData({
       variables: {
@@ -293,7 +284,7 @@ const Profile: React.FC = () => {
                 {userData.ava ? (
                   <img
                     className={styles.user__ava}
-                    src={setPath(userData.ava)}
+                    src={userData.ava}
                     alt='avaImg'
                   />
                 ) : (

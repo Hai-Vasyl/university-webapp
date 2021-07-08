@@ -2,7 +2,9 @@ import { Page } from "../models"
 import { IIsAuth, IField } from "../interfaces"
 import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
 import { types } from "../../modules/messageTypes"
-import { uploadPath } from "../../modules/uploadTypes"
+import { config } from "dotenv"
+config()
+const { UPLOAD = "" } = process.env
 
 export const Query = {
   async getPage(_: any, { url }: { url: string }) {
@@ -30,7 +32,7 @@ export const Mutation = {
       if (!page) {
         let Location
         if (!!uploadImage) {
-          Location = await uploadFile(uploadImage, uploadPath.upload)
+          Location = await uploadFile(uploadImage, UPLOAD)
         }
         const newPage = new Page({
           url,
@@ -42,15 +44,15 @@ export const Mutation = {
         let image = ""
         if (deleting) {
           if (page.image) {
-            await deleteFile(page.image)
+            await deleteFile(page.image, UPLOAD)
           }
         } else {
           if (!!uploadImage) {
             if (!!page.image) {
-              const Location = await updateFile(uploadImage, page.image)
+              const Location = await updateFile(page.image, uploadImage, UPLOAD)
               image = Location
             } else {
-              const Location = await uploadFile(uploadImage, uploadPath.upload)
+              const Location = await uploadFile(uploadImage, UPLOAD)
               image = Location
             }
           }

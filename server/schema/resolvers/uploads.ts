@@ -1,8 +1,10 @@
 import { Upload } from "../models"
-import { uploadPath } from "../../modules/uploadTypes"
 import { uploadFile, deleteFile, updateFile } from "../helpers/upload"
 import { IField, IIsAuth } from "../interfaces"
 import { types as msgTypes } from "../../modules/messageTypes"
+import { config } from "dotenv"
+config()
+const { UPLOADS = "" } = process.env
 
 export const Query = {
   async getImages(_: any, { from, to, search, type }: IField) {
@@ -84,7 +86,7 @@ export const Mutation = {
           )
         }
         if (type) {
-          const Location = await uploadFile(uploadImage, uploadPath.uploads)
+          const Location = await uploadFile(uploadImage, UPLOADS)
 
           const upload = new Upload({
             owner: isAuth.userId,
@@ -148,7 +150,11 @@ export const Mutation = {
             })
           )
         }
-        const fileLocation = await updateFile(uploadImage, upload.location)
+        const fileLocation = await updateFile(
+          upload.location,
+          uploadImage,
+          UPLOADS
+        )
         Location = fileLocation
       }
 
@@ -180,7 +186,7 @@ export const Mutation = {
       //TODO: validation for each field and check in models
 
       const upload: any = await Upload.findById(imageId)
-      await deleteFile(upload.location)
+      await deleteFile(upload.location, UPLOADS)
       await Upload.findByIdAndDelete(imageId)
 
       return {

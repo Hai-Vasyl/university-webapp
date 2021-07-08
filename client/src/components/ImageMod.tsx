@@ -37,7 +37,6 @@ import useSetErrorsFields from "../hooks/useSetErrorsFields"
 import { types } from "../modules/messageTypes"
 import { MODIMAGE_OPEN, MODIMAGE_CLOSE } from "../redux/toggle/toggleTypes"
 import { types as uploadTypes } from "../modules/uploadTypes"
-import { setPath } from "../index"
 
 const ImageMod: React.FC = () => {
   const {
@@ -60,12 +59,10 @@ const ImageMod: React.FC = () => {
     createUpload,
     { data: dataCreate, loading: loadCreate, error: errorCreate },
   ] = useMutation(CREATE_UPLOAD)
-  const [editUpload, { data: dataEdit, loading: loadEdit }] = useMutation(
-    EDIT_UPLOAD
-  )
-  const [deleteUpload, { data: dataDelete, loading: loadDelete }] = useMutation(
-    DELETE_UPLOAD
-  )
+  const [editUpload, { data: dataEdit, loading: loadEdit }] =
+    useMutation(EDIT_UPLOAD)
+  const [deleteUpload, { data: dataDelete, loading: loadDelete }] =
+    useMutation(DELETE_UPLOAD)
   const {
     data: dataImage,
     loading: loadImage,
@@ -145,7 +142,7 @@ const ImageMod: React.FC = () => {
     )
     let imagePreview = ""
     if (imageData.format !== "file") {
-      imagePreview = setPath(imageData.location)
+      imagePreview = imageData.location
     }
     setPreview(imagePreview)
   }, [])

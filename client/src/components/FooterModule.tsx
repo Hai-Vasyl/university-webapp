@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import { FaFacebook, FaInstagram, FaYoutube, FaTelegram } from "react-icons/fa"
-import { setPath } from "../index"
 
 const FooterModule: React.FC = () => {
   const socialLinks = [
@@ -107,7 +106,10 @@ const FooterModule: React.FC = () => {
       <div className={`wrapper ${styles.module_footer__flex}`}>
         <div className={styles.module_footer__logo_container}>
           <Link to='/' className={styles.module_footer__logo}>
-            <img src={setPath("/upload/logo_45.svg")} alt='logoImg' />
+            <img
+              src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_45.svg'
+              alt='logoImg'
+            />
           </Link>
         </div>
         <div className={styles.module_footer__links}>

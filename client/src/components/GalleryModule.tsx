@@ -17,7 +17,6 @@ import stylesBtn from "../styles/button.module"
 import { access } from "../modules/accessModifiers"
 import { RootStore } from "../redux/store"
 import { BsPencilSquare } from "react-icons/bs"
-import { setPath } from "../index"
 import { useHistory } from "react-router-dom"
 
 const GalleryModule: React.FC = () => {
@@ -98,7 +97,7 @@ const GalleryModule: React.FC = () => {
       >
         <img
           className={styles.image__preview}
-          src={setPath(image.location)}
+          src={image.location}
           alt='imgItem'
         />
         <span className={styles.image__overlay}></span>

@@ -23,7 +23,6 @@ import { convertDate } from "../helpers/convertDate"
 import UserCard from "./UserCard"
 import { Link, useHistory } from "react-router-dom"
 import { RiExternalLinkLine } from "react-icons/ri"
-import { setPath } from "../index"
 
 const ImageLightBox: React.FC = () => {
   const dispatch = useDispatch()
@@ -107,7 +106,7 @@ const ImageLightBox: React.FC = () => {
       {!loadImage && image.location && (
         <img
           className={styles.lightbox__image}
-          src={setPath(image.location)}
+          src={image.location}
           alt='image'
         />
       )}

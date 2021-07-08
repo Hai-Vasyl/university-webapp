@@ -218,7 +218,7 @@ const NewsEvents: React.FC = () => {
           >
             {loadNewsEvents ? (
               <Loader />
-            ) : newsEventsJSX.length ? (
+            ) : newsEventsJSX?.length ? (
               newsEventsJSX
             ) : (
               <div className='plug-text'>Порожньо</div>
