@@ -15,6 +15,7 @@
     "build:dev:client": "cross-env NODE_ENV=development webpack --config webpack.client.js --mode development",
     "build:dev:server": "cross-env NODE_ENV=development webpack --config webpack.server.js --mode development",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.prod.js --mode production",
+    "heroku-postbuild": "yarn install && yarn build:prod",
     "====== START ======": "",
     "server": "nodemon dist/server/server.js",
     "start:dev:client": "cross-env NODE_ENV=development webpack serve --config webpack.client.js --mode development",

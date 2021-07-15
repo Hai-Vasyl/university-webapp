@@ -143,14 +143,14 @@ const Navbar: React.FC = () => {
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <img
-                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_45.svg'
+                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg'
                 className={styles.nav__logo_img}
                 alt='logotype'
               />
             </Link>
             <div className={styles.nav__title}>
               <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
-                Ліцей 45 ЛМР
+                ІППТ
               </Link>
             </div>
             <ButtonTab
