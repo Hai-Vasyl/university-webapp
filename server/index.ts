@@ -73,7 +73,7 @@ import schema from "./schema"
 import cors from "cors"
 
 config()
-const { PORT, MONGO_USER, MONGO_PASS, MONGO_DB, NODE_ENV } = process.env
+const { PORT, MONGO_URI = "", NODE_ENV } = process.env
 const isDev = NODE_ENV === "development"
 
 ;(async () => {
@@ -82,7 +82,7 @@ const isDev = NODE_ENV === "development"
     app.use(cors())
 
     await mongoose.connect(
-      `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@cluster0.osxef.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority`,
+      MONGO_URI,
       {
         useCreateIndex: true,
         useNewUrlParser: true,
