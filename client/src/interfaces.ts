@@ -11,8 +11,9 @@ export interface IRoute {
 export interface ILink {
   to?: string
   exact?: boolean
-  title: any
-  extraLinks?: any
+  title: string
+  extraLinks?: ILink[]
+  isAdminLinks?: boolean
 }
 
 export interface IOwner {

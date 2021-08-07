@@ -18,189 +18,215 @@ import Search from "../pages/Search"
 import { ILink } from "../interfaces"
 import { access } from "./accessModifiers"
 
-export const getLinks = (role: string, defaultLinks: boolean = true) => {
-  const allLinks = [
-    {
-      to: "/",
-      exact: true,
-      title: "Головна",
-    },
-    {
-      title: "Про школу",
-      extraLinks: [
-        { to: "/about", title: "Навчальний заклад" },
-        { to: "/team", title: "Команда" },
-      ],
-    },
-    {
-      to: "/discover",
-      title: "Шукати",
-    },
-    {
-      to: "/news",
-      title: "Новини",
-    },
-    {
-      to: "/events",
-      title: "Події",
-    },
-    {
-      to: "/library",
-      title: "Бібліотека",
-    },
-    {
-      to: "/gallery",
-      title: "Галерея",
-    },
-    {
-      to: "/management",
-      title: "Управління",
-    },
-    {
-      title: "Інше",
-      extraLinks: [
-        {
-          to: "/projects",
-          title: "Проекти",
-        },
-        {
-          to: "/contacts",
-          title: "Контакти",
-        },
-        {
-          to: "/schedule",
-          title: "Розклад занять",
-        },
-      ],
-    },
-  ]
+// export const getLinks = (role: string, defaultLinks: boolean = true) => {
+//   const allLinks = [
+//     {
+//       to: "/",
+//       exact: true,
+//       title: "Головна",
+//     },
+//     {
+//       title: "Про інститут",
+//       extraLinks: [
+//         { to: "/about", title: "Навчальний заклад" },
+//         { to: "/team", title: "Команда" },
+//         { to: "/graduates ", title: "Випускники" },
+//       ],
+//     },
+//     {
+//       to: "/discover",
+//       title: "Шукати",
+//     },
+//     {
+//       title: "Новини і події",
+//       to: "/news",
+//       extraLinks: [
+//         {
+//           to: "/news",
+//           title: "Новини",
+//         },
+//         {
+//           to: "/events",
+//           title: "Події",
+//         },
+//       ],
+//     },
+//     {
+//       to: "/library",
+//       title: "Вступнику",
+//     },
+//     {
+//       to: "/gallery",
+//       title: "Галерея",
+//     },
+//     {
+//       title: "Управління",
+//       to: "/management",
+//       exact: true,
+//       // extraLinks: [
+//       //   {
+//       //     to: "/management?зфпу",
+//       //     label: "Кафедра інформаційних систем і технологій",
+//       //     title: "Кафедра ІСТ",
+//       //   },
+//       //   {
+//       //     to: "/management?",
+//       //     label: "Кафедра економіки і маркетингу",
+//       //     title: "Кафедра економіки і маркетингу",
+//       //   },
+//       //   {
+//       //     to: "/management?",
+//       //     label: "Кафедра фінансів, обліку і аналізу",
+//       //     title: "Кафедра ФОА",
+//       //   },
+//       //   { to: "/management?", label: "", title: "Студентська колегія" },
+//       // ],
+//     },
+//     {
+//       title: "Інше",
+//       extraLinks: [
+//         {
+//           to: "/projects",
+//           title: "Проекти",
+//         },
+//         {
+//           to: "/contacts",
+//           title: "Контакти",
+//         },
+//         {
+//           to: "/schedule",
+//           title: "Розклад занять",
+//         },
+//       ],
+//     },
+//   ]
 
-  const allLinksResponsive = [
-    {
-      to: "/",
-      exact: true,
-      title: "Головна",
-    },
-    { to: "/about", title: "Навчальний заклад" },
-    { to: "/team", title: "Команда" },
-    {
-      to: "/discover",
-      title: "Шукати",
-    },
-    {
-      to: "/news",
-      title: "Новини",
-    },
-    {
-      to: "/events",
-      title: "Події",
-    },
-    {
-      to: "/library",
-      title: "Бібліотека",
-    },
-    {
-      to: "/gallery",
-      title: "Галерея",
-    },
-    {
-      to: "/management",
-      title: "Управління",
-    },
-    {
-      to: "/projects",
-      title: "Проекти",
-    },
-    {
-      to: "/contacts",
-      title: "Контакти",
-    },
-    {
-      to: "/schedule",
-      title: "Розклад занять",
-    },
-  ]
+//   const allLinksResponsive = [
+//     {
+//       to: "/",
+//       exact: true,
+//       title: "Головна",
+//     },
+//     { to: "/about", title: "Навчальний заклад" },
+//     { to: "/team", title: "Команда" },
+//     {
+//       to: "/discover",
+//       title: "Шукати",
+//     },
+//     {
+//       to: "/news",
+//       title: "Новини",
+//     },
+//     {
+//       to: "/events",
+//       title: "Події",
+//     },
+//     {
+//       to: "/library",
+//       title: "Бібліотека",
+//     },
+//     {
+//       to: "/gallery",
+//       title: "Галерея",
+//     },
+//     {
+//       to: "/management",
+//       title: "Управління",
+//     },
+//     {
+//       to: "/projects",
+//       title: "Проекти",
+//     },
+//     {
+//       to: "/contacts",
+//       title: "Контакти",
+//     },
+//     {
+//       to: "/schedule",
+//       title: "Розклад занять",
+//     },
+//   ]
 
-  const getLinks = (extraLinks: ILink[]) => {
-    return [...allLinks].map((link, index) => {
-      if (index === allLinks.length - 1 && link.extraLinks) {
-        return {
-          ...link,
-          extraLinks: [...link.extraLinks, ...extraLinks],
-        }
-      }
-      return link
-    })
-  }
+//   const getLinks = (extraLinks: ILink[]) => {
+//     return [...allLinks].map((link, index) => {
+//       if (index === allLinks.length - 1 && link.extraLinks) {
+//         return {
+//           ...link,
+//           extraLinks: [...link.extraLinks, ...extraLinks],
+//         }
+//       }
+//       return link
+//     })
+//   }
 
-  const getLinksResponsive = (extraLinks: ILink[]) => {
-    return [...allLinksResponsive, ...extraLinks]
-  }
+//   const getLinksResponsive = (extraLinks: ILink[]) => {
+//     return [...allLinksResponsive, ...extraLinks]
+//   }
 
-  const getSwitchedLinks = (getLinks: any) => {
-    switch (role) {
-      case access.admin.keyWord:
-        return getLinks([
-          { to: "/create-news", title: "Створити новину" },
-          { to: "/create-event", title: "Створити подію" },
-          { to: "/register-user", title: "Створити користувача" },
-          { to: "/users", title: "Усі користувачі" },
-        ])
-      case access.teacher.keyWord:
-        return getLinks([
-          { to: "/create-news", title: "Створити новину" },
-          { to: "/create-event", title: "Створити подію" },
-          { to: "/users", title: "Усі користувачі" },
-        ])
-      default:
-        return getLinks([])
-    }
-  }
+//   const getSwitchedLinks = (getLinks: any) => {
+//     switch (role) {
+//       case access.admin.keyWord:
+//         return getLinks([
+//           { to: "/create-news", title: "Створити новину" },
+//           { to: "/create-event", title: "Створити подію" },
+//           { to: "/register-user", title: "Створити користувача" },
+//           { to: "/users", title: "Усі користувачі" },
+//         ])
+//       case access.teacher.keyWord:
+//         return getLinks([
+//           { to: "/create-news", title: "Створити новину" },
+//           { to: "/create-event", title: "Створити подію" },
+//           { to: "/users", title: "Усі користувачі" },
+//         ])
+//       default:
+//         return getLinks([])
+//     }
+//   }
 
-  if (defaultLinks) {
-    return getSwitchedLinks(getLinks)
-  } else {
-    return getSwitchedLinks(getLinksResponsive)
-  }
-}
+//   if (defaultLinks) {
+//     return getSwitchedLinks(getLinks)
+//   } else {
+//     return getSwitchedLinks(getLinksResponsive)
+//   }
+// }
 
-const mainRoutes = [
-  { path: "/", exact: true, Component: Home },
-  { path: "/about", Component: About },
-  { path: "/team", Component: Team },
-  { path: "/discover", Component: Search },
-  { path: "/news", exact: true, Component: NewsEvents },
-  { path: "/events", exact: true, Component: NewsEvents },
-  { path: "/library", exact: true, Component: Library },
-  { path: "/gallery", exact: true, Component: Gallery },
-  { path: "/projects", Component: Projects },
-  { path: "/management", Component: Management },
-  { path: "/contacts", Component: Contacts },
-  { path: "/schedule", Component: Schedule },
-  { path: "/news/details/:contentId", Component: NewsEvent },
-  { path: "/events/details/:contentId", Component: NewsEvent },
-  { path: "/library/:bookId", Component: BookDetails },
-]
+// const mainRoutes = [
+//   { path: "/", exact: true, Component: Home },
+//   { path: "/about", Component: About },
+//   { path: "/team", Component: Team },
+//   { path: "/discover", Component: Search },
+//   { path: "/news", exact: true, Component: NewsEvents },
+//   { path: "/events", exact: true, Component: NewsEvents },
+//   { path: "/library", exact: true, Component: Library },
+//   { path: "/gallery", exact: true, Component: Gallery },
+//   { path: "/projects", Component: Projects },
+//   { path: "/management", Component: Management },
+//   { path: "/contacts", Component: Contacts },
+//   { path: "/schedule", Component: Schedule },
+//   { path: "/news/details/:contentId", Component: NewsEvent },
+//   { path: "/events/details/:contentId", Component: NewsEvent },
+//   { path: "/library/:bookId", Component: BookDetails },
+// ]
 
-export const routes = {
-  admin: [
-    ...mainRoutes,
-    { path: "/users", Component: Users },
-    { path: "/register-user", Component: RegisterUser },
-    { path: "/create-news", Component: ModNewsEvent },
-    { path: "/create-event", Component: ModNewsEvent },
-    { path: "/edit-news/:contentId", Component: ModNewsEvent },
-    { path: "/edit-event/:contentId", Component: ModNewsEvent },
-    { path: "/profile/:userId", exact: true, Component: Profile },
-  ],
-  teacher: [
-    ...mainRoutes,
-    { path: "/create-news", Component: ModNewsEvent },
-    { path: "/create-event", Component: ModNewsEvent },
-    { path: "/users", Component: Users },
-    { path: "/edit-news/:contentId", Component: ModNewsEvent },
-    { path: "/edit-event/:contentId", Component: ModNewsEvent },
-    { path: "/profile/:userId", exact: true, Component: Profile },
-  ],
-  unregistered: [...mainRoutes],
-}
+// export const routes = {
+//   admin: [
+//     ...mainRoutes,
+//     { path: "/users", Component: Users },
+//     { path: "/register-user", Component: RegisterUser },
+//     { path: "/create-news", Component: ModNewsEvent },
+//     { path: "/create-event", Component: ModNewsEvent },
+//     { path: "/edit-news/:contentId", Component: ModNewsEvent },
+//     { path: "/edit-event/:contentId", Component: ModNewsEvent },
+//     { path: "/profile/:userId", exact: true, Component: Profile },
+//   ],
+//   teacher: [
+//     ...mainRoutes,
+//     { path: "/create-news", Component: ModNewsEvent },
+//     { path: "/create-event", Component: ModNewsEvent },
+//     { path: "/users", Component: Users },
+//     { path: "/edit-news/:contentId", Component: ModNewsEvent },
+//     { path: "/edit-event/:contentId", Component: ModNewsEvent },
+//     { path: "/profile/:userId", exact: true, Component: Profile },
+//   ],
+//   unregistered: [...mainRoutes],
+// }

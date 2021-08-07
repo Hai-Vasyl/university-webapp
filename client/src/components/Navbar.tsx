@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { getLinks } from "../modules/routes"
+// import { getLinks } from "../modules/routes"
 import { RootStore } from "../redux/store"
-import { Link, useHistory } from "react-router-dom"
+import { Link, useHistory, useLocation } from "react-router-dom"
 import { BsSearch, BsCaretRightFill } from "react-icons/bs"
 import { AiOutlineLogout } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
@@ -16,15 +16,18 @@ import {
 // @ts-ignore
 import styles from "../styles/navbar.module"
 import NavigLink from "./NavigLink"
+import NavigQueryLink from "./NavigQueryLink"
 // @ts-ignore
 import stylesBtn from "../styles/button.module"
 import { ILink } from "../interfaces"
 import UserAva from "./UserAva"
 import { RESET_AUTH } from "../redux/auth/authTypes"
 import ButtonTab from "./ButtonTab"
+import useRoutes from "../hooks/useRoutes"
 
 const Navbar: React.FC = () => {
   const history = useHistory()
+  const location = useLocation()
 
   const {
     auth: { user, token },
@@ -35,6 +38,8 @@ const Navbar: React.FC = () => {
   const [search, setSearch] = useState("")
   const [changeNav, setChangeNav] = useState(false)
   const dispatch = useDispatch()
+
+  const { links, linksResponsive } = useRoutes()
 
   useEffect(() => {
     const toggleBlur = JSON.parse(localStorage.getItem("blur") || "{}")
@@ -90,20 +95,21 @@ const Navbar: React.FC = () => {
       if (extraLinks) {
         return (
           <div key={title} className={styles.link__wrapper_dropdown}>
-            <button
+            <Link
+              to={to || ""}
               className={`${styles.link} ${styles.link__drop}`}
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <span className={styles.link__text}>{title}</span>
               <BsCaretRightFill className={styles.link__icon} />
-            </button>
+            </Link>
             <div className={styles.link__dropdown}>
               {extraLinks.map((link: ILink) => {
                 return (
-                  <NavigLink
+                  <NavigQueryLink
                     key={link.to}
                     title={link.title}
-                    exact={!!link.exact}
+                    isMatch={link.to === `${location.pathname}${location.search}`}
                     dropdown
                     to={link.to || ""}
                   />
@@ -119,7 +125,7 @@ const Navbar: React.FC = () => {
     })
   }
 
-  const linksResp = getLinks(user.role, false).map((link: ILink) => {
+  const linksResp = linksResponsive.map((link: ILink) => {
     return (
       <NavigLink
         key={link.to}
@@ -198,9 +204,7 @@ const Navbar: React.FC = () => {
                 alt='logotype'
               />
             </Link>
-            <div className={styles.nav__links}>
-              {reduceMapLins(getLinks(user.role))}
-            </div>
+            <div className={styles.nav__links}>{reduceMapLins(links)}</div>
             {token.length ? (
               <div
                 className={`${styles.link__wrapper_dropdown} ${styles.user}`}

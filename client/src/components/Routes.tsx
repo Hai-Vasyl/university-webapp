@@ -2,10 +2,10 @@ import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import { RootStore } from "../redux/store"
 import { IRoute } from "../interfaces"
-import { routes } from "../modules/routes"
+// import { routes } from "../modules/routes"
 import { useSelector, useDispatch } from "react-redux"
 import { RESET_TOGGLE } from "../redux/toggle/toggleTypes"
-import { access } from "../modules/accessModifiers"
+// import { access } from "../modules/accessModifiers"
 import Navbar from "./Navbar"
 import Auth from "./Auth"
 import Warning from "./Warning"
@@ -13,10 +13,11 @@ import ImageMod from "./ImageMod"
 import ImageLightBox from "./ImageLightBox"
 import ImageLightBoxLight from "./ImageLightBoxLight"
 import { ChatWidget } from "@papercups-io/chat-widget"
+import useRoutes from "../hooks/useRoutes"
 
 const Routes = () => {
   const {
-    auth: { user },
+    // auth: { user },
     toggle: {
       dropDown,
       authForm,
@@ -31,6 +32,7 @@ const Routes = () => {
     },
   } = useSelector((state: RootStore) => state)
   const dispatch = useDispatch()
+  const { routes } = useRoutes()
 
   const mapReduce = (routes: IRoute[]) => {
     return routes.map((route) => {
@@ -38,16 +40,16 @@ const Routes = () => {
     })
   }
 
-  const getRoutes = () => {
-    switch (user.role) {
-      case access.admin.keyWord:
-        return mapReduce(routes.admin)
-      case access.teacher.keyWord:
-        return mapReduce(routes.teacher)
-      default:
-        return mapReduce(routes.unregistered)
-    }
-  }
+  // const getRoutes = () => {
+  //   switch (user.role) {
+  //     case access.admin.keyWord:
+  //       return mapReduce(routes.admin)
+  //     case access.teacher.keyWord:
+  //       return mapReduce(routes.teacher)
+  //     default:
+  //       return mapReduce(routes.unregistered)
+  //   }
+  // }
 
   return (
     <>
@@ -94,7 +96,7 @@ const Routes = () => {
         }`}
       ></div>
       <Switch>
-        {getRoutes()}
+        {mapReduce(routes)}
         <Redirect to='/' />
       </Switch>
     </>

@@ -447,6 +447,17 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
   }
 `
 
+export const GET_ALL_PAGE_SECTIONS = gql`
+  query GET_ALL_PAGE_SECTIONS($urls: [String]!) {
+    getAllPageSections(urls: $urls) {
+      id
+      page
+      url
+      title
+    }
+  }
+`
+
 export const GET_PAGE_FILTERS = gql`
   query GET_PAGE_FILTERS($url: String!) {
     getFilters(url: $url) {

@@ -13,14 +13,14 @@ import AboutModule from "../components/AboutModule"
 import GalleryModule from "../components/GalleryModule"
 import NewsEventsModule from "../components/NewsEventsModule"
 import NewsEventsModuleGrid from "../components/NewsEventsModuleGrid"
-import BooksModule from "../components/BooksModule"
+// import BooksModule from "../components/BooksModule"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import ContactsModule from "../components/ContactsModule"
 import UsefulLinksModule from "../components/UsefulLinksModule"
 import FooterModule from "../components/FooterModule"
 import DesignLayout_1 from "../components/DesignLayout_1"
-import DesignLayout_2 from "../components/DesignLayout_2"
-import DesignLayout_3 from "../components/DesignLayout_3"
+// import DesignLayout_2 from "../components/DesignLayout_2"
+// import DesignLayout_3 from "../components/DesignLayout_3"
 
 const Home: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
@@ -100,9 +100,6 @@ const Home: React.FC = () => {
           />
         )}
       </NewsEventsModuleContainer>
-      <DesignLayout_3>
-        <BooksModule />
-      </DesignLayout_3>
       <UsefulLinksModule />
       <ContactsModule />
       <FooterModule />

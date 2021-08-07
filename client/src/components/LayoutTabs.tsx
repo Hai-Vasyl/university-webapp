@@ -34,7 +34,6 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
   const section = params.get("section")
 
   const [activeSection, setActiveSection] = useState("")
-  const [initLoad, setInitLoad] = useState(true)
   const anchor = useRef<HTMLDivElement>(null)
 
   const {
@@ -61,13 +60,12 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   useEffect(() => {
     const data = dataSections && dataSections.getPageSections
-    if (data && data.items.length && initLoad) {
+    if (data && data.items.length) {
       if (!section) {
         setActiveSection(data.items[0].id)
       } else {
         setActiveSection(section)
       }
-      setInitLoad(false)
     }
   }, [dataSections, section])
 

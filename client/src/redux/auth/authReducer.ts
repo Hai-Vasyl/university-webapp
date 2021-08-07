@@ -26,7 +26,7 @@ const initState: IInitState = {
     color: "",
     confirmed: true,
     middlename: "",
-    role: "unregistered",
+    role: "",
   },
 }
 

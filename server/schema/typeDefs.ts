@@ -120,6 +120,7 @@ export default gql`
     getUser(userId: String!): User!
     getAllUsers: [User]!
     getFilters(url: String!): [Filter]!
+    getAllPageSections(urls: [String]!): [PageSection]!
     getPageSections(
       search: String
       url: String!

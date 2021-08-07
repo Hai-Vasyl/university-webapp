@@ -8,6 +8,15 @@ config()
 const { UPLOADS = "" } = process.env
 
 export const Query = {
+  async getAllPageSections(_: any, { urls }: IField) {
+    try {
+      const pageSections = await PageSection.find({ url: { $in: urls } }).sort({priority: -1})
+
+      return pageSections
+    } catch (error) {
+      throw new Error(`Getting all page sections error: ${error.message}`)
+    }
+  },
   async getPageSections(
     _: any,
     { search, url, filters, from, to, exceptId }: IField
