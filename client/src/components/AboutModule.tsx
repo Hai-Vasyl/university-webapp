@@ -53,7 +53,6 @@ const AboutModule: React.FC = () => {
   }
 
   const sections = dataSections ? dataSections.getPageSections.items : []
-  console.log({ sections })
 
   const sectionsJSX = sections.map((section: IPageSection) => {
     return (

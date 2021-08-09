@@ -38,6 +38,25 @@ const useRoutes = () => {
     },
   } = useSelector((state: RootStore) => state)
 
+  const defaultOtherExtraLinks = [
+    {
+      to: "/schedule",
+      title: "Розклад занять",
+    },
+    {
+      to: "/schedule-session",
+      title: "Розклад сесії",
+    },
+    {
+      to: "/projects",
+      title: "Проекти",
+    },
+    {
+      to: "/contacts",
+      title: "Контакти",
+    },
+  ]
+
   const defaultLinks = [
     {
       to: "/",
@@ -88,24 +107,7 @@ const useRoutes = () => {
       title: "Інше",
       isAdminLinks: true,
       to: "/schedule",
-      extraLinks: [
-        {
-          to: "/schedule",
-          title: "Розклад занять",
-        },
-        {
-          to: "/schedule-session",
-          title: "Розклад сесії",
-        },
-        {
-          to: "/projects",
-          title: "Проекти",
-        },
-        {
-          to: "/contacts",
-          title: "Контакти",
-        },
-      ],
+      extraLinks: defaultOtherExtraLinks,
     },
   ]
 
@@ -160,11 +162,7 @@ const useRoutes = () => {
     },
   ]
 
-  const [links, setLinks] = useState<ILink[]>(defaultLinks)
-
-  const [linksResponsive, setLinksResponsive] = useState(defaultResponsiveLinks)
-
-  const [routes, setRoutes] = useState([
+  const defaultRoutes = [
     { path: "/", exact: true, Component: Home },
     { path: "/about", Component: About },
     { path: "/team", Component: Team },
@@ -181,89 +179,94 @@ const useRoutes = () => {
     { path: "/contacts", Component: Contacts },
     { path: "/news/details/:contentId", Component: NewsEvent },
     { path: "/events/details/:contentId", Component: NewsEvent },
-  ])
+  ]
+
+  const [initSetupSections, setInitSetupSections] = useState(false)
+  const [links, setLinks] = useState<ILink[]>(defaultLinks)
+
+  const [linksResponsive, setLinksResponsive] = useState(defaultResponsiveLinks)
+
+  const [routes, setRoutes] = useState(defaultRoutes)
 
   useEffect(() => {
     const extraLinksData = dataSections?.getAllPageSections || []
+    const listLinks = {
+      admin: [
+        { to: "/create-news", title: "Створити новину" },
+        { to: "/create-event", title: "Створити подію" },
+        { to: "/register-user", title: "Створити користувача" },
+        { to: "/users", title: "Усі користувачі" },
+      ],
+      teacher: [
+        { to: "/create-news", title: "Створити новину", exact: true },
+        { to: "/create-event", title: "Створити подію" },
+        { to: "/users", title: "Усі користувачі" },
+      ],
+    }
+
+    const listRoutes = {
+      admin: [
+        { path: "/users", Component: Users },
+        { path: "/register-user", Component: RegisterUser },
+        { path: "/create-news", Component: ModNewsEvent },
+        { path: "/create-event", Component: ModNewsEvent },
+        { path: "/edit-news/:contentId", Component: ModNewsEvent },
+        { path: "/edit-event/:contentId", Component: ModNewsEvent },
+        { path: "/profile/:userId", exact: true, Component: Profile },
+      ],
+      teacher: [
+        { path: "/create-news", Component: ModNewsEvent },
+        { path: "/create-event", Component: ModNewsEvent },
+        { path: "/users", Component: Users },
+        { path: "/edit-news/:contentId", Component: ModNewsEvent },
+        { path: "/edit-event/:contentId", Component: ModNewsEvent },
+        { path: "/profile/:userId", exact: true, Component: Profile },
+      ],
+    }
     const linksAdmin =
       role === access.admin.keyWord
-        ? [
-            { to: "/create-news", title: "Створити новину" },
-            { to: "/create-event", title: "Створити подію" },
-            { to: "/register-user", title: "Створити користувача" },
-            { to: "/users", title: "Усі користувачі" },
-          ]
+        ? listLinks.admin
         : role === access.teacher.keyWord
-        ? [
-            { to: "/create-news", title: "Створити новину", exact: true },
-            { to: "/create-event", title: "Створити подію" },
-            { to: "/users", title: "Усі користувачі" },
-          ]
+        ? listLinks.teacher
         : []
 
     const routesAdmin =
       role === access.admin.keyWord
-        ? [
-            { path: "/users", Component: Users },
-            { path: "/register-user", Component: RegisterUser },
-            { path: "/create-news", Component: ModNewsEvent },
-            { path: "/create-event", Component: ModNewsEvent },
-            { path: "/edit-news/:contentId", Component: ModNewsEvent },
-            { path: "/edit-event/:contentId", Component: ModNewsEvent },
-            { path: "/profile/:userId", exact: true, Component: Profile },
-          ]
-        : []
-
-    const routesTeacher =
-      role === access.teacher.keyWord
-        ? [
-            { path: "/create-news", Component: ModNewsEvent },
-            { path: "/create-event", Component: ModNewsEvent },
-            { path: "/users", Component: Users },
-            { path: "/edit-news/:contentId", Component: ModNewsEvent },
-            { path: "/edit-event/:contentId", Component: ModNewsEvent },
-            { path: "/profile/:userId", exact: true, Component: Profile },
-          ]
+        ? listRoutes.admin
+        : role === access.teacher.keyWord
+        ? listRoutes.teacher
         : []
 
     setLinks((_links) =>
       _links.map((link: ILink) => {
         if (link.isAdminLinks) {
           if (link.extraLinks?.length) {
-            link.extraLinks =
-              role === access.admin.keyWord || role === access.teacher.keyWord
-                ? [...link.extraLinks, ...linksAdmin]
-                : link.extraLinks.filter(
-                    (subLink) =>
-                      !linksAdmin.some(
-                        (linkadmin) => linkadmin.to === subLink.to
-                      )
-                  )
+            link.extraLinks = [...defaultOtherExtraLinks, ...linksAdmin]
           }
         }
-        extraLinksData.forEach((extraLink: IExtraLink) => {
-          if (extraLink.url === link.to) {
-            if (!link.hasOwnProperty("extraLinks")) {
-              link.extraLinks = []
+        if (!initSetupSections) {
+          extraLinksData.forEach((extraLink: IExtraLink) => {
+            if (extraLink.url === link.to) {
+              if (!link.hasOwnProperty("extraLinks")) {
+                link.extraLinks = []
+              }
+              link.extraLinks?.push({
+                to: `${link.to}?section=${extraLink.id}`,
+                title: extraLink.title,
+              })
             }
-            link.extraLinks?.push({
-              to: `${link.to}?section=${extraLink.id}`,
-              title: extraLink.title,
-            })
-          }
-        })
+          })
+        }
         return link
       })
     )
+    if (extraLinksData.length && !initSetupSections) {
+      setInitSetupSections(true)
+    }
 
-    setLinksResponsive((_links) => {
-      if (role === access.admin.keyWord || role === access.teacher.keyWord) {
-        return [..._links, ...linksAdmin]
-      }
-      return defaultResponsiveLinks
-    })
+    setLinksResponsive(() => [...defaultResponsiveLinks, ...linksAdmin])
 
-    setRoutes((_routes) => [..._routes, ...routesAdmin, ...routesTeacher])
+    setRoutes(() => [...defaultRoutes, ...routesAdmin])
   }, [role, dataSections])
 
   return { links, routes, linksResponsive }
