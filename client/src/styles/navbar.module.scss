@@ -6,9 +6,9 @@
   left: 0;
   right: 0;
   z-index: 12;
-  transition: getTransition(slow);
+  transition: getTransition(main);
   &__reduce {
-    transform: translateY(-57px);
+    transform: translateY(-80px);
     .nav {
       background-color: getColor(secondary);
       box-shadow: getShadow(secondary);
@@ -24,7 +24,6 @@
       }
       .nav__menu {
         height: auto;
-        padding: 7px 20px;
       }
       .nav__border_second {
         & > * {
@@ -85,32 +84,37 @@
 }
 
 .nav {
-  background-color: transparent;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1),
+    rgba(255, 255, 255, 0.04)
+  );
   transition: getTransition(slow);
   &__blur {
     backdrop-filter: blur(10px);
     box-shadow: getShadow(secondary);
   }
+  &__btn_blur,
+  &__btn_search {
+    width: 36.4px !important;
+    height: 36.4px !important;
+  }
   &__btn_blur {
-    width: 36.4px;
-    height: 36.4px;
     margin-right: 10px;
   }
   &__btn_search {
-    width: 36.4px;
-    height: 36.4px;
-    display: none;
+    display: none !important;
   }
   &__border {
     height: 7px;
     background-image: getGradient(third);
-    transition: getTransition(slow);
+    transition: getTransition(main);
   }
   &__actions_wrapper {
     position: relative;
     z-index: 2;
     transition: getTransition(main);
-    height: 57px;
+    height: 80px;
     display: flex;
     align-items: center;
   }
@@ -141,7 +145,7 @@
         height: 1px;
         background-color: getColor(bg-light);
         &:first-child {
-          width: 147px;
+          width: 141.6px;
           flex: none;
           background-color: transparent;
         }
@@ -157,7 +161,6 @@
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    height: 90px;
   }
   &__title {
     display: block;
@@ -166,6 +169,7 @@
     transition: getTransition(main);
     font-family: getFont(third);
     text-transform: capitalize;
+    padding-left: 161.6px;
     &:hover {
       & > * {
         color: getColor(font-white);
@@ -173,17 +177,15 @@
     }
     & > * {
       @extend %link-reset;
-      font-size: 1.4em;
-      padding-left: 175px;
+      font-size: 1.2em;
       font-weight: bold;
       color: getColor(font-white);
     }
   }
   &__logo_mini {
-    width: 100px;
-    height: 43px;
+    height: 61.6px;
     display: none;
-    animation: fade-scale getTransition(slow);
+    animation: fade-scale getTransition(main);
     &__active {
       display: block;
     }
@@ -194,13 +196,14 @@
     object-position: left;
   }
   &__logo {
-    width: 147px;
-    height: 147px;
+    width: 141.6px;
+    height: 141.6px;
     position: absolute;
     left: 20px;
-    top: -10px;
+    top: -15px;
     padding: 7px;
     border-top: none;
+    background-color: getColor(accent);
     z-index: 16;
     opacity: 1;
     transition: getTransition(main);
@@ -210,11 +213,10 @@
   &__logo_img {
     @extend %image;
     object-fit: contain;
-    filter: drop-shadow(0px 0px 4px getColor(bg-night));
   }
   &__links {
     display: flex;
-    margin-left: 162px;
+    margin-left: 151.6px;
     transition: getTransition(main);
   }
 }
@@ -307,7 +309,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px 10px;
+  padding: 22px 10px;
   margin: 0px 3px;
   text-shadow: getShadow(thin);
   transition: getTransition(main);
@@ -373,7 +375,7 @@
   }
   &__dropdown {
     position: absolute;
-    top: 53.6px;
+    top: 61.6px;
     left: 3px;
     width: 230px;
     box-shadow: getShadow(secondary);
@@ -381,7 +383,7 @@
     transform-origin: top center;
     visibility: hidden;
     transform: scale(0.8);
-    transition: getTransition(main);
+    transition: getTransition(fast);
     padding: 7px 0;
     background-color: getColor(secondary);
     .link {
@@ -459,7 +461,7 @@
   margin-left: auto;
   &__btn {
     @extend %flex-center;
-    padding: 4.8px 10px;
+    padding: 10px;
     background-color: transparent;
     transition: getTransition(main);
   }
@@ -470,11 +472,11 @@
     font-size: 13px;
   }
   &__ava {
-    width: 44px;
-    height: 44px;
+    width: 41px;
+    height: 41px;
     border-radius: 50%;
     overflow: hidden;
-    padding: 4px;
+    padding: 3px;
     border: 1px solid getColor(bg-light);
   }
 }
@@ -526,7 +528,7 @@
 @media (max-width: 975px) {
   .nav {
     &__btn_search {
-      display: flex;
+      display: flex !important;
     }
   }
   .respns_menu {

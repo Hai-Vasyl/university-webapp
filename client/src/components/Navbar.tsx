@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
     toggle: { authForm, navbar },
   } = useSelector((state: RootStore) => state)
 
-  const [blur, setBlur] = useState(true)
+  const [blur, setBlur] = useState(false)
   const [search, setSearch] = useState("")
   const [changeNav, setChangeNav] = useState(false)
   const dispatch = useDispatch()
@@ -109,7 +109,9 @@ const Navbar: React.FC = () => {
                   <NavigQueryLink
                     key={link.to}
                     title={link.title}
-                    isMatch={link.to === `${location.pathname}${location.search}`}
+                    isMatch={
+                      link.to === `${location.pathname}${location.search}`
+                    }
                     dropdown
                     to={link.to || ""}
                   />
@@ -156,7 +158,9 @@ const Navbar: React.FC = () => {
             </Link>
             <div className={styles.nav__title}>
               <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
-                ІППТ
+                Інститут Підприємництва
+                <br />
+                та Перспективних технологій
               </Link>
             </div>
             <ButtonTab
@@ -199,7 +203,7 @@ const Navbar: React.FC = () => {
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <img
-                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_45_mini.svg'
+                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg'
                 className={styles.nav__logo_mini_img}
                 alt='logotype'
               />

@@ -5,7 +5,7 @@ $colors: (
   font: #333,
   font-light: rgb(122, 121, 121),
   font-white: #fff,
-  accent: #005aa9,
+  accent: #2c3494,
   accent-main: #fcb813,
   accent-second: #4185b8,
   accent-gradient: #8a41ac,
@@ -107,6 +107,7 @@ $paddings: (
 );
 $transitions: (
   main: 0.3s ease,
+  fast: 0.15s ease,
   main-slow: 2s ease,
   spin: 1s linear infinite,
   second: 0.6s ease,
