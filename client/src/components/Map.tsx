@@ -1,37 +1,12 @@
-import React, { useState } from "react"
-import ReactMapGL, { Marker } from "react-map-gl"
-import { ImLocation2 } from "react-icons/im"
+import React from "react"
 
 const Map: React.FC = () => {
-  const [viewport, setViewport] = useState({
-    latitude: 49.802508984376054,
-    longitude: 23.992843515344916,
-    width: "100%",
-    height: "100%",
-    zoom: 15,
-  })
-  const marker = {
-    latitude: 49.802508984376054,
-    longitude: 23.992843515344916,
-  }
-  const styling = "mapbox://styles/vasyl-hai/cklpagbd3623o17nn3r3plenc"
-  // const styling = "mapbox://styles/vasyl-hai/cklpfhpxx3gwm17o080h28qat"
-  // const styling = "mapbox://styles/vasyl-hai/cklsbi5ms1bk717ljcnov2otu"
-
   return (
-    <ReactMapGL
-      {...viewport}
-      mapboxApiAccessToken={process.env.REACT_APP_MAP_ACCESS_TOKEN}
-      onViewportChange={(viewport: any) => {
-        setViewport(viewport)
-      }}
-      mapStyle={styling}
-    >
-      {/* <span className='layout-black'></span> */}
-      <Marker latitude={marker.latitude} longitude={marker.longitude}>
-        <ImLocation2 className='icon-location' />
-      </Marker>
-    </ReactMapGL>
+    <iframe
+      src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10295.334741019109!2d24.00617!3d49.826791!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473add7df5a9921f%3A0xc59052d9e18b2d4c!2z0IbQn9Cf0KIg0J3QoyAi0JvRjNCy0ZbQstGB0YzQutCwINC_0L7Qu9GW0YLQtdGF0L3RltC60LAiLCDQstGD0LvQuNGG0Y8g0IbQstCw0L3QsCDQk9C-0YDQsdCw0YfQtdCy0YHRjNC60L7Qs9C-LCAxOCwg0JvRjNCy0ZbQsiwg0JvRjNCy0ZbQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCA3OTAwMA!5e0!3m2!1suk!2sua!4v1629313450363!5m2!1suk!2sua'
+      style={{ border: 0 }}
+      loading='lazy'
+    ></iframe>
   )
 }
 

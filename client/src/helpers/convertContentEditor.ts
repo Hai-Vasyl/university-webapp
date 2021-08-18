@@ -6,7 +6,9 @@ export const convertContent = (content: string) => {
     HTMLparse(
       content
         .replaceAll("oembed", "iframe frameBorder='0'")
-        .replaceAll("url", "src") || ""
+        .replaceAll("url", "src")
+        .replaceAll("&lt;", "<")
+        .replaceAll("&gt;", ">") || ""
     )
   )
 }

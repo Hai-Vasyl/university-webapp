@@ -128,7 +128,8 @@
   min-width: 300px;
   max-width: 100%;
   background-color: getColor(secondary);
-  position: relative;
+  position: sticky;
+  top: 62.6px;
   z-index: 2;
   box-shadow: getShadow(secondary);
 }
