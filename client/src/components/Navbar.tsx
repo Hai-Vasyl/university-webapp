@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react"
-// import { getLinks } from "../modules/routes"
+import React, { useEffect, useState, useRef } from "react"
 import { RootStore } from "../redux/store"
 import { Link, useHistory, useLocation } from "react-router-dom"
 import { BsSearch, BsCaretRightFill } from "react-icons/bs"
@@ -90,6 +89,10 @@ const Navbar: React.FC = () => {
     dispatch({ type: RESET_AUTH })
   }
 
+  const handleClickLink = () => {
+    dispatch({ type: RESET_TOGGLE })
+  }
+
   const reduceMapLins = (links: ILink[]) => {
     return links.map(({ to, exact, title, extraLinks }) => {
       if (extraLinks) {
@@ -98,7 +101,7 @@ const Navbar: React.FC = () => {
             <Link
               to={to || ""}
               className={`${styles.link} ${styles.link__drop}`}
-              onClick={() => dispatch({ type: RESET_TOGGLE })}
+              onClick={handleClickLink}
             >
               <span className={styles.link__text}>{title}</span>
               <BsCaretRightFill className={styles.link__icon} />

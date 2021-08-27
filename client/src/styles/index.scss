@@ -71,6 +71,19 @@ blockquote {
 
 .i {
   width: 100%;
+  &_l, &_r{
+    margin: 10px;
+    width: 30%;
+    min-width: 150px;
+  }
+  &_l{
+    float: left;
+    margin-left: 0px;
+  }
+  &_r{
+    float: right;
+    margin-right: 0px;
+  }
 }
 .if {
   width: 100%;
@@ -190,7 +203,6 @@ blockquote {
 .carousel {
   position: relative;
   height: 100vh;
-  // min-height: 700px;
   overflow: hidden;
   transition: getTransition(main);
 }

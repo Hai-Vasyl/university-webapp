@@ -34,14 +34,19 @@ const FooterModule: React.FC = () => {
         to: "/",
         title: "Головна",
       },
-      { to: "/about", title: "Про школу" },
-      { to: "/team", title: "Команда" },
+      { to: "/about", title: "Про інститут" },
+      { to: "/schedule-session", title: "Розклад сесії" },
       {
         to: "/discover",
         title: "Шукати",
       },
+      { to: "/team", title: "Команда" },
     ],
     stack_2: [
+      {
+        to: "/entrant",
+        title: "Вступнику",
+      },
       {
         to: "/news",
         title: "Новини",
@@ -51,13 +56,10 @@ const FooterModule: React.FC = () => {
         title: "Події",
       },
       {
-        to: "/library",
-        title: "Бібліотека",
-      },
-      {
         to: "/gallery",
         title: "Галерея",
       },
+      { to: "/graduates", title: "Випускники", },
     ],
     stack_3: [
       {

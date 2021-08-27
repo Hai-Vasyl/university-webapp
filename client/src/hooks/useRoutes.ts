@@ -67,9 +67,9 @@ const useRoutes = () => {
       title: "Про інститут",
       to: "/about",
       extraLinks: [
-        { to: "/about", title: "Навчальний заклад" },
-        { to: "/team", title: "Команда" },
-        { to: "/graduates ", title: "Випускники" },
+        { to: "/about", title: "Навчальний заклад",  },
+        { to: "/team", title: "Команда", },
+        { to: "/graduates", title: "Випускники", },
       ],
     },
     {
@@ -117,9 +117,9 @@ const useRoutes = () => {
       exact: true,
       title: "Головна",
     },
-    { to: "/about", title: "Навчальний заклад" },
-    { to: "/team", title: "Команда" },
-    { to: "/graduates ", title: "Випускники" },
+    { to: "/about", title: "Навчальний заклад", },
+    { to: "/team", title: "Команда", },
+    { to: "/graduates ", title: "Випускники", },
     {
       to: "/discover",
       title: "Шукати",
@@ -182,9 +182,9 @@ const useRoutes = () => {
   ]
 
   const [initSetupSections, setInitSetupSections] = useState(false)
-  const [links, setLinks] = useState<ILink[]>(defaultLinks)
 
-  const [linksResponsive, setLinksResponsive] = useState(defaultResponsiveLinks)
+  const [links, setLinks] = useState<ILink[]>(defaultLinks)
+  const [linksResponsive, setLinksResponsive] = useState<ILink[]>(defaultResponsiveLinks)
 
   const [routes, setRoutes] = useState(defaultRoutes)
 
@@ -192,15 +192,15 @@ const useRoutes = () => {
     const extraLinksData = dataSections?.getAllPageSections || []
     const listLinks = {
       admin: [
-        { to: "/create-news", title: "Створити новину" },
-        { to: "/create-event", title: "Створити подію" },
-        { to: "/register-user", title: "Створити користувача" },
-        { to: "/users", title: "Усі користувачі" },
+        { to: "/create-news", title: "Створити новину", },
+        { to: "/create-event", title: "Створити подію", },
+        { to: "/register-user", title: "Створити користувача", },
+        { to: "/users", title: "Усі користувачі", },
       ],
       teacher: [
-        { to: "/create-news", title: "Створити новину", exact: true },
-        { to: "/create-event", title: "Створити подію" },
-        { to: "/users", title: "Усі користувачі" },
+        { to: "/create-news", title: "Створити новину", exact: true, },
+        { to: "/create-event", title: "Створити подію", },
+        { to: "/users", title: "Усі користувачі", },
       ],
     }
 
@@ -223,6 +223,7 @@ const useRoutes = () => {
         { path: "/profile/:userId", exact: true, Component: Profile },
       ],
     }
+
     const linksAdmin =
       role === access.admin.keyWord
         ? listLinks.admin

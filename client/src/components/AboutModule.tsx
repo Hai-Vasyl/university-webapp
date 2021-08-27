@@ -75,7 +75,7 @@ const AboutModule: React.FC = () => {
   })
 
   const links = [
-    { to: "/about", title: "Про школу", Icon: BsInfoCircle },
+    { to: "/about", title: "Про інститут", Icon: BsInfoCircle },
     { to: "/discover", title: "Шукати", Icon: BsCompass },
     { to: "/team", title: "Команда", Icon: BsPeople },
     { to: "/schedule", title: "Розклад занять", Icon: FaRegCalendarAlt },

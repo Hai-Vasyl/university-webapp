@@ -32,6 +32,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
   const { pathname, search } = useLocation()
   const params = new URLSearchParams(search)
   const section = params.get("section")
+  const isAboutUrl = pathname === "/about"
 
   const [activeSection, setActiveSection] = useState("")
   const anchor = useRef<HTMLDivElement>(null)
@@ -62,12 +63,16 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
     const data = dataSections && dataSections.getPageSections
     if (data && data.items.length) {
       if (!section) {
-        setActiveSection(data.items[0].id)
+        let indexSection = 0
+        if(isAboutUrl){
+          indexSection = 1
+        }
+        setActiveSection(data.items[indexSection].id)
       } else {
         setActiveSection(section)
       }
     }
-  }, [dataSections, section])
+  }, [dataSections, section, isAboutUrl])
 
   const handleRefetchAll = () => {
     refetchSections()
@@ -78,7 +83,8 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
     setToggleCreate((prev) => !prev)
   }
 
-  const sections = dataSections ? dataSections.getPageSections.items : []
+  let sections = dataSections ? dataSections.getPageSections.items : []
+  sections = isAboutUrl ? sections.slice(1) : sections
   const links = sections
     ? sections.map((item: IPageSection) => ({ title: item.title, id: item.id }))
     : []
