@@ -18,14 +18,14 @@ const ContactsModule: React.FC<IContactsModuleProps> = ({
   const contacts = [
     {
       Icon: AiOutlinePhone,
-      title: "+380322636263",
-      value: "380322636263",
+      title: "+380322970755",
+      value: "380322970755",
       ref: "tel:+",
     },
     {
       Icon: BsAt,
-      title: "ippt@gmail.com",
-      value: "ippt@gmail.com",
+      title: "PPT.dept@lpnu.ua",
+      value: "PPT.dept@lpnu.ua",
       ref: "mailto:",
     },
     {
@@ -72,16 +72,16 @@ const ContactsModule: React.FC<IContactsModuleProps> = ({
               })}
             </div>
             <div className={styles.module_contacts__social_media}>
-              <a href='' className={styles.social}>
+              <a href='https://www.facebook.com/nulpippt/' className={styles.social}>
                 <FaFacebook />
               </a>
-              <a href='' className={styles.social}>
+              <a href='#' className={styles.social}>
                 <FaInstagram />
               </a>
-              <a href='' className={styles.social}>
+              <a href='https://www.youtube.com/watch?v=PjKJV1tBfV4&t=1s' className={styles.social}>
                 <FaYoutube />
               </a>
-              <a href='' className={styles.social}>
+              <a href='#' className={styles.social}>
                 <FaTelegram />
               </a>
             </div>

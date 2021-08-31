@@ -41,11 +41,11 @@ const useRoutes = () => {
   const defaultOtherExtraLinks = [
     {
       to: "/schedule",
-      title: "Розклад занять",
+      title: "Розклад Занять",
     },
     {
       to: "/schedule-session",
-      title: "Розклад сесії",
+      title: "Розклад Сесії",
     },
     {
       to: "/projects",
@@ -64,10 +64,10 @@ const useRoutes = () => {
       title: "Головна",
     },
     {
-      title: "Про інститут",
+      title: "Про Інститут",
       to: "/about",
       extraLinks: [
-        { to: "/about", title: "Навчальний заклад",  },
+        { to: "/about", title: "Навчальний Заклад",  },
         { to: "/team", title: "Команда", },
         { to: "/graduates", title: "Випускники", },
       ],
@@ -77,7 +77,7 @@ const useRoutes = () => {
       title: "Шукати",
     },
     {
-      title: "Новини і події",
+      title: "Новини і Події",
       to: "/news",
       extraLinks: [
         {
@@ -117,9 +117,9 @@ const useRoutes = () => {
       exact: true,
       title: "Головна",
     },
-    { to: "/about", title: "Навчальний заклад", },
+    { to: "/about", title: "Навчальний Заклад", },
     { to: "/team", title: "Команда", },
-    { to: "/graduates ", title: "Випускники", },
+    { to: "/graduates", title: "Випускники", },
     {
       to: "/discover",
       title: "Шукати",
@@ -146,11 +146,11 @@ const useRoutes = () => {
     },
     {
       to: "/schedule",
-      title: "Розклад занять",
+      title: "Розклад Занять",
     },
     {
       to: "/schedule-session",
-      title: "Розклад сесії",
+      title: "Розклад Сесії",
     },
     {
       to: "/projects",
@@ -192,15 +192,15 @@ const useRoutes = () => {
     const extraLinksData = dataSections?.getAllPageSections || []
     const listLinks = {
       admin: [
-        { to: "/create-news", title: "Створити новину", },
-        { to: "/create-event", title: "Створити подію", },
-        { to: "/register-user", title: "Створити користувача", },
-        { to: "/users", title: "Усі користувачі", },
+        { to: "/create-news", title: "Створити Новину", },
+        { to: "/create-event", title: "Створити Подію", },
+        { to: "/register-user", title: "Створити Користувача", },
+        { to: "/users", title: "Усі Користувачі", },
       ],
       teacher: [
-        { to: "/create-news", title: "Створити новину", exact: true, },
-        { to: "/create-event", title: "Створити подію", },
-        { to: "/users", title: "Усі користувачі", },
+        { to: "/create-news", title: "Створити Новину", exact: true, },
+        { to: "/create-event", title: "Створити Подію", },
+        { to: "/users", title: "Усі Користувачі", },
       ],
     }
 

@@ -40,17 +40,6 @@ const Routes = () => {
     })
   }
 
-  // const getRoutes = () => {
-  //   switch (user.role) {
-  //     case access.admin.keyWord:
-  //       return mapReduce(routes.admin)
-  //     case access.teacher.keyWord:
-  //       return mapReduce(routes.teacher)
-  //     default:
-  //       return mapReduce(routes.unregistered)
-  //   }
-  // }
-
   return (
     <>
       <Navbar />
@@ -61,7 +50,8 @@ const Routes = () => {
       <ImageLightBoxLight />
       <ChatWidget
         accountId={process.env.REACT_APP_PAPERCUP_ACCOUTID || ""}
-        title='Ліцей 45 ЛМР'
+        title='Інститут Підприємництва
+        Та Перспективних Технологій'
         subtitle='Ласкаво просимо до чату'
         primaryColor='#005aa9'
         greeting='Запитайте що-небудь 😊'

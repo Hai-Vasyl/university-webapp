@@ -7,22 +7,22 @@ import { FaFacebook, FaInstagram, FaYoutube, FaTelegram } from "react-icons/fa"
 const FooterModule: React.FC = () => {
   const socialLinks = [
     {
-      to: "",
+      to: "https://www.facebook.com/nulpippt/",
       Icon: FaFacebook,
       title: "Facebook",
     },
     {
-      to: "",
+      to: "#",
       Icon: FaInstagram,
       title: "Instagram",
     },
     {
-      to: "",
+      to: "https://www.youtube.com/watch?v=PjKJV1tBfV4&t=1s",
       Icon: FaYoutube,
       title: "YouTube",
     },
     {
-      to: "",
+      to: "#",
       Icon: FaTelegram,
       title: "Telegram",
     },
@@ -34,8 +34,8 @@ const FooterModule: React.FC = () => {
         to: "/",
         title: "Головна",
       },
-      { to: "/about", title: "Про інститут" },
-      { to: "/schedule-session", title: "Розклад сесії" },
+      { to: "/about", title: "Про Iнститут" },
+      { to: "/schedule-session", title: "Розклад Сесії" },
       {
         to: "/discover",
         title: "Шукати",
@@ -76,7 +76,7 @@ const FooterModule: React.FC = () => {
       },
       {
         to: "/schedule",
-        title: "Розклад занять",
+        title: "Розклад Занять",
       },
     ],
   }
@@ -88,7 +88,7 @@ const FooterModule: React.FC = () => {
     return links.map((item) => {
       if (native) {
         return (
-          <Link className={styles.footer_link} key={item.title} to={item.to}>
+          <Link to={item.to} className={styles.footer_link} key={item.title}>
             {item.title}
           </Link>
         )
@@ -109,7 +109,7 @@ const FooterModule: React.FC = () => {
         <div className={styles.module_footer__logo_container}>
           <Link to='/' className={styles.module_footer__logo}>
             <img
-              src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg'
+              src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_white_clear.svg'
               alt='logoImg'
             />
           </Link>
