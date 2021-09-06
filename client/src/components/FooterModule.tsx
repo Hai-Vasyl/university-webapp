@@ -109,7 +109,7 @@ const FooterModule: React.FC = () => {
         <div className={styles.module_footer__logo_container}>
           <Link to='/' className={styles.module_footer__logo}>
             <img
-              src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_white_clear.svg'
+              src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo_clear.png'
               alt='logoImg'
             />
           </Link>

@@ -35,6 +35,7 @@ const Graduates: React.FC = () => {
 
   const {
     auth: { user },
+    configs: {current}
   } = useSelector((state: RootStore) => state)
 
   const getFilters = (year: string, group: string) => {
@@ -310,7 +311,7 @@ const Graduates: React.FC = () => {
   return (
     <div className='container'>
       <div ref={anchor}></div>
-      <Title title='Випускники' />
+      <Title title={current.pageTitles[pathname]} />
       <FilterFrame
         numFilters={filters.length}
         onCreate={toggleCreateForm}

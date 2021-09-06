@@ -12,12 +12,18 @@ import BooksModule from "../components/BooksModule"
 // @ts-ignore
 import styles from "../styles/pages.module"
 import FooterModule from "../components/FooterModule"
+import { useLocation } from "react-router"
+import {RootStore} from "../redux/store"
+import {useSelector} from "react-redux"
 
 const BookDetails: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
   const { bookId }: any = useParams()
   const history = useHistory()
   const { getFormFilterParams } = useFindFilter()
+  const location = useLocation()
+
+  const {configs: {current}} = useSelector((state: RootStore) => state)
 
   const [filters, setFilters] = useState<IField[]>([
     {
@@ -116,7 +122,7 @@ const BookDetails: React.FC = () => {
   return (
     <div className='container'>
       <div ref={anchor}></div>
-      <Title title='Бібліотека' path='/library' />
+      <Title title={current.pageTitles[location.pathname]} path='/library' />
       <div className='wrapper'>
         {loadSection ? (
           <Loader />

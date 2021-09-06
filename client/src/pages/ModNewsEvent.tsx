@@ -40,6 +40,8 @@ import ButtonTab from "../components/ButtonTab"
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
+import {RootStore} from "../redux/store"
+import {useSelector} from "react-redux"
 
 const ModNewsEvent: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
@@ -48,6 +50,11 @@ const ModNewsEvent: React.FC = () => {
   const history = useHistory()
   const isNews =
     pathname.split("/")[1] === "edit-news" || pathname === "/create-news"
+
+    const {configs: {current}} = useSelector((state: RootStore) => state)
+
+    console.log({location: location.pathname})
+
   const [activeEditItem, setActiveEditItem] = useState("")
   const [form, setForm] = useState([
     {
@@ -431,7 +438,7 @@ const ModNewsEvent: React.FC = () => {
     <div className='container'>
       <div ref={anchor}></div>
       <Title
-        title={contentId ? "Редагування" : "Створення"}
+        title={current.pageTitles[location.pathname]}
         path='/edit-news-event'
       />
       {/* <div className='wrapper-side'> */}

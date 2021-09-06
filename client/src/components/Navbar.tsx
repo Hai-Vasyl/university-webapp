@@ -21,7 +21,9 @@ import stylesBtn from "../styles/button.module"
 import { ILink } from "../interfaces"
 import UserAva from "./UserAva"
 import { RESET_AUTH } from "../redux/auth/authTypes"
+import {CHANGE_LANGUAGE_CONFIG} from "../redux/configs/configsTypes"
 import ButtonTab from "./ButtonTab"
+import ButtonPicker from "./ButtonPicker"
 import useRoutes from "../hooks/useRoutes"
 
 const Navbar: React.FC = () => {
@@ -31,6 +33,7 @@ const Navbar: React.FC = () => {
   const {
     auth: { user, token },
     toggle: { authForm, navbar },
+    configs: {lang}
   } = useSelector((state: RootStore) => state)
 
   const [blur, setBlur] = useState(false)
@@ -39,6 +42,11 @@ const Navbar: React.FC = () => {
   const dispatch = useDispatch()
 
   const { links, linksResponsive } = useRoutes()
+
+  const optionsLanguage = [
+    {label: "EN", value: "en"},
+    {label: "UK", value: "uk"},
+  ]
 
   useEffect(() => {
     const toggleBlur = JSON.parse(localStorage.getItem("blur") || "{}")
@@ -91,6 +99,10 @@ const Navbar: React.FC = () => {
 
   const handleClickLink = () => {
     dispatch({ type: RESET_TOGGLE })
+  }
+
+  const handleChangeLanguage = ({target}: any) => {
+    dispatch({type: CHANGE_LANGUAGE_CONFIG, payload: target.value})
   }
 
   const reduceMapLins = (links: ILink[]) => {
@@ -186,6 +198,7 @@ const Navbar: React.FC = () => {
               />
               <BsSearch className={styles.search__button} />
             </form>
+            <ButtonPicker field={lang} options={optionsLanguage} change={handleChangeLanguage} />
           </div>
         </div>
         <div className={styles.nav__border_second}>

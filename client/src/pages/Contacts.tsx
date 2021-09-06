@@ -21,10 +21,17 @@ import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 import { INewsEventSlider } from "../interfaces"
 import ContactsModule from "../components/ContactsModule"
+import { useLocation } from "react-router"
+import {RootStore} from "../redux/store"
+import {useSelector} from "react-redux"
 
 const Contacts: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch()
+  const location = useLocation()
+  
+  const {configs: {current}} = useSelector((state: RootStore) => state)
+  
   const [form, setForm] = useState([
     {
       param: "firstname",
@@ -114,7 +121,7 @@ const Contacts: React.FC = () => {
   return (
     <div className='container'>
       <div ref={anchor}></div>
-      <Title title="Зв'язатися з нами" />
+      <Title title={current.pageTitles[location.pathname]} />
       <div className='wrapper-side'>
         <div className={`${styles.form} ${styles.form__extend}`}>
           <div className={styles.form__content}>

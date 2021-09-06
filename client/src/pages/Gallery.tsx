@@ -18,12 +18,14 @@ import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
 import NewsEventsModule from "../components/NewsEventsModule"
 import FooterModule from "../components/FooterModule"
 import ImageCard from "../components/ImageCard"
+import {RootStore} from "../redux/store"
+import {useSelector} from "react-redux"
 
 const Gallery: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null)
-  const location = useLocation().search
+  const location = useLocation()
   const history = useHistory()
-  const params = new URLSearchParams(location)
+  const params = new URLSearchParams(location.search)
   const page = Number(params.get("page")) || 1
   const type = params.get("type") || "all"
   let search = params.get("search") || ""
@@ -33,6 +35,9 @@ const Gallery: React.FC = () => {
     searchWords[i] = searchWords[i].replace("hash_", "#")
   }
   search = searchWords.join(" ")
+
+  const {configs: {current}} = useSelector((state: RootStore) => state)
+
   const [searchStr, setSearchStr] = useState(search)
   const [typeImage, setTypeImage] = useState([
     {
@@ -141,7 +146,7 @@ const Gallery: React.FC = () => {
   return (
     <div className='container'>
       <div ref={anchor}></div>
-      <Title title='Галерея' />
+      <Title title={current.pageTitles[location.pathname]} />
       <FilterSearch
         handleSubmit={handleSubmitForm}
         quantityItems={quantityItems}
