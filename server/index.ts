@@ -63,23 +63,23 @@
 //   }
 // })()
 ////////////////// apollo-server-express without sockets
-import express from "express"
-import { ApolloServer } from "apollo-server-express"
-import path from "path"
-import mongoose from "mongoose"
-import { config } from "dotenv"
-import isAuth from "./context/isAuth"
-import schema from "./schema"
-import cors from "cors"
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import path from "path";
+import mongoose from "mongoose";
+import { config } from "dotenv";
+import isAuth from "./context/isAuth";
+import schema from "./schema";
+import cors from "cors";
 
-config()
-const { PORT, MONGO_URI = "", NODE_ENV } = process.env
-const isDev = NODE_ENV === "development"
+config();
+const { PORT, MONGO_URI = "", NODE_ENV } = process.env;
+const isDev = NODE_ENV === "development";
 
-;(async () => {
+(async () => {
   try {
-    const app = express()
-    app.use(cors())
+    const app = express();
+    app.use(cors());
 
     await mongoose.connect(
       MONGO_URI,
@@ -90,7 +90,7 @@ const isDev = NODE_ENV === "development"
         useFindAndModify: false,
       },
       () => console.log("MongoDB started successfully!")
-    )
+    );
 
     const server = new ApolloServer({
       ...schema,
@@ -100,21 +100,21 @@ const isDev = NODE_ENV === "development"
         res,
         isAuth: isAuth(req),
       }),
-    })
-    server.applyMiddleware({ app })
+    });
+    server.applyMiddleware({ app });
 
     if (!isDev) {
-      app.use(express.static(path.join(__dirname, "../", "client")))
+      app.use(express.static(path.join(__dirname, "../", "client")));
       app.get("/*", function (req, res) {
-        res.sendFile(path.join(__dirname, "../", "client", "index.html"))
-      })
+        res.sendFile(path.join(__dirname, "../", "client", "index.html"));
+      });
     }
 
-    app.listen(PORT, () => console.log(`Server started on port: ${PORT}`))
+    app.listen(PORT, () => console.log(`Server started on port: ${PORT}`));
   } catch (error) {
-    console.error(`Server error: ${error.message}`)
+    console.error(`Server error: ${error.message}`);
   }
-})()
+})();
 
 ///////////////////////////////////////// apollo-server
 // import { ApolloServer } from "apollo-server"

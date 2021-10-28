@@ -1,40 +1,40 @@
-import React, { useState, useEffect, useRef } from "react"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import FooterModule from "../components/FooterModule"
-import NewsEventsModule from "../components/NewsEventsModule"
+import React, { useState, useEffect, useRef } from "react";
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import FooterModule from "../components/FooterModule";
+import NewsEventsModule from "../components/NewsEventsModule";
 import {
   INewsEventSlider,
   IImage,
   INewsEventShort,
   IPageSectionShorter,
-} from "../interfaces"
-import Loader from "../components/Loader"
-import Title from "../components/Title"
-import ButtonCheckBox from "../components/ButtonCheckBox"
+} from "../interfaces";
+import Loader from "../components/Loader";
+import Title from "../components/Title";
+import ButtonCheckBox from "../components/ButtonCheckBox";
 // @ts-ignore
-import styles from "../styles/search.module"
+import styles from "../styles/search.module";
 // @ts-ignore
-import stylesForm from "../styles/form.module"
-import FieldSearch from "../components/FieldSearch"
-import { useHistory, useLocation, Link } from "react-router-dom"
-import { SEARCH_CONTENT } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import ImageCard from "../components/ImageCard"
-import NewsEvent from "../components/NewsEventCard"
-import PlugCard from "../components/PlugCard"
-import { convertContent } from "../helpers/convertContentEditor"
-import { convertDate } from "../helpers/convertDate"
-import { FiLink2 } from "react-icons/fi"
-import { AiOutlineClockCircle } from "react-icons/ai"
+import stylesForm from "../styles/form.module";
+import FieldSearch from "../components/FieldSearch";
+import { useHistory, useLocation, Link } from "react-router-dom";
+import { SEARCH_CONTENT } from "../fetching/queries";
+import { useQuery } from "@apollo/client";
+import ImageCard from "../components/ImageCard";
+import NewsEvent from "../components/NewsEventCard";
+import PlugCard from "../components/PlugCard";
+import { convertContent } from "../helpers/convertContentEditor";
+import { convertDate } from "../helpers/convertDate";
+import { FiLink2 } from "react-icons/fi";
+import { AiOutlineClockCircle } from "react-icons/ai";
 
 const Search: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
-  const history = useHistory()
-  const location = useLocation()
-  const params = new URLSearchParams(location.search)
+  const anchor = useRef<HTMLDivElement>(null);
+  const history = useHistory();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
 
-  const search = params.get("search") || ""
-  let tags = params.get("tags") || "all"
+  const search = params.get("search") || "";
+  let tags = params.get("tags") || "all";
 
   const checkers = [
     {
@@ -53,9 +53,9 @@ const Search: React.FC = () => {
       title: "Інше",
       keyWord: "other",
     },
-  ]
+  ];
 
-  const [searchStr, setSearchStr] = useState("")
+  const [searchStr, setSearchStr] = useState("");
   const {
     data: dataSearch,
     loading: loadSearch,
@@ -65,71 +65,71 @@ const Search: React.FC = () => {
       search,
       tags: tags === "all" ? "" : tags,
     },
-  })
+  });
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
   useEffect(() => {
     if (search) {
-      setSearchStr(search)
+      setSearchStr(search);
     }
-  }, [search])
+  }, [search]);
 
   const getRedirectLink = (tags?: string, searchStr?: string) => {
-    const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`
+    const searchQuery = `${searchStr ? "search=" + searchStr + "&" : ""}`;
 
-    let link = `/discover?tags=${tags}&${searchQuery}`
-    history.push(link.slice(0, link.length - 1))
-  }
+    let link = `/discover?tags=${tags}&${searchQuery}`;
+    history.push(link.slice(0, link.length - 1));
+  };
 
   const handleResetSearch = () => {
-    setSearchStr("")
-    getRedirectLink(tags)
-  }
+    setSearchStr("");
+    getRedirectLink(tags);
+  };
 
   const checkSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
+    const { value } = event.target;
     if (!value) {
-      handleResetSearch()
-      return
+      handleResetSearch();
+      return;
     }
-  }
+  };
 
   const checkIfChecked = (keyWord: string) => {
-    return tags.includes(keyWord)
-  }
+    return tags.includes(keyWord);
+  };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    getRedirectLink(tags, searchStr)
-  }
+    event.preventDefault();
+    getRedirectLink(tags, searchStr);
+  };
 
   const handleCheckTag = (status: boolean, tag: string) => {
-    let _tags = ""
-    let _search = search
+    let _tags = "";
+    let _search = search;
 
     if (status) {
-      _tags = tags.replaceAll(tag, "")
-      _tags = _tags.trim().replace(/\s+/g, " ")
+      _tags = tags.replaceAll(tag, "");
+      _tags = _tags.trim().replace(/\s+/g, " ");
       if (!_tags.length) {
-        _tags = "all"
+        _tags = "all";
       }
     } else {
       if (tags.includes("all")) {
-        tags = tags.replaceAll("all", "")
-        _tags = tag
+        tags = tags.replaceAll("all", "");
+        _tags = tag;
       } else {
-        _tags = `${tags} ${tag}`
+        _tags = `${tags} ${tag}`;
       }
     }
 
-    getRedirectLink(_tags, _search)
-  }
+    getRedirectLink(_tags, _search);
+  };
 
   const btns = checkers.map((btn) => {
-    const isChecked = checkIfChecked(btn.keyWord)
+    const isChecked = checkIfChecked(btn.keyWord);
 
     return (
       <ButtonCheckBox
@@ -138,24 +138,24 @@ const Search: React.FC = () => {
         status={isChecked}
         click={() => handleCheckTag(isChecked, btn.keyWord)}
       />
-    )
-  })
+    );
+  });
 
   const getUrl = (item: IPageSectionShorter) => {
     switch (item.url) {
       case "/library":
-        return `/library/${item.id}`
+        return `/library/${item.id}`;
       case "/team":
-        return `/team?page=1&category=all&search=${item.title}`
+        return `/team?page=1&category=all&search=${item.title}`;
       default:
-        return `${item.url}?section=${item.id}`
+        return `${item.url}?section=${item.id}`;
     }
-  }
+  };
 
-  const images = dataSearch && dataSearch.searchContent.images
-  const news = dataSearch && dataSearch.searchContent.news
-  const events = dataSearch && dataSearch.searchContent.events
-  const other = dataSearch && dataSearch.searchContent.other
+  const images = dataSearch && dataSearch.searchContent.images;
+  const news = dataSearch && dataSearch.searchContent.news;
+  const events = dataSearch && dataSearch.searchContent.events;
+  const other = dataSearch && dataSearch.searchContent.other;
 
   const imagesJSX = images?.map((image: IImage, index: number) => {
     if (index === 3) {
@@ -166,7 +166,7 @@ const Search: React.FC = () => {
           title={`Більше зображень${search && " за запитом"}`}
           image={image.location}
         />
-      )
+      );
     } else {
       return (
         <ImageCard
@@ -177,9 +177,9 @@ const Search: React.FC = () => {
           onRemove={refetchSearch}
           onCreate={refetchSearch}
         />
-      )
+      );
     }
-  })
+  });
 
   const newsJSX = news?.map((item: INewsEventShort, index: number) => {
     if (index === 3) {
@@ -190,11 +190,11 @@ const Search: React.FC = () => {
           title={`Більше новин${search && " за запитом"}`}
           image={item.preview.location}
         />
-      )
+      );
     } else {
-      return <NewsEvent key={item.id} info={item} />
+      return <NewsEvent key={item.id} info={item} />;
     }
-  })
+  });
 
   const eventsJSX = events?.map((item: INewsEventShort, index: number) => {
     if (index === 3) {
@@ -205,14 +205,14 @@ const Search: React.FC = () => {
           title={`Більше подій${search && " за запитом"}`}
           image={item.preview.location}
         />
-      )
+      );
     } else {
-      return <NewsEvent key={item.id} info={item} />
+      return <NewsEvent key={item.id} info={item} />;
     }
-  })
+  });
 
   const otherJSX = other?.map((item: IPageSectionShorter, index: number) => {
-    const url = getUrl(item)
+    const url = getUrl(item);
     return (
       <div key={item.id} className={styles.section}>
         <div>
@@ -235,15 +235,15 @@ const Search: React.FC = () => {
           <span>{convertDate(item.date)}</span>
         </div>
       </div>
-    )
-  })
+    );
+  });
 
   return (
-    <div className='container'>
+    <div className="container">
       <div ref={anchor}></div>
-      <Title title='Шукати контент' />
+      <Title title="Шукати контент" />
       <div className={stylesForm.form_filter_container}>
-        <div className='wrapper-clear'>
+        <div className="wrapper-clear">
           <form onSubmit={handleSubmitForm} className={stylesForm.form_filter}>
             <FieldSearch
               resetSearch={handleResetSearch}
@@ -253,7 +253,7 @@ const Search: React.FC = () => {
               change={setSearchStr}
             />
             <div className={styles.form_tags}>{btns}</div>
-            <button className='btn-handler'></button>
+            <button className="btn-handler"></button>
           </form>
           <p className={stylesForm.form_filter__footer}>
             {search && (
@@ -269,47 +269,47 @@ const Search: React.FC = () => {
         </div>
       </div>
 
-      <div className='wrapper'>
+      <div className="wrapper">
         {loadSearch ? (
           <Loader />
-        ) : !images.length &&
-          !news.length &&
-          !events.length &&
-          !other.length ? (
-          <div className='plug-text'>Порожньо</div>
+        ) : !images?.length &&
+          !news?.length &&
+          !events?.length &&
+          !other?.length ? (
+          <div className="plug-text">Порожньо</div>
         ) : (
           <div>
-            {!!images.length && (
+            {!!images?.length && (
               <div className={styles.module}>
                 <div>
-                  <Link className={styles.module__title} to='/gallery'>
+                  <Link className={styles.module__title} to="/gallery">
                     Зображення
                   </Link>
                 </div>
                 <div className={styles.module__body}>{imagesJSX}</div>
               </div>
             )}
-            {!!news.length && (
+            {!!news?.length && (
               <div className={styles.module}>
                 <div>
-                  <Link className={styles.module__title} to='/news'>
+                  <Link className={styles.module__title} to="/news">
                     Новини
                   </Link>
                 </div>
                 <div className={styles.module__body}>{newsJSX}</div>
               </div>
             )}
-            {!!events.length && (
+            {!!events?.length && (
               <div className={styles.module}>
                 <div>
-                  <Link className={styles.module__title} to='/events'>
+                  <Link className={styles.module__title} to="/events">
                     Події
                   </Link>
                 </div>
                 <div className={styles.module__body}>{eventsJSX}</div>
               </div>
             )}
-            {!!other.length && (
+            {!!other?.length && (
               <div className={styles.module}>
                 <div>
                   <div className={styles.module__title}>Інші джерела</div>
@@ -327,7 +327,7 @@ const Search: React.FC = () => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;
