@@ -26,6 +26,8 @@ import { convertContent } from "../helpers/convertContentEditor";
 import { convertDate } from "../helpers/convertDate";
 import { FiLink2 } from "react-icons/fi";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { RootStore } from "../redux/store";
 
 const Search: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -55,6 +57,7 @@ const Search: React.FC = () => {
     },
   ];
 
+  const { current, lang } = useSelector(({ configs }: RootStore) => configs);
   const [searchStr, setSearchStr] = useState("");
   const {
     data: dataSearch,
@@ -64,6 +67,7 @@ const Search: React.FC = () => {
     variables: {
       search,
       tags: tags === "all" ? "" : tags,
+      lang: lang === "uk" ? undefined : lang,
     },
   });
 
@@ -241,7 +245,7 @@ const Search: React.FC = () => {
   return (
     <div className="container">
       <div ref={anchor}></div>
-      <Title title="Шукати контент" />
+      <Title title={current.pageTitles[location.pathname]} />
       <div className={stylesForm.form_filter_container}>
         <div className="wrapper-clear">
           <form onSubmit={handleSubmitForm} className={stylesForm.form_filter}>

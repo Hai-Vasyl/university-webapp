@@ -1,26 +1,26 @@
-import React from "react"
+import React from "react";
 // @ts-ignore
-import styles from "../styles/carousel.module"
-import { INewsEventSlider, ISliderParams } from "../interfaces"
-import { convertContent } from "../helpers/convertContentEditor"
-import { BiTime } from "react-icons/bi"
-import { RiExternalLinkLine } from "react-icons/ri"
-import { Link, useHistory } from "react-router-dom"
-import { getNewsParamsByKey } from "../modules/newsCategories"
-import Button from "./Button"
+import styles from "../styles/carousel.module";
+import { INewsEventSlider, ISliderParams } from "../interfaces";
+import { convertContent } from "../helpers/convertContentEditor";
+import { BiTime } from "react-icons/bi";
+import { RiExternalLinkLine } from "react-icons/ri";
+import { Link, useHistory } from "react-router-dom";
+import { getNewsParamsByKey } from "../modules/newsCategories";
+import Button from "./Button";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
+import stylesBtn from "../styles/button.module";
 
 interface INewsSliderProps {
-  info: INewsEventSlider
-  params: ISliderParams
-  index: number
+  info: INewsEventSlider;
+  params: ISliderParams;
+  index: number;
 }
 
 const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
-  const history = useHistory()
-  const currentActive = params.currentItem === index
-  const newsParams = getNewsParamsByKey(info.category)
+  const history = useHistory();
+  const currentActive = params.currentItem === index;
+  const newsParams = getNewsParamsByKey(info.category);
   return (
     <div>
       <div className={styles.slide__overlay}></div>
@@ -33,7 +33,7 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
           (params.isRight ? styles.slide__prev_left : styles.slide__prev_right)
         }`}
         src={info.preview?.location}
-        alt='imgSlide'
+        alt="imgSlide"
       />
       <div
         className={`${styles.slide__info} ${
@@ -58,19 +58,16 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
           </Link>
         </div>
 
-        <div className={styles.slide__content}>
-          {convertContent(info.content)}
-        </div>
         <div className={styles.slide__btns}>
           <Button
             click={() => history.push(`/news/details/${info.id}`)}
             exClass={stylesBtn.btn_outline_light}
-            title='Детальніше'
+            title="Детальніше"
           />
           <Button
             click={() => history.push("/news")}
             exClass={stylesBtn.btn_clear}
-            title='Усі новини'
+            title="Усі новини"
           />
         </div>
         <div className={`${styles.slide__date} ${styles.slide__date_right}`}>
@@ -79,7 +76,7 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NewsSlide
+export default NewsSlide;

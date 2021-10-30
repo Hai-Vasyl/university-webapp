@@ -1,29 +1,31 @@
-import React, { useEffect, useState, useRef } from "react"
-import PageSection from "../components/PageSection"
-import { useQuery } from "@apollo/client"
-import { GET_PAGE_SECTION, GET_PAGE_FILTERS } from "../fetching/queries"
-import { useParams, useHistory } from "react-router-dom"
-import Loader from "../components/Loader"
-import { IField, IOption, IPageSectionFilter } from "../interfaces"
-import Title from "../components/Title"
-import SectionInfo from "../components/SectionInfo"
-import useFindFilter from "../hooks/useFindFilter"
-import BooksModule from "../components/BooksModule"
+import React, { useEffect, useState, useRef } from "react";
+import PageSection from "../components/PageSection";
+import { useQuery } from "@apollo/client";
+import { GET_PAGE_SECTION, GET_PAGE_FILTERS } from "../fetching/queries";
+import { useParams, useHistory } from "react-router-dom";
+import Loader from "../components/Loader";
+import { IField, IOption, IPageSectionFilter } from "../interfaces";
+import Title from "../components/Title";
+import SectionInfo from "../components/SectionInfo";
+import useFindFilter from "../hooks/useFindFilter";
+import BooksModule from "../components/BooksModule";
 // @ts-ignore
-import styles from "../styles/pages.module"
-import FooterModule from "../components/FooterModule"
-import { useLocation } from "react-router"
-import {RootStore} from "../redux/store"
-import {useSelector} from "react-redux"
+import styles from "../styles/pages.module";
+import FooterModule from "../components/FooterModule";
+import { useLocation } from "react-router";
+import { RootStore } from "../redux/store";
+import { useSelector } from "react-redux";
 
 const BookDetails: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
-  const { bookId }: any = useParams()
-  const history = useHistory()
-  const { getFormFilterParams } = useFindFilter()
-  const location = useLocation()
+  const anchor = useRef<HTMLDivElement>(null);
+  const { bookId }: any = useParams();
+  const history = useHistory();
+  const { getFormFilterParams } = useFindFilter();
+  const location = useLocation();
 
-  const {configs: {current}} = useSelector((state: RootStore) => state)
+  const {
+    configs: { current, lang },
+  } = useSelector((state: RootStore) => state);
 
   const [filters, setFilters] = useState<IField[]>([
     {
@@ -36,16 +38,17 @@ const BookDetails: React.FC = () => {
       title: "Клас",
       options: [],
     },
-  ])
+  ]);
 
   const { data: dataFilters, refetch: refetchFilters } = useQuery(
     GET_PAGE_FILTERS,
     {
       variables: {
         url: "/library",
+        lang: lang === "uk" ? undefined : lang,
       },
     }
-  )
+  );
 
   const {
     data: dataSection,
@@ -54,15 +57,16 @@ const BookDetails: React.FC = () => {
   } = useQuery(GET_PAGE_SECTION, {
     variables: {
       sectionId: bookId,
+      lang: lang === "uk" ? undefined : lang,
     },
-  })
+  });
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [bookId])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [bookId]);
 
   useEffect(() => {
-    let filters = dataFilters && dataFilters.getFilters
+    let filters = dataFilters && dataFilters.getFilters;
 
     const setOptions = (setForm: any, genres: IOption[], groups: IOption[]) => {
       setForm((prev: IField[]) =>
@@ -71,73 +75,73 @@ const BookDetails: React.FC = () => {
             return {
               ...field,
               options: genres,
-            }
+            };
           } else if (field.param === "group") {
             return {
               ...field,
               options: groups,
-            }
+            };
           }
-          return field
+          return field;
         })
-      )
-    }
+      );
+    };
 
     if (filters && filters.length) {
-      let groups: string[] = []
-      let genres: string[] = []
+      let groups: string[] = [];
+      let genres: string[] = [];
 
       for (let i = 0; i < filters.length; i++) {
         if (
           filters[i].keyWord === "genre" &&
           !genres.includes(filters[i].value)
         ) {
-          genres.push(filters[i].value)
+          genres.push(filters[i].value);
         } else if (
           filters[i].keyWord === "group" &&
           !groups.includes(filters[i].value)
         ) {
-          groups.push(filters[i].value)
+          groups.push(filters[i].value);
         }
       }
 
-      const genreOptions = genres.map((item) => ({ label: item, value: item }))
-      const groupOptions = groups.map((item) => ({ label: item, value: item }))
-      setOptions(setFilters, genreOptions, groupOptions)
+      const genreOptions = genres.map((item) => ({ label: item, value: item }));
+      const groupOptions = groups.map((item) => ({ label: item, value: item }));
+      setOptions(setFilters, genreOptions, groupOptions);
     }
-  }, [dataFilters])
+  }, [dataFilters]);
 
   const handleRefetchAll = () => {
-    refetchFilters()
-    refetchSection()
-  }
+    refetchFilters();
+    refetchSection();
+  };
 
   const handleDeleteSection = () => {
-    handleRefetchAll()
-    history.push("/library")
-  }
+    handleRefetchAll();
+    history.push("/library");
+  };
 
-  const info = dataSection && dataSection.getPageSection
+  const info = dataSection && dataSection.getPageSection;
 
   return (
-    <div className='container'>
+    <div className="container">
       <div ref={anchor}></div>
-      <Title title={current.pageTitles[location.pathname]} path='/library' />
-      <div className='wrapper'>
+      <Title title={current.pageTitles[location.pathname]} path="/library" />
+      <div className="wrapper">
         {loadSection ? (
           <Loader />
-        ) : (
+        ) : Object.keys(info)?.length ? (
           <PageSection
             key={info.id}
             info={info}
             filters={info.filters.map((filter: IPageSectionFilter) => {
-              const filterParams = getFormFilterParams(filters, filter.keyWord)
+              const filterParams = getFormFilterParams(filters, filter.keyWord);
               return {
                 keyWord: filter.keyWord,
                 value: filter.value,
                 options: filterParams.options,
                 title: filterParams.title,
-              }
+              };
             })}
             onDelete={handleDeleteSection}
             onEdit={handleRefetchAll}
@@ -160,12 +164,14 @@ const BookDetails: React.FC = () => {
               }}
             />
           </PageSection>
+        ) : (
+          <div className="plug-text">Порожньо</div>
         )}
       </div>
-      <BooksModule title='Інші підручники' exceptId={info && info.id} />
+      <BooksModule title="Інші підручники" exceptId={info && info.id} />
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default BookDetails
+export default BookDetails;

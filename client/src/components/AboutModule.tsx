@@ -1,35 +1,36 @@
-import React from "react"
-import { useQuery } from "@apollo/client"
-import { GET_PAGE_SECTIONS } from "../fetching/queries"
-import SectionAbout from "./SectionAbout"
-import PageSection from "./PageSection"
-import { useSelector, useDispatch } from "react-redux"
-import { RootStore } from "../redux/store"
-import { access } from "../modules/accessModifiers"
-import Loader from "./Loader"
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { GET_PAGE_SECTIONS } from "../fetching/queries";
+import SectionAbout from "./SectionAbout";
+import PageSection from "./PageSection";
+import { useSelector, useDispatch } from "react-redux";
+import { RootStore } from "../redux/store";
+import { access } from "../modules/accessModifiers";
+import Loader from "./Loader";
 // @ts-ignore
-import styles from "../styles/pages.module"
-import { IPageSection } from "../interfaces"
-import { Link, useHistory } from "react-router-dom"
-import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes"
+import styles from "../styles/pages.module";
+import { IPageSection } from "../interfaces";
+import { Link, useHistory } from "react-router-dom";
+import { AUTHFORM_TOGGLE } from "../redux/toggle/toggleTypes";
 import {
   BsInfoCircle,
   BsKanban,
   BsPeople,
   BsGear,
   BsCompass,
-} from "react-icons/bs"
-import { FaRegCalendarAlt } from "react-icons/fa"
-import { FiPhoneCall } from "react-icons/fi"
-import { BiUserCircle } from "react-icons/bi"
-import SideNavbar from "./SideNavbar"
+} from "react-icons/bs";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { FiPhoneCall } from "react-icons/fi";
+import { BiUserCircle } from "react-icons/bi";
+import SideNavbar from "./SideNavbar";
 
 const AboutModule: React.FC = () => {
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const dispatch = useDispatch();
   const {
     auth: { user },
-  } = useSelector((state: RootStore) => state)
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
 
   const {
     data: dataSections,
@@ -41,18 +42,19 @@ const AboutModule: React.FC = () => {
       from: 0,
       to: 1,
       url: "/about",
+      lang: lang === "uk" ? undefined : lang,
     },
-  })
+  });
 
   const handleRedirectProfile = () => {
     if (user.id) {
-      history.push(`/profile/${user.id}`)
+      history.push(`/profile/${user.id}`);
     } else {
-      dispatch({ type: AUTHFORM_TOGGLE })
+      dispatch({ type: AUTHFORM_TOGGLE });
     }
-  }
+  };
 
-  const sections = dataSections ? dataSections.getPageSections.items : []
+  const sections = dataSections ? dataSections.getPageSections.items : [];
 
   const sectionsJSX = sections.map((section: IPageSection) => {
     return (
@@ -71,8 +73,8 @@ const AboutModule: React.FC = () => {
           isOwnerContent={user.role === access.admin.keyWord}
         />
       </PageSection>
-    )
-  })
+    );
+  });
 
   const links = [
     { to: "/about", title: "Про інститут", Icon: BsInfoCircle },
@@ -88,7 +90,7 @@ const AboutModule: React.FC = () => {
       Icon: BiUserCircle,
       click: handleRedirectProfile,
     },
-  ]
+  ];
 
   const linksTiles = links.map((link) => {
     if (link.to === "profile") {
@@ -99,7 +101,7 @@ const AboutModule: React.FC = () => {
           </div>
           <span className={styles.link_tile__title}>{link.title}</span>
         </button>
-      )
+      );
     }
     return (
       <Link key={link.to} className={styles.link_tile} to={link.to}>
@@ -108,8 +110,8 @@ const AboutModule: React.FC = () => {
         </div>
         <span className={styles.link_tile__title}>{link.title}</span>
       </Link>
-    )
-  })
+    );
+  });
 
   const linksJSX = links.map((link) => {
     if (link.to === "profile") {
@@ -124,7 +126,7 @@ const AboutModule: React.FC = () => {
           </div>
           <span>{link.title}</span>
         </button>
-      )
+      );
     }
     return (
       <Link
@@ -137,8 +139,8 @@ const AboutModule: React.FC = () => {
         </div>
         <span>{link.title}</span>
       </Link>
-    )
-  })
+    );
+  });
 
   return (
     <>
@@ -156,11 +158,11 @@ const AboutModule: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className='plug-text'>Порожньо</div>
+          <div className="plug-text">Порожньо</div>
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AboutModule
+export default AboutModule;

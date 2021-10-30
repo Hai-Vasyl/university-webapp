@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose"
+import { Schema, model, Types } from "mongoose";
 
 const schema = new Schema({
   page: { type: Types.ObjectId, ref: "Page", required: true },
@@ -7,6 +7,7 @@ const schema = new Schema({
   keyWord: { type: String, required: true },
   value: { type: String, required: true },
   date: { type: Date, required: true },
-})
+  lang: { type: String, default: "uk" },
+});
 
-export default model("Filter", schema)
+export default model("Filter", schema);

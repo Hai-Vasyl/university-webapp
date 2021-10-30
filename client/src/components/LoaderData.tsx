@@ -1,10 +1,10 @@
-import React from "react"
+import React from "react";
 // @ts-ignore
-import styles from "../styles/loader.module"
+import styles from "../styles/loader.module";
 
 interface ILoaderDataProps {
-  load: boolean
-  noSpiner?: boolean
+  load: boolean;
+  noSpiner?: boolean;
 }
 
 const LoaderData: React.FC<ILoaderDataProps> = ({ load, noSpiner = false }) => {
@@ -14,7 +14,7 @@ const LoaderData: React.FC<ILoaderDataProps> = ({ load, noSpiner = false }) => {
     >
       {!noSpiner && <div className={styles.loader_data__spinner}></div>}
     </div>
-  )
-}
+  );
+};
 
-export default LoaderData
+export default LoaderData;

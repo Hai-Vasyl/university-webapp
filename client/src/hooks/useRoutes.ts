@@ -1,42 +1,46 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
-import Home from "../pages/Home"
-import Profile from "../pages/Profile"
-import About from "../pages/About"
-import Team from "../pages/Team"
-import NewsEvents from "../pages/NewsEvents"
-import Graduates from "../pages/Graduates"
-import Entrant from "../pages/Entrant"
-import ScheduleSession from "../pages/ScheduleSession"
-import Gallery from "../pages/Gallery"
-import Management from "../pages/Management"
-import Projects from "../pages/Projects"
-import Contacts from "../pages/Contacts"
-import Schedule from "../pages/Schedule"
-import RegisterUser from "../pages/RegisterUser"
-import NewsEvent from "../pages/NewsEvent"
-import ModNewsEvent from "../pages/ModNewsEvent"
-import Users from "../pages/Users"
-import Search from "../pages/Search"
-import { access } from "../modules/accessModifiers"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
-import { useQuery } from "@apollo/client"
-import { GET_ALL_PAGE_SECTIONS } from "../fetching/queries"
-import { ILink } from "../interfaces"
+import Home from "../pages/Home";
+import Profile from "../pages/Profile";
+import About from "../pages/About";
+import Team from "../pages/Team";
+import NewsEvents from "../pages/NewsEvents";
+import Graduates from "../pages/Graduates";
+import Entrant from "../pages/Entrant";
+import ScheduleSession from "../pages/ScheduleSession";
+import Gallery from "../pages/Gallery";
+import Management from "../pages/Management";
+import Projects from "../pages/Projects";
+import Contacts from "../pages/Contacts";
+import Schedule from "../pages/Schedule";
+import RegisterUser from "../pages/RegisterUser";
+import NewsEvent from "../pages/NewsEvent";
+import ModNewsEvent from "../pages/ModNewsEvent";
+import Users from "../pages/Users";
+import Search from "../pages/Search";
+import { access } from "../modules/accessModifiers";
+import { useSelector } from "react-redux";
+import { RootStore } from "../redux/store";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_PAGE_SECTIONS } from "../fetching/queries";
+import { ILink } from "../interfaces";
 
-type IExtraLink = { url: string; id: string; page: string; title: string }
+type IExtraLink = { url: string; id: string; page: string; title: string };
 
 const useRoutes = () => {
-  const { data: dataSections } = useQuery(GET_ALL_PAGE_SECTIONS, {
-    variables: { urls: ["/management"] },
-  })
-
   const {
     auth: {
       user: { role },
     },
-  } = useSelector((state: RootStore) => state)
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
+
+  const { data: dataSections } = useQuery(GET_ALL_PAGE_SECTIONS, {
+    variables: {
+      urls: ["/management"],
+      lang: lang === "uk" ? undefined : lang,
+    },
+  });
 
   const defaultOtherExtraLinks = [
     {
@@ -55,7 +59,7 @@ const useRoutes = () => {
       to: "/contacts",
       title: "Контакти",
     },
-  ]
+  ];
 
   const defaultLinks = [
     {
@@ -67,9 +71,9 @@ const useRoutes = () => {
       title: "Про Інститут",
       to: "/about",
       extraLinks: [
-        { to: "/about", title: "Навчальний Заклад",  },
-        { to: "/team", title: "Команда", },
-        { to: "/graduates", title: "Випускники", },
+        { to: "/about", title: "Навчальний Заклад" },
+        { to: "/team", title: "Команда" },
+        { to: "/graduates", title: "Випускники" },
       ],
     },
     {
@@ -109,7 +113,7 @@ const useRoutes = () => {
       to: "/schedule",
       extraLinks: defaultOtherExtraLinks,
     },
-  ]
+  ];
 
   const defaultResponsiveLinks = [
     {
@@ -117,9 +121,9 @@ const useRoutes = () => {
       exact: true,
       title: "Головна",
     },
-    { to: "/about", title: "Навчальний Заклад", },
-    { to: "/team", title: "Команда", },
-    { to: "/graduates", title: "Випускники", },
+    { to: "/about", title: "Навчальний Заклад" },
+    { to: "/team", title: "Команда" },
+    { to: "/graduates", title: "Випускники" },
     {
       to: "/discover",
       title: "Шукати",
@@ -160,7 +164,7 @@ const useRoutes = () => {
       to: "/contacts",
       title: "Контакти",
     },
-  ]
+  ];
 
   const defaultRoutes = [
     { path: "/", exact: true, Component: Home },
@@ -179,30 +183,32 @@ const useRoutes = () => {
     { path: "/contacts", Component: Contacts },
     { path: "/news/details/:contentId", Component: NewsEvent },
     { path: "/events/details/:contentId", Component: NewsEvent },
-  ]
+  ];
 
-  const [initSetupSections, setInitSetupSections] = useState(false)
+  const [initSetupSections, setInitSetupSections] = useState(false);
 
-  const [links, setLinks] = useState<ILink[]>(defaultLinks)
-  const [linksResponsive, setLinksResponsive] = useState<ILink[]>(defaultResponsiveLinks)
+  const [links, setLinks] = useState<ILink[]>(defaultLinks);
+  const [linksResponsive, setLinksResponsive] = useState<ILink[]>(
+    defaultResponsiveLinks
+  );
 
-  const [routes, setRoutes] = useState(defaultRoutes)
+  const [routes, setRoutes] = useState(defaultRoutes);
 
   useEffect(() => {
-    const extraLinksData = dataSections?.getAllPageSections || []
+    const extraLinksData = dataSections?.getAllPageSections || [];
     const listLinks = {
       admin: [
-        { to: "/create-news", title: "Створити Новину", },
-        { to: "/create-event", title: "Створити Подію", },
-        { to: "/register-user", title: "Створити Користувача", },
-        { to: "/users", title: "Усі Користувачі", },
+        { to: "/create-news", title: "Створити Новину" },
+        { to: "/create-event", title: "Створити Подію" },
+        { to: "/register-user", title: "Створити Користувача" },
+        { to: "/users", title: "Усі Користувачі" },
       ],
       teacher: [
-        { to: "/create-news", title: "Створити Новину", exact: true, },
-        { to: "/create-event", title: "Створити Подію", },
-        { to: "/users", title: "Усі Користувачі", },
+        { to: "/create-news", title: "Створити Новину", exact: true },
+        { to: "/create-event", title: "Створити Подію" },
+        { to: "/users", title: "Усі Користувачі" },
       ],
-    }
+    };
 
     const listRoutes = {
       admin: [
@@ -222,55 +228,55 @@ const useRoutes = () => {
         { path: "/edit-event/:contentId", Component: ModNewsEvent },
         { path: "/profile/:userId", exact: true, Component: Profile },
       ],
-    }
+    };
 
     const linksAdmin =
       role === access.admin.keyWord
         ? listLinks.admin
         : role === access.teacher.keyWord
         ? listLinks.teacher
-        : []
+        : [];
 
     const routesAdmin =
       role === access.admin.keyWord
         ? listRoutes.admin
         : role === access.teacher.keyWord
         ? listRoutes.teacher
-        : []
+        : [];
 
     setLinks((_links) =>
       _links.map((link: ILink) => {
         if (link.isAdminLinks) {
           if (link.extraLinks?.length) {
-            link.extraLinks = [...defaultOtherExtraLinks, ...linksAdmin]
+            link.extraLinks = [...defaultOtherExtraLinks, ...linksAdmin];
           }
         }
         if (!initSetupSections) {
           extraLinksData.forEach((extraLink: IExtraLink) => {
             if (extraLink.url === link.to) {
               if (!link.hasOwnProperty("extraLinks")) {
-                link.extraLinks = []
+                link.extraLinks = [];
               }
               link.extraLinks?.push({
                 to: `${link.to}?section=${extraLink.id}`,
                 title: extraLink.title,
-              })
+              });
             }
-          })
+          });
         }
-        return link
+        return link;
       })
-    )
+    );
     if (extraLinksData.length && !initSetupSections) {
-      setInitSetupSections(true)
+      setInitSetupSections(true);
     }
 
-    setLinksResponsive(() => [...defaultResponsiveLinks, ...linksAdmin])
+    setLinksResponsive(() => [...defaultResponsiveLinks, ...linksAdmin]);
 
-    setRoutes(() => [...defaultRoutes, ...routesAdmin])
-  }, [role, dataSections])
+    setRoutes(() => [...defaultRoutes, ...routesAdmin]);
+  }, [role, dataSections]);
 
-  return { links, routes, linksResponsive }
-}
+  return { links, routes, linksResponsive };
+};
 
-export default useRoutes
+export default useRoutes;

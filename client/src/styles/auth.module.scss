@@ -3,7 +3,6 @@
 .form {
   width: 450px;
   max-width: 100%;
-  box-shadow: getShadow(main);
   @extend %popup-fade-out;
   background-color: getColor(main);
   &__active {
@@ -12,7 +11,7 @@
   &__title {
     text-align: center;
     position: relative;
-    font-size: 2em;
+    font-size: 1.2em;
     z-index: 2;
     font-family: getFont(third);
     padding: 14px 0;

@@ -1,45 +1,46 @@
-import React, { useEffect, useState, useRef } from "react"
-import { GET_PAGE_SECTIONS } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import Title from "./Title"
+import React, { useEffect, useState } from "react";
+import { GET_PAGE_SECTIONS } from "../fetching/queries";
+import { useQuery } from "@apollo/client";
+import Title from "./Title";
 // @ts-ignore
-import styles from "../styles/pages.module"
-import { useLocation } from "react-router-dom"
-import Loader from "./Loader"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
-import { access } from "../modules/accessModifiers"
-import { INewsEventSlider, IPageSection } from "../interfaces"
-import PageSection from "./PageSection"
-import ModSectionForm from "./ModSectionForm"
-import NewsEventsModule from "./NewsEventsModule"
-import NavbarPage from "./NavbarPage"
-import SectionAbout from "./SectionAbout"
-import SideNavbar from "./SideNavbar"
-import NewsEventsModuleContainer from "./NewsEventsModuleContainer"
-import FooterModule from "./FooterModule"
-import DesignLayout_1 from "./DesignLayout_1"
+import styles from "../styles/pages.module";
+import { useLocation } from "react-router-dom";
+import Loader from "./Loader";
+import { useSelector } from "react-redux";
+import { RootStore } from "../redux/store";
+import { access } from "../modules/accessModifiers";
+import { INewsEventSlider, IPageSection } from "../interfaces";
+import PageSection from "./PageSection";
+import ModSectionForm from "./ModSectionForm";
+import NewsEventsModule from "./NewsEventsModule";
+import NavbarPage from "./NavbarPage";
+import SectionAbout from "./SectionAbout";
+import SideNavbar from "./SideNavbar";
+import NewsEventsModuleContainer from "./NewsEventsModuleContainer";
+import FooterModule from "./FooterModule";
+// import DesignLayout_1 from "./DesignLayout_1";
 
 interface ILayoutTabsProps {
-  imgsPrivate?: boolean
-  title: string
+  imgsPrivate?: boolean;
+  title: string;
 }
 
 const LayoutTabs: React.FC<ILayoutTabsProps> = ({
   imgsPrivate = false,
   title,
 }) => {
-  const { pathname, search } = useLocation()
-  const params = new URLSearchParams(search)
-  const section = params.get("section")
-  const isAboutUrl = pathname === "/about"
+  const { pathname, search } = useLocation();
+  const params = new URLSearchParams(search);
+  const section = params.get("section");
+  const isAboutUrl = pathname === "/about";
 
-  const [activeSection, setActiveSection] = useState("")
-  const anchor = useRef<HTMLDivElement>(null)
+  const [activeSection, setActiveSection] = useState("");
+  // const anchor = useRef<HTMLDivElement>(null);
 
   const {
     auth: { user },
-  } = useSelector((state: RootStore) => state)
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
 
   const {
     data: dataSections,
@@ -50,44 +51,45 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
       filters: [],
       from: 0,
       url: pathname,
+      lang: lang === "uk" ? undefined : lang,
     },
-  })
+  });
 
-  const [toggleCreate, setToggleCreate] = useState(false)
+  const [toggleCreate, setToggleCreate] = useState(false);
+
+  // useEffect(() => {
+  //   anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  // }, [activeSection]);
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [activeSection])
-
-  useEffect(() => {
-    const data = dataSections && dataSections.getPageSections
+    const data = dataSections && dataSections.getPageSections;
     if (data && data.items.length) {
       if (!section) {
-        let indexSection = 0
-        if(isAboutUrl){
-          indexSection = 1
+        let indexSection = 0;
+        if (isAboutUrl) {
+          indexSection = 1;
         }
-        setActiveSection(data.items[indexSection].id)
+        setActiveSection(data.items[indexSection].id);
       } else {
-        setActiveSection(section)
+        setActiveSection(section);
       }
     }
-  }, [dataSections, section, isAboutUrl])
+  }, [dataSections, section, isAboutUrl]);
 
   const handleRefetchAll = () => {
-    refetchSections()
-  }
+    refetchSections();
+  };
 
   const handleCreate = () => {
-    handleRefetchAll()
-    setToggleCreate((prev) => !prev)
-  }
+    handleRefetchAll();
+    setToggleCreate((prev) => !prev);
+  };
 
-  let sections = dataSections ? dataSections.getPageSections.items : []
-  sections = isAboutUrl ? sections.slice(1) : sections
+  let sections = dataSections ? dataSections.getPageSections.items : [];
+  sections = isAboutUrl ? sections.slice(1) : sections;
   const links = sections
     ? sections.map((item: IPageSection) => ({ title: item.title, id: item.id }))
-    : []
+    : [];
 
   const sectionsJSX =
     sections &&
@@ -118,12 +120,12 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
             />
           </PageSection>
         </div>
-      )
-    })
+      );
+    });
 
   return (
-    <div className='container'>
-      <div ref={anchor}></div>
+    <div className="container">
+      {/* <div ref={anchor}></div> */}
       <Title title={title} />
       <NavbarPage
         sectionLinks={links}
@@ -135,29 +137,29 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
       {user.role === access.admin.keyWord && toggleCreate && (
         <ModSectionForm onCreate={handleCreate} isOptContent />
       )}
-      <DesignLayout_1>
-        <div className='wrapper'>
-          {loadSections ? (
-            <Loader />
-          ) : sections.length ? (
-            <div className={styles.page_wrapper_flex}>
-              {links.length > 1 && (
-                <SideNavbar
-                  links={links}
-                  active={activeSection}
-                  setActive={setActiveSection}
-                  exClass={styles.page_wrapper_flex__sidebar}
-                />
-              )}
-              <div className={styles.page_wrapper_flex__content}>
-                {sectionsJSX}
-              </div>
+      {/* <DesignLayout_1> */}
+      <div className="wrapper">
+        {loadSections ? (
+          <Loader />
+        ) : sections.length ? (
+          <div className={styles.page_wrapper_flex}>
+            {links.length > 1 && (
+              <SideNavbar
+                links={links}
+                active={activeSection}
+                setActive={setActiveSection}
+                exClass={styles.page_wrapper_flex__sidebar}
+              />
+            )}
+            <div className={styles.page_wrapper_flex__content}>
+              {sectionsJSX}
             </div>
-          ) : (
-            <div className='plug-text'>Порожньо</div>
-          )}
-        </div>
-      </DesignLayout_1>
+          </div>
+        ) : (
+          <div className="plug-text">Порожньо</div>
+        )}
+      </div>
+      {/* </DesignLayout_1> */}
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />
@@ -165,7 +167,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default LayoutTabs
+export default LayoutTabs;

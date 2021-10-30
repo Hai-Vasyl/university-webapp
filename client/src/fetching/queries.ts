@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
   query LOGIN_USER($email: String!, $password: String!) {
@@ -7,7 +7,7 @@ export const LOGIN_USER = gql`
       token
     }
   }
-`
+`;
 
 export const GET_DATA_USER = gql`
   query GET_DATA_USER($userId: String!) {
@@ -27,7 +27,7 @@ export const GET_DATA_USER = gql`
       date
     }
   }
-`
+`;
 
 export const GET_USERS = gql`
   query GET_USERS {
@@ -41,7 +41,7 @@ export const GET_USERS = gql`
       role
     }
   }
-`
+`;
 
 export const REGISTER_USER = gql`
   query REGISTER_USER(
@@ -66,7 +66,7 @@ export const REGISTER_USER = gql`
       token
     }
   }
-`
+`;
 
 export const GET_PAGE = gql`
   query GET_PAGE($url: String!) {
@@ -77,11 +77,11 @@ export const GET_PAGE = gql`
       date
     }
   }
-`
+`;
 
 export const SEARCH_CONTENT = gql`
-  query SEARCH_CONTENT($search: String, $tags: String) {
-    searchContent(search: $search, tags: $tags) {
+  query SEARCH_CONTENT($search: String, $tags: String, $lang: String) {
+    searchContent(search: $search, tags: $tags, lang: $lang) {
       images {
         id
         owner {
@@ -125,7 +125,7 @@ export const SEARCH_CONTENT = gql`
       }
     }
   }
-`
+`;
 
 export const GET_IMAGES = gql`
   query GET_IMAGES($from: Int!, $to: Int!, $search: String, $type: String) {
@@ -142,7 +142,7 @@ export const GET_IMAGES = gql`
       quantity
     }
   }
-`
+`;
 
 export const GET_IMAGE = gql`
   query GET_IMAGE($imageId: ID!) {
@@ -167,7 +167,7 @@ export const GET_IMAGE = gql`
       format
     }
   }
-`
+`;
 
 export const GET_NEWS_EVENTS = gql`
   query GET_NEWS_EVENTS(
@@ -179,6 +179,7 @@ export const GET_NEWS_EVENTS = gql`
     $from: Int!
     $to: Int!
     $exceptId: ID
+    $lang: String
   ) {
     getNewsEvents(
       search: $search
@@ -189,6 +190,7 @@ export const GET_NEWS_EVENTS = gql`
       from: $from
       to: $to
       exceptId: $exceptId
+      lang: $lang
     ) {
       items {
         id
@@ -208,7 +210,7 @@ export const GET_NEWS_EVENTS = gql`
       quantity
     }
   }
-`
+`;
 
 export const GET_NEWS_EVENTS_DETAILED = gql`
   query GET_NEWS_EVENTS_DETAILED(
@@ -220,6 +222,7 @@ export const GET_NEWS_EVENTS_DETAILED = gql`
     $from: Int!
     $to: Int!
     $exceptId: ID
+    $lang: String
   ) {
     getNewsEvents(
       search: $search
@@ -230,11 +233,11 @@ export const GET_NEWS_EVENTS_DETAILED = gql`
       from: $from
       to: $to
       exceptId: $exceptId
+      lang: $lang
     ) {
       items {
         id
         title
-        content
         type
         owner {
           id
@@ -260,11 +263,11 @@ export const GET_NEWS_EVENTS_DETAILED = gql`
       quantity
     }
   }
-`
+`;
 
 export const GET_NEWS_EVENT = gql`
-  query GET_NEWS_EVENT($contentId: ID!, $type: String!) {
-    getNewsEvent(contentId: $contentId, type: $type) {
+  query GET_NEWS_EVENT($contentId: ID!, $type: String!, $lang: String) {
+    getNewsEvent(contentId: $contentId, type: $type, lang: $lang) {
       id
       title
       content
@@ -287,7 +290,7 @@ export const GET_NEWS_EVENT = gql`
       }
     }
   }
-`
+`;
 
 export const GET_CONTENT_IMAGES = gql`
   query GET_CONTENT_IMAGES($contentId: ID!) {
@@ -303,7 +306,7 @@ export const GET_CONTENT_IMAGES = gql`
       }
     }
   }
-`
+`;
 
 export const GET_PAGE_SECTIONS = gql`
   query GET_PAGE_SECTIONS(
@@ -312,6 +315,7 @@ export const GET_PAGE_SECTIONS = gql`
     $filters: [InputFilter]!
     $from: Int!
     $to: Int
+    $lang: String
   ) {
     getPageSections(
       search: $search
@@ -319,6 +323,7 @@ export const GET_PAGE_SECTIONS = gql`
       filters: $filters
       from: $from
       to: $to
+      lang: $lang
     ) {
       items {
         id
@@ -355,11 +360,11 @@ export const GET_PAGE_SECTIONS = gql`
       quantity
     }
   }
-`
+`;
 
 export const GET_PAGE_SECTION = gql`
-  query GET_PAGE_SECTION($sectionId: ID!) {
-    getPageSection(sectionId: $sectionId) {
+  query GET_PAGE_SECTION($sectionId: ID!, $lang: String) {
+    getPageSection(sectionId: $sectionId, lang: $lang) {
       id
       page
       url
@@ -392,7 +397,7 @@ export const GET_PAGE_SECTION = gql`
       }
     }
   }
-`
+`;
 
 export const GET_PAGE_SECTIONS_SHORT = gql`
   query GET_PAGE_SECTIONS_SHORT(
@@ -402,6 +407,7 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
     $from: Int!
     $to: Int
     $exceptId: ID
+    $lang: String
   ) {
     getPageSections(
       search: $search
@@ -410,6 +416,7 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
       from: $from
       to: $to
       exceptId: $exceptId
+      lang: $lang
     ) {
       items {
         id
@@ -445,26 +452,26 @@ export const GET_PAGE_SECTIONS_SHORT = gql`
       quantity
     }
   }
-`
+`;
 
 export const GET_ALL_PAGE_SECTIONS = gql`
-  query GET_ALL_PAGE_SECTIONS($urls: [String]!) {
-    getAllPageSections(urls: $urls) {
+  query GET_ALL_PAGE_SECTIONS($urls: [String]!, $lang: String) {
+    getAllPageSections(urls: $urls, lang: $lang) {
       id
       page
       url
       title
     }
   }
-`
+`;
 
 export const GET_PAGE_FILTERS = gql`
-  query GET_PAGE_FILTERS($url: String!) {
-    getFilters(url: $url) {
+  query GET_PAGE_FILTERS($url: String!, $lang: String) {
+    getFilters(url: $url, lang: $lang) {
       id
       url
       keyWord
       value
     }
   }
-`
+`;

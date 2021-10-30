@@ -1,46 +1,47 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 // @ts-ignore
-import styles from "../styles/form.module"
+import styles from "../styles/form.module";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
-import LoaderData from "../components/LoaderData"
+import stylesBtn from "../styles/button.module";
+import LoaderData from "../components/LoaderData";
 import {
   CREATE_PAGE_SECTION,
   EDIT_PAGE_SECTION,
   DELETE_PAGE_SECTION,
-} from "../fetching/mutations"
-import { useMutation } from "@apollo/client"
-import { useLocation } from "react-router-dom"
-import Field from "./Field"
-import FieldNumber from "./FieldNumber"
-import FieldEditor from "./FieldEditor"
-import Button from "./Button"
+} from "../fetching/mutations";
+import { useMutation } from "@apollo/client";
+import { useLocation } from "react-router-dom";
+import Field from "./Field";
+import FieldNumber from "./FieldNumber";
+import FieldEditor from "./FieldEditor";
+import Button from "./Button";
 import {
   BsPencil,
   BsPlus,
   BsArrowLeft,
   BsArrowClockwise,
   BsTrash,
-} from "react-icons/bs"
-import useSetErrorsFields from "../hooks/useSetErrorsFields"
-import { useDispatch } from "react-redux"
-import { SET_TOAST } from "../redux/toasts/toastsTypes"
-import { types } from "../modules/messageTypes"
-import { IPageSection, IField, IPageSectionFilter } from "../interfaces"
-import ButtonTab from "./ButtonTab"
-import FieldFliper from "./FieldFliper"
-import { WARNING_OPEN, WARNING_CLOSE } from "../redux/toggle/toggleTypes"
+} from "react-icons/bs";
+import useSetErrorsFields from "../hooks/useSetErrorsFields";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_TOAST } from "../redux/toasts/toastsTypes";
+import { types } from "../modules/messageTypes";
+import { IPageSection, IField, IPageSectionFilter } from "../interfaces";
+import ButtonTab from "./ButtonTab";
+import FieldFliper from "./FieldFliper";
+import { WARNING_OPEN, WARNING_CLOSE } from "../redux/toggle/toggleTypes";
+import { RootStore } from "../redux/store";
 
 interface ModSectionFormProps {
-  data?: IPageSection
-  toggleEdiForm?: any
-  filters?: IField[]
-  setFilters?: any
-  onCreate?(): any
-  onDelete?(): any
-  onEdit?(): any
-  resetFilters?(): any
-  isOptContent?: boolean
+  data?: IPageSection;
+  toggleEdiForm?: any;
+  filters?: IField[];
+  setFilters?: any;
+  onCreate?(): any;
+  onDelete?(): any;
+  onEdit?(): any;
+  resetFilters?(): any;
+  isOptContent?: boolean;
 }
 
 const ModSectionForm: React.FC<ModSectionFormProps> = ({
@@ -54,8 +55,11 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
   resetFilters,
   isOptContent,
 }) => {
-  const { pathname } = useLocation()
-  const dispatch = useDispatch()
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const {
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
 
   const [form, setForm] = useState([
     {
@@ -79,83 +83,81 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
       title: "Пріорітет",
       msg: "",
     },
-  ])
+  ]);
 
   const [
     createPageSection,
     { data: dataCreate, loading: loadCreate, error: errorCreate },
-  ] = useMutation(CREATE_PAGE_SECTION)
+  ] = useMutation(CREATE_PAGE_SECTION);
   const [
     editPageSection,
     { data: dataEdit, loading: loadEdit, error: errorEdit },
-  ] = useMutation(EDIT_PAGE_SECTION)
-  const [
-    deletePageSection,
-    { data: dataDelete, loading: loadDelete },
-  ] = useMutation(DELETE_PAGE_SECTION)
+  ] = useMutation(EDIT_PAGE_SECTION);
+  const [deletePageSection, { data: dataDelete, loading: loadDelete }] =
+    useMutation(DELETE_PAGE_SECTION);
 
-  const { setErrors } = useSetErrorsFields()
+  const { setErrors } = useSetErrorsFields();
 
   useEffect(() => {
-    const data = dataCreate && dataCreate.createPageSection
+    const data = dataCreate && dataCreate.createPageSection;
     if (errorCreate) {
-      setErrors(errorCreate.message, setForm)
-      setFilters && setErrors(errorCreate.message, setFilters)
+      setErrors(errorCreate.message, setForm);
+      setFilters && setErrors(errorCreate.message, setFilters);
       dispatch({
         type: SET_TOAST,
         payload: {
           type: types.error.keyWord,
           message: "Помилка перевірки полів форми!",
         },
-      })
+      });
     } else if (data) {
       dispatch({
         type: SET_TOAST,
         payload: data,
-      })
-      onCreate && onCreate()
+      });
+      onCreate && onCreate();
     }
-  }, [dispatch, dataCreate, errorCreate])
+  }, [dispatch, dataCreate, errorCreate]);
 
   useEffect(() => {
-    const data = dataEdit && dataEdit.editPageSection
+    const data = dataEdit && dataEdit.editPageSection;
     if (errorEdit) {
-      setErrors(errorEdit.message, setForm)
-      setErrors(errorEdit.message, setFilters)
+      setErrors(errorEdit.message, setForm);
+      setErrors(errorEdit.message, setFilters);
       dispatch({
         type: SET_TOAST,
         payload: {
           type: types.error.keyWord,
           message: "Помилка перевірки полів форми!",
         },
-      })
+      });
     } else if (data) {
       dispatch({
         type: SET_TOAST,
         payload: data,
-      })
-      onEdit && onEdit()
+      });
+      onEdit && onEdit();
     }
-  }, [dispatch, dataEdit, errorEdit])
+  }, [dispatch, dataEdit, errorEdit]);
 
   const findFilterParams = (filters: IPageSectionFilter[], keyWord: string) => {
-    return filters.find((filter) => filter.keyWord === keyWord)
-  }
+    return filters.find((filter) => filter.keyWord === keyWord);
+  };
 
   useEffect(() => {
-    const data = dataDelete && dataDelete.deletePageSection
+    const data = dataDelete && dataDelete.deletePageSection;
     if (data) {
       dispatch({
         type: SET_TOAST,
         payload: data,
-      })
-      onDelete && onDelete()
+      });
+      onDelete && onDelete();
     }
-  }, [dispatch, dataDelete])
+  }, [dispatch, dataDelete]);
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const [title, content, priority] = form
+    event.preventDefault();
+    const [title, content, priority] = form;
 
     if (data) {
       editPageSection({
@@ -172,8 +174,9 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
                 value: field.value.trim(),
               }))
             : [],
+          lang,
         },
-      })
+      });
     } else {
       createPageSection({
         variables: {
@@ -188,37 +191,38 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
                 value: field.value.trim(),
               }))
             : [],
+          lang,
         },
-      })
+      });
     }
-  }
+  };
 
   const handleRefreshForm = () => {
     if (data && data.id) {
       setForm((prev) =>
         prev.map((field) => {
-          let newField = field
+          let newField = field;
           Object.keys(data).map((key) => {
             if (field.param === key) {
               // @ts-ignore
-              newField = { ...field, value: data[key], msg: "" }
+              newField = { ...field, value: data[key], msg: "" };
             }
-          })
-          return newField
+          });
+          return newField;
         })
-      )
-      resetFilters && resetFilters()
+      );
+      resetFilters && resetFilters();
     }
-  }
+  };
 
   const handleDeleteNewsEvent = () => {
     deletePageSection({
       variables: {
         sectionId: data?.id,
       },
-    })
-    dispatch({ type: WARNING_CLOSE })
-  }
+    });
+    dispatch({ type: WARNING_CLOSE });
+  };
 
   const handlePopupWarning = () => {
     dispatch({
@@ -227,8 +231,8 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
         action: handleDeleteNewsEvent,
         title: "Ви впевнені, що хочете назавжди видалити розділ?",
       },
-    })
-  }
+    });
+  };
 
   const filtersJSX =
     filters &&
@@ -242,8 +246,8 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           field={filter}
           change={setFilters}
         />
-      )
-    })
+      );
+    });
 
   const fields = form.map((field) => {
     if (field.param === "content") {
@@ -254,14 +258,14 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
           field={field}
           change={setForm}
         />
-      )
+      );
     } else if (field.type === "number") {
-      return <FieldNumber key={field.param} field={field} change={setForm} />
+      return <FieldNumber key={field.param} field={field} change={setForm} />;
     }
     return (
       <Field key={field.param} isImportant field={field} change={setForm} />
-    )
-  })
+    );
+  });
 
   return (
     <div className={styles.form}>
@@ -301,14 +305,14 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
                   exClass={stylesBtn.btn_simple}
                   Icon={BsArrowClockwise}
                   click={handleRefreshForm}
-                  type='button'
+                  type="button"
                 />
                 <Button
-                  title='Видалити'
+                  title="Видалити"
                   exClass={stylesBtn.btn_simple}
                   Icon={BsTrash}
                   click={handlePopupWarning}
-                  type='button'
+                  type="button"
                 />
               </>
             )}
@@ -316,7 +320,7 @@ const ModSectionForm: React.FC<ModSectionFormProps> = ({
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ModSectionForm
+export default ModSectionForm;

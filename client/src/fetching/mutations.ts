@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client"
+import { gql } from "@apollo/client";
 
 export const SET_PAGE_IMAGE = gql`
   mutation SET_PAGE_IMAGE($url: String!, $image: Upload, $deleting: Boolean!) {
@@ -7,7 +7,7 @@ export const SET_PAGE_IMAGE = gql`
       type
     }
   }
-`
+`;
 
 export const UPDATE_USER_DATA = gql`
   mutation UPDATE_USER_DATA(
@@ -32,7 +32,7 @@ export const UPDATE_USER_DATA = gql`
       type
     }
   }
-`
+`;
 
 export const SET_USER_AVA = gql`
   mutation SET_USER_AVA($image: Upload, $deleting: Boolean!) {
@@ -41,7 +41,7 @@ export const SET_USER_AVA = gql`
       type
     }
   }
-`
+`;
 
 export const CREATE_UPLOAD = gql`
   mutation CREATE_UPLOAD(
@@ -64,7 +64,7 @@ export const CREATE_UPLOAD = gql`
       type
     }
   }
-`
+`;
 
 export const EDIT_UPLOAD = gql`
   mutation EDIT_UPLOAD(
@@ -83,7 +83,7 @@ export const EDIT_UPLOAD = gql`
       type
     }
   }
-`
+`;
 
 export const DELETE_UPLOAD = gql`
   mutation DELETE_UPLOAD($imageId: ID!) {
@@ -92,7 +92,7 @@ export const DELETE_UPLOAD = gql`
       type
     }
   }
-`
+`;
 
 export const CREATE_NEWS_EVENT = gql`
   mutation CREATE_NEWS_EVENT(
@@ -102,6 +102,7 @@ export const CREATE_NEWS_EVENT = gql`
     $category: String!
     $dateEvent: String!
     $links: [InputLink]
+    $lang: String
   ) {
     createNewsEvent(
       title: $title
@@ -110,9 +111,10 @@ export const CREATE_NEWS_EVENT = gql`
       category: $category
       dateEvent: $dateEvent
       links: $links
+      lang: $lang
     )
   }
-`
+`;
 
 export const EDIT_NEWS_EVENT = gql`
   mutation EDIT_NEWS_EVENT(
@@ -123,6 +125,7 @@ export const EDIT_NEWS_EVENT = gql`
     $category: String!
     $dateEvent: String!
     $links: [InputLink]
+    $lang: String
   ) {
     editNewsEvent(
       contentId: $contentId
@@ -132,12 +135,13 @@ export const EDIT_NEWS_EVENT = gql`
       category: $category
       dateEvent: $dateEvent
       links: $links
+      lang: $lang
     ) {
       message
       type
     }
   }
-`
+`;
 
 export const DELETE_NEWS_EVENT = gql`
   mutation DELETE_NEWS_EVENT($contentId: ID!) {
@@ -146,7 +150,7 @@ export const DELETE_NEWS_EVENT = gql`
       type
     }
   }
-`
+`;
 
 export const CREATE_PAGE_SECTION = gql`
   mutation CREATE_PAGE_SECTION(
@@ -156,6 +160,7 @@ export const CREATE_PAGE_SECTION = gql`
     $priority: Int!
     $filters: [InputFilter]!
     $optContent: Boolean
+    $lang: String
   ) {
     createPageSection(
       url: $url
@@ -164,12 +169,13 @@ export const CREATE_PAGE_SECTION = gql`
       priority: $priority
       filters: $filters
       optContent: $optContent
+      lang: $lang
     ) {
       message
       type
     }
   }
-`
+`;
 
 export const EDIT_PAGE_SECTION = gql`
   mutation EDIT_PAGE_SECTION(
@@ -179,6 +185,7 @@ export const EDIT_PAGE_SECTION = gql`
     $priority: Int!
     $filters: [InputFilterEdit]!
     $optContent: Boolean
+    $lang: String
   ) {
     editPageSection(
       sectionId: $sectionId
@@ -187,12 +194,13 @@ export const EDIT_PAGE_SECTION = gql`
       priority: $priority
       filters: $filters
       optContent: $optContent
+      lang: $lang
     ) {
       message
       type
     }
   }
-`
+`;
 
 export const DELETE_PAGE_SECTION = gql`
   mutation DELETE_PAGE_SECTION($sectionId: ID!) {
@@ -201,7 +209,7 @@ export const DELETE_PAGE_SECTION = gql`
       type
     }
   }
-`
+`;
 
 export const SEND_EMAIL = gql`
   mutation SEND_EMAIL(
@@ -220,4 +228,4 @@ export const SEND_EMAIL = gql`
       type
     }
   }
-`
+`;

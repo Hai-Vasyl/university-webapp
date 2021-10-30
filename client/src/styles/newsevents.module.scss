@@ -105,8 +105,8 @@
     @extend %link-reset;
     display: block;
     font-weight: bold;
-    font-size: 1.6em;
-    line-height: 32px;
+    font-size: 1.45em;
+    line-height: 30px;
     font-family: getFont(third);
   }
   &__categoty {
@@ -186,17 +186,6 @@
     margin-top: 20px;
     padding-top: 20px;
     font-size: 1.2em;
-    &::first-letter {
-      border: 4px dashed getColor(main-dark);
-      font-size: 2.1em;
-      padding: 0px 10px;
-      float: left;
-      margin-right: 15px;
-      font-weight: bold;
-      color: getColor(font-light);
-      letter-spacing: 5px;
-      font-family: getFont(second);
-    }
   }
   &__footer {
     border-top: 1px solid getColor(main-dark);

@@ -1,32 +1,32 @@
-import React, { useEffect, useRef } from "react"
-import { GET_NEWS_EVENTS_DETAILED } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import { access } from "../modules/accessModifiers"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
-import Carousel from "../components/Carousel"
+import React, { useEffect, useRef } from "react";
+import { GET_NEWS_EVENTS_DETAILED } from "../fetching/queries";
+import { useQuery } from "@apollo/client";
+import { access } from "../modules/accessModifiers";
+import { useSelector } from "react-redux";
+import { RootStore } from "../redux/store";
+import Carousel from "../components/Carousel";
 // @ts-ignore
-import styles from "../styles/pages.module"
-import { INewsEventSlider } from "../interfaces"
-import NewsSlide from "../components/NewsSlide"
-import AboutModule from "../components/AboutModule"
-import GalleryModule from "../components/GalleryModule"
-import NewsEventsModule from "../components/NewsEventsModule"
-import NewsEventsModuleGrid from "../components/NewsEventsModuleGrid"
+import styles from "../styles/pages.module";
+import { INewsEventSlider } from "../interfaces";
+import NewsSlide from "../components/NewsSlide";
+import AboutModule from "../components/AboutModule";
+import GalleryModule from "../components/GalleryModule";
+import NewsEventsModule from "../components/NewsEventsModule";
+import NewsEventsModuleGrid from "../components/NewsEventsModuleGrid";
 // import BooksModule from "../components/BooksModule"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import ContactsModule from "../components/ContactsModule"
-import UsefulLinksModule from "../components/UsefulLinksModule"
-import FooterModule from "../components/FooterModule"
-import DesignLayout_1 from "../components/DesignLayout_1"
-// import DesignLayout_2 from "../components/DesignLayout_2"
-// import DesignLayout_3 from "../components/DesignLayout_3"
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import ContactsModule from "../components/ContactsModule";
+import UsefulLinksModule from "../components/UsefulLinksModule";
+import FooterModule from "../components/FooterModule";
+import DesignLayout_1 from "../components/DesignLayout_1";
 
 const Home: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
+  const anchor = useRef<HTMLDivElement>(null);
   const {
     auth: { user },
-  } = useSelector((state: RootStore) => state)
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
+
   const { data: dataNews, loading: loadNews } = useQuery(
     GET_NEWS_EVENTS_DETAILED,
     {
@@ -38,20 +38,21 @@ const Home: React.FC = () => {
         dateTo: null,
         from: 0,
         to: 3,
+        lang: lang === "uk" ? undefined : lang,
       },
     }
-  )
+  );
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
-  const news = dataNews ? dataNews.getNewsEvents.items : []
+  const news = dataNews ? dataNews.getNewsEvents.items : [];
   const isOwnerContent =
-    user.role === access.admin.keyWord || user.role === access.teacher.keyWord
+    user.role === access.admin.keyWord || user.role === access.teacher.keyWord;
 
   return (
-    <div className='container'>
+    <div className="container">
       <div ref={anchor}></div>
       <div
         className={`${styles.page__carousel} ${
@@ -62,8 +63,8 @@ const Home: React.FC = () => {
           slides={news}
           load={loadNews}
           isOwnerContent={isOwnerContent}
-          content=''
-          type=''
+          content=""
+          type=""
           noImage
         >
           {(params: any) =>
@@ -75,14 +76,14 @@ const Home: React.FC = () => {
                   index={index}
                   params={params}
                 />
-              )
+              );
             })
           }
         </Carousel>
       </div>
-      <DesignLayout_1>
-        <AboutModule />
-      </DesignLayout_1>
+      {/* <DesignLayout_1> */}
+      <AboutModule />
+      {/* </DesignLayout_1> */}
       <GalleryModule />
 
       <NewsEventsModuleContainer from={3} isNews={true}>
@@ -104,7 +105,7 @@ const Home: React.FC = () => {
       <ContactsModule />
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

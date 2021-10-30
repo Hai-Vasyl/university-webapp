@@ -1,19 +1,19 @@
-import React, { useState } from "react"
-import { BiError } from "react-icons/bi"
-import { BsEye, BsEyeSlash } from "react-icons/bs"
+import React, { useState } from "react";
+import { BiError } from "react-icons/bi";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 // @ts-ignore
-import styles from "../styles/field.module"
-import ButtonTab from "./ButtonTab"
-import useChangeInput from "../hooks/useChangeInput"
-import { IField } from "../interfaces"
+import styles from "../styles/field.module";
+import ButtonTab from "./ButtonTab";
+import useChangeInput from "../hooks/useChangeInput";
+import { IField } from "../interfaces";
 
 interface IFieldProps {
-  field: IField
-  change: any
-  check?(event: React.ChangeEvent<HTMLInputElement>): any
-  exClass?: string
-  transparent?: boolean
-  isImportant?: boolean
+  field: IField;
+  change: any;
+  check?(event: React.ChangeEvent<HTMLInputElement>): any;
+  exClass?: string;
+  transparent?: boolean;
+  isImportant?: boolean;
 }
 
 const Field: React.FC<IFieldProps> = ({
@@ -24,20 +24,20 @@ const Field: React.FC<IFieldProps> = ({
   transparent,
   isImportant,
 }) => {
-  const [viewPass, setViewPass] = useState(false)
+  const [viewPass, setViewPass] = useState(false);
 
   const handleViewPassword = () => {
-    setViewPass((prev) => !prev)
-  }
+    setViewPass((prev) => !prev);
+  };
 
-  const { changeInput } = useChangeInput()
+  const { changeInput } = useChangeInput();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    check && check(event)
-    changeInput(event, change)
-  }
+    check && check(event);
+    changeInput(event, change);
+  };
 
-  const isPassword = field.type === "password"
+  const isPassword = field.type === "password";
   return (
     <label
       className={`${styles.field} ${
@@ -60,15 +60,7 @@ const Field: React.FC<IFieldProps> = ({
           type={viewPass && isPassword ? "text" : field.type}
           value={field.value}
           onChange={handleChange}
-          // autoComplete='off'
         />
-        {isPassword && (
-          <ButtonTab
-            Icon={viewPass ? BsEye : BsEyeSlash}
-            click={handleViewPassword}
-            exClass={styles.field__btn_password}
-          />
-        )}
       </div>
       <span
         className={`${styles.field__msg} ${
@@ -78,7 +70,7 @@ const Field: React.FC<IFieldProps> = ({
         <BiError className={styles.field__error} /> <span>{field.msg}</span>
       </span>
     </label>
-  )
-}
+  );
+};
 
-export default Field
+export default Field;

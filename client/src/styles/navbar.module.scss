@@ -8,7 +8,7 @@
   z-index: 12;
   transition: getTransition(main);
   &__reduce {
-    transform: translateY(-90px);
+    transform: translateY(-100px);
     .nav {
       background-color: getColor(secondary);
       box-shadow: getShadow(secondary);
@@ -84,15 +84,10 @@
 }
 
 .nav {
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1),
-    rgba(255, 255, 255, 0.04)
-  );
   transition: getTransition(slow);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   &__blur {
     backdrop-filter: blur(10px);
-    box-shadow: getShadow(secondary);
   }
   &__btn_blur,
   &__btn_search {
@@ -114,7 +109,7 @@
     position: relative;
     z-index: 2;
     transition: getTransition(main);
-    height: 90px;
+    height: 100px;
     display: flex;
     align-items: center;
   }
@@ -131,7 +126,7 @@
     & > * {
       flex: 1;
       height: 1px;
-      background-color: getColor(bg-light);
+      background-color: rgba(255, 255, 255, 0.15);
     }
     &__content {
       height: auto;
@@ -143,7 +138,7 @@
       & > * {
         flex: 1;
         height: 1px;
-        background-color: getColor(bg-light);
+        background-color: rgba(255, 255, 255, 0.15);
         &:first-child {
           width: 141.6px;
           flex: none;
@@ -177,7 +172,7 @@
     }
     & > * {
       @extend %link-reset;
-      font-size: 1.8em;
+      font-size: 1.35em;
       font-weight: bold;
       color: getColor(font-white);
       line-height: 28px;
@@ -199,21 +194,30 @@
   }
   &__logo {
     width: 138px;
-    height: 138px;
+    height: 162px;
     position: absolute;
     left: 20px;
-    top: -10px;
+    top: -21px;
     border-top: none;
-    background-color: #fbfbfb;;
+    // background-color: #fbfbfb;
     z-index: 16;
     opacity: 1;
-    border-radius: 20%;
     overflow: hidden;
     transition: 0.3s ease;
+    // border-left: 1px solid rgba(255, 255, 255, 0.15);
+    // border-right: 1px solid rgba(255, 255, 255, 0.15);
+    // background-color: white;
   }
   &__logo_img {
     @extend %image;
     object-fit: contain;
+    border-radius: 10%;
+    height: 138px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    // border: 1px solid white;
+    // opacity: 0;
   }
   &__links {
     display: flex;
@@ -310,13 +314,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 22px 10px;
-  margin: 0px 3px;
+  padding: 22px 13px;
   text-shadow: getShadow(thin);
   transition: getTransition(main);
   text-transform: uppercase;
   font-size: 13px;
   position: relative;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
   &::after {
     content: "";
     position: absolute;
@@ -377,7 +381,6 @@
   &__dropdown {
     position: absolute;
     top: 62px;
-    left: 3px;
     width: 230px;
     box-shadow: getShadow(secondary);
     opacity: 0;

@@ -1,65 +1,160 @@
 @import "base";
 
-%spinner {
-  width: 75px;
-  height: 75px;
-  border: 7px solid getColor(bg-light);
-  border-bottom-color: getColor(accent);
-  border-radius: 50%;
-  animation: spin getTransition(spin);
-}
-
+// %spinner {
+//   width: 75px;
+//   height: 75px;
+//   border: 7px solid getColor(bg-light);
+//   border-bottom-color: getColor(accent);
+//   border-radius: 50%;
+//   animation: spin getTransition(spin);
+// }
 .loader {
-  @extend %flex-center;
-  padding: 25px 0;
+  margin: 0 auto;
   &__center {
-    @extend %position-extend;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__logo {
+    text-align: center;
+    font-size: 1.7em;
+    margin-bottom: 10px;
+    color: getColor(font-light);
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+  &__progress {
+    width: 100vw;
+    max-width: 100%;
+    background-color: getColor(bg-light);
+    height: 4px;
     display: flex;
-    .loader__spinner {
-      margin: auto;
-    }
+    overflow: hidden;
+    box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.2);
   }
-  &__spinner {
-    @extend %spinner;
-  }
-}
-
-.loader_data {
-  position: absolute;
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  visibility: hidden;
-  transition: getTansition(main);
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  z-index: 10;
-  &__spinner {
-    @extend %center-position;
-    @extend %spinner;
-    animation: spin-center getTransition(spin);
-  }
-  &__active {
-    opacity: 1;
-    visibility: visible;
+  &__scale {
+    width: 40%;
+    background-image: linear-gradient(
+      to right,
+      getColor(accent),
+      getColor(accent-main)
+    );
+    animation: move 0.8s linear infinite;
   }
 }
 
-@keyframes spin {
+@keyframes move {
   from {
-    transform: rotate(0deg);
+    transform: translateX(-100%);
   }
   to {
-    transform: rotate(360deg);
+    transform: translateX(250%);
   }
 }
 
-@keyframes spin-center {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
+// .loader_data {
+//   position: absolute;
+//   backdrop-filter: blur(10px);
+//   opacity: 0;
+//   visibility: hidden;
+//   transition: getTansition(main);
+//   top: 0px;
+//   left: 0px;
+//   right: 0px;
+//   bottom: 0px;
+//   z-index: 10;
+//   &__spinner {
+//     @extend %center-position;
+//     @extend %spinner;
+//     animation: spin-center getTransition(spin);
+//   }
+//   &__active {
+//     opacity: 1;
+//     visibility: visible;
+//   }
+// }
+
+// @keyframes spin {
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// }
+
+// @keyframes spin-center {
+//   from {
+//     transform: translate(-50%, -50%) rotate(0deg);
+//   }
+//   to {
+//     transform: translate(-50%, -50%) rotate(360deg);
+//   }
+// }
+/////////////////
+// @import "base";
+
+// %spinner {
+//   width: 75px;
+//   height: 75px;
+//   border: 7px solid getColor(bg-light);
+//   border-bottom-color: getColor(accent);
+//   border-radius: 50%;
+//   animation: spin getTransition(spin);
+// }
+
+// .loader {
+//   @extend %flex-center;
+//   padding: 25px 0;
+//   &__center {
+//     @extend %position-extend;
+//     display: flex;
+//     .loader__spinner {
+//       margin: auto;
+//     }
+//   }
+//   &__spinner {
+//     @extend %spinner;
+//   }
+// }
+
+// .loader_data {
+//   position: absolute;
+//   backdrop-filter: blur(10px);
+//   opacity: 0;
+//   visibility: hidden;
+//   transition: getTansition(main);
+//   top: 0px;
+//   left: 0px;
+//   right: 0px;
+//   bottom: 0px;
+//   z-index: 10;
+//   &__spinner {
+//     @extend %center-position;
+//     @extend %spinner;
+//     animation: spin-center getTransition(spin);
+//   }
+//   &__active {
+//     opacity: 1;
+//     visibility: visible;
+//   }
+// }
+
+// @keyframes spin {
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// }
+
+// @keyframes spin-center {
+//   from {
+//     transform: translate(-50%, -50%) rotate(0deg);
+//   }
+//   to {
+//     transform: translate(-50%, -50%) rotate(360deg);
+//   }
+// }

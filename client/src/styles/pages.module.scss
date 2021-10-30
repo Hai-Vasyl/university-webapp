@@ -124,14 +124,15 @@
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid getColor(main-dark);
-  padding: 20px 25px;
-  min-width: 300px;
+  padding: 18px;
+  width: 320px;
   max-width: 100%;
   background-color: getColor(secondary);
   position: sticky;
   top: 62.6px;
   z-index: 2;
   box-shadow: getShadow(secondary);
+  font-size: 0.85em;
 }
 .link_tile {
   background-color: getColor(secondary);
@@ -188,9 +189,9 @@
     &::before {
       content: "";
       @extend %position-extend;
-      width: 5px;
+      width: 4px;
       position: absolute;
-      left: -25px;
+      left: -18px;
       right: auto;
       background-color: getColor(accent);
       z-index: 2;
@@ -438,7 +439,6 @@
       z-index: -1;
       transition: getTransition(main);
       background-color: getColor(accent-main);
-      transform: skew(30deg);
     }
     &:hover {
       &::before {

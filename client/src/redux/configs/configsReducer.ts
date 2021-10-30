@@ -9,7 +9,7 @@ interface ILanguagePack {
 }
 
 interface IInitState {
-  lang: Languages;
+  lang: any;
   current: ILanguagePack;
   uk: ILanguagePack;
   en: ILanguagePack;
@@ -21,11 +21,11 @@ const defaultLaguagePack = {
     "/about": "Про Інститут",
     "/team": "Команда",
     "/graduates": "Випускники",
-    "/discover": "Шукати",
+    "/discover": "Пошук",
     "/news": "Усі Новини",
     "/events": "Усі Події",
     "/entrant": "Вступнику",
-    "/gallery": "Галарея",
+    "/gallery": "Галерея",
     "/projects": "Проекти",
     "/management": "Управління",
     "/schedule": "Розклад Занять",
@@ -37,7 +37,7 @@ const defaultLaguagePack = {
 };
 
 const initState: IInitState = {
-  lang: Languages["uk"],
+  lang: "uk",
   current: defaultLaguagePack,
   uk: defaultLaguagePack,
   en: {

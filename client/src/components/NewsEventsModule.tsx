@@ -1,19 +1,19 @@
-import React from "react"
-import NewsEvent from "./NewsEvent"
-import Loader from "./Loader"
-import { INewsEventSlider } from "../interfaces"
+import React from "react";
+import NewsEvent from "./NewsEvent";
+import Loader from "./Loader";
+import { INewsEventSlider } from "../interfaces";
 // @ts-ignore
-import styles from "../styles/pages.module"
-import { Link, useHistory } from "react-router-dom"
+import styles from "../styles/pages.module";
+import { Link, useHistory } from "react-router-dom";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
-import Button from "./Button"
-import DesignLayout_2 from "./DesignLayout_2"
+import stylesBtn from "../styles/button.module";
+import Button from "./Button";
+import DesignLayout_2 from "./DesignLayout_2";
 
 interface INewsEventsModuleProps {
-  loading: boolean
-  isNews?: boolean
-  items: INewsEventSlider[]
+  loading: boolean;
+  isNews?: boolean;
+  items: INewsEventSlider[];
 }
 
 const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
@@ -21,41 +21,41 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
   loading,
   items,
 }) => {
-  const history = useHistory()
+  const history = useHistory();
   return (
-    <DesignLayout_2>
-      <div className={styles.module}>
-        <div className='wrapper'>
-          <div>
-            <Link
-              to={isNews ? "/news" : "/events"}
-              className={styles.module__title}
-            >
-              Останні {isNews ? "новини" : "події"}
-            </Link>
+    // <DesignLayout_2>
+    <div className={styles.module}>
+      <div className="wrapper">
+        <div>
+          <Link
+            to={isNews ? "/news" : "/events"}
+            className={styles.module__title}
+          >
+            Останні {isNews ? "новини" : "події"}
+          </Link>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div
+            className={`${styles.page_wrapper} ${styles.page_wrapper__grid_3}`}
+          >
+            {items.map((item: INewsEventSlider) => {
+              return <NewsEvent key={item.id} info={item} isNews={isNews} />;
+            })}
           </div>
-          {loading ? (
-            <Loader />
-          ) : (
-            <div
-              className={`${styles.page_wrapper} ${styles.page_wrapper__grid_3}`}
-            >
-              {items.map((item: INewsEventSlider) => {
-                return <NewsEvent key={item.id} info={item} isNews={isNews} />
-              })}
-            </div>
-          )}
-          <div className={styles.module__more}>
-            <Button
-              exClass={`${stylesBtn.btn_simple} ${styles.module__more_btn}`}
-              click={() => history.push(isNews ? "/news" : "/events")}
-              title={`Більше ${isNews ? "новин" : "подій"}`}
-            />
-          </div>
+        )}
+        <div className={styles.module__more}>
+          <Button
+            exClass={`${stylesBtn.btn_simple} ${styles.module__more_btn}`}
+            click={() => history.push(isNews ? "/news" : "/events")}
+            title={`Більше ${isNews ? "новин" : "подій"}`}
+          />
         </div>
       </div>
-    </DesignLayout_2>
-  )
-}
+    </div>
+    // </DesignLayout_2>
+  );
+};
 
-export default NewsEventsModule
+export default NewsEventsModule;

@@ -1,9 +1,9 @@
-import nodemailer from "nodemailer"
-import { IField } from "../interfaces"
-import { postEmailValid } from "../validation/email"
-import { config } from "dotenv"
-config({ path: "../../../.env" })
-import { types } from "../../modules/messageTypes"
+import nodemailer from "nodemailer";
+import { IField } from "../interfaces";
+import { postEmailValid } from "../validation/email";
+import { config } from "dotenv";
+config({ path: "../../../.env" });
+import { types } from "../../modules/messageTypes";
 
 export const Mutation = {
   async sendEmail(_: any, { firstname, lastname, email, message }: IField) {
@@ -14,7 +14,7 @@ export const Mutation = {
         email: vEmail,
         message: vMessage,
         isError,
-      }: any = await postEmailValid({ firstname, lastname, email, message })
+      }: any = await postEmailValid({ firstname, lastname, email, message });
       if (isError) {
         throw new Error(
           JSON.stringify({
@@ -23,7 +23,7 @@ export const Mutation = {
             email: vEmail,
             message: vMessage,
           })
-        )
+        );
       }
 
       const output = `
@@ -34,7 +34,7 @@ export const Mutation = {
           <li>Електронна пошта: ${email}</li>
         </ul>
         <h4>Повідомлення:</h4>
-        <p>${message}</p>`
+        <p>${message}</p>`;
 
       let transporter = nodemailer.createTransport({
         service: "gmail",
@@ -45,7 +45,7 @@ export const Mutation = {
         tls: {
           rejectUnauthorized: false,
         },
-      })
+      });
 
       const response: any = await transporter.sendMail({
         from: process.env.EMAIL_FROM,
@@ -53,20 +53,20 @@ export const Mutation = {
         subject: "Нове повідомлення",
         text: "Нове повідомлення",
         html: output,
-      })
+      });
 
       if (response.error) {
         return {
           message: "Помилка надсилання повідомлення!",
           type: types.error.keyWord,
-        }
+        };
       }
       return {
         message: "Повідомлення було успішно надіслано",
         type: types.success.keyWord,
-      }
-    } catch (error) {
-      throw new Error(error.message)
+      };
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   },
-}
+};

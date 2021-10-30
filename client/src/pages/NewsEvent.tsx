@@ -1,37 +1,38 @@
-import React, { useEffect, useRef } from "react"
-import { GET_NEWS_EVENT, GET_CONTENT_IMAGES } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import { useParams, useLocation } from "react-router-dom"
+import React, { useEffect, useRef } from "react";
+import { GET_NEWS_EVENT, GET_CONTENT_IMAGES } from "../fetching/queries";
+import { useQuery } from "@apollo/client";
+import { useParams, useLocation } from "react-router-dom";
 // @ts-ignore
-import styles from "../styles/newsevents.module"
-import { getParamsByType, types } from "../modules/uploadTypes"
-import Carousel from "../components/Carousel"
-import { Link, useHistory } from "react-router-dom"
-import { getNewsParamsByKey } from "../modules/newsCategories"
-import Loader from "../components/Loader"
-import UserCard from "../components/UserCard"
-import { RiExternalLinkLine } from "react-icons/ri"
-import NewsEventsModule from "../components/NewsEventsModule"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
-import { access } from "../modules/accessModifiers"
-import ButtonTab from "../components/ButtonTab"
-import { BsPencilSquare } from "react-icons/bs"
-import { convertContent } from "../helpers/convertContentEditor"
-import ImageSlide from "../components/ImageSlide"
-import { IImageSlide, INewsEventSlider } from "../interfaces"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import FooterModule from "../components/FooterModule"
+import styles from "../styles/newsevents.module";
+import { getParamsByType, types } from "../modules/uploadTypes";
+import Carousel from "../components/Carousel";
+import { Link, useHistory } from "react-router-dom";
+import { getNewsParamsByKey } from "../modules/newsCategories";
+import Loader from "../components/Loader";
+import UserCard from "../components/UserCard";
+import { RiExternalLinkLine } from "react-icons/ri";
+import NewsEventsModule from "../components/NewsEventsModule";
+import { useSelector } from "react-redux";
+import { RootStore } from "../redux/store";
+import { access } from "../modules/accessModifiers";
+import ButtonTab from "../components/ButtonTab";
+import { BsPencilSquare } from "react-icons/bs";
+import { convertContent } from "../helpers/convertContentEditor";
+import ImageSlide from "../components/ImageSlide";
+import { IImageSlide, INewsEventSlider } from "../interfaces";
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import FooterModule from "../components/FooterModule";
 
 const NewsEvent: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
-  const { contentId }: any = useParams()
-  const { pathname } = useLocation()
-  const isNews = pathname.split("/")[1] === "news"
+  const anchor = useRef<HTMLDivElement>(null);
+  const { contentId }: any = useParams();
+  const { pathname } = useLocation();
+  const isNews = pathname.split("/")[1] === "news";
   const {
-    auth: { user },
-  } = useSelector((state: RootStore) => state)
-  const history = useHistory()
+    auth: { user, token },
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
+  const history = useHistory();
 
   const { data: dataNewsEvent, loading: loadNewsEvent } = useQuery(
     GET_NEWS_EVENT,
@@ -39,45 +40,33 @@ const NewsEvent: React.FC = () => {
       variables: {
         contentId,
         type: isNews ? "news" : "event",
+        lang: lang === "uk" ? undefined : lang,
       },
       fetchPolicy: "cache-and-network",
     }
-  )
+  );
   const {
     data: dataImages,
     loading: loadImages,
     refetch: refetchImages,
-  } = useQuery(GET_CONTENT_IMAGES, { variables: { contentId } })
+  } = useQuery(GET_CONTENT_IMAGES, { variables: { contentId } });
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [contentId])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [contentId]);
 
-  const images = dataImages ? dataImages.getContentImages : []
-  const newsevent = dataNewsEvent
-    ? dataNewsEvent.getNewsEvent
-    : {
-        id: "",
-        type: "",
-        category: "",
-        content: "",
-        owner: {
-          id: "",
-        },
-        date: "",
-        links: [],
-        title: "",
-        dateEvent: "",
-      }
-  const newseventParams = getNewsParamsByKey(newsevent.category)
-  const newsEventExtraParams: any = newsevent && getParamsByType(newsevent.type)
-  const content = newsevent && convertContent(newsevent.content)
+  const images = dataImages ? dataImages.getContentImages : [];
+  const newsevent = dataNewsEvent && dataNewsEvent.getNewsEvent;
+  const newseventParams = getNewsParamsByKey(newsevent?.category);
+  const newsEventExtraParams: any =
+    newsevent && getParamsByType(newsevent.type);
+  const content = newsevent && convertContent(newsevent.content);
 
   const isOwnerContent =
-    user.role === access.admin.keyWord || user?.id === newsevent.owner?.id
+    user.role === access.admin.keyWord || user?.id === newsevent?.owner?.id;
 
   return (
-    <div className='container'>
+    <div className="container">
       <div ref={anchor}></div>
       <div
         className={`${styles.newsevent__carousel} ${
@@ -88,7 +77,7 @@ const NewsEvent: React.FC = () => {
           slides={images}
           load={loadImages}
           isOwnerContent={isOwnerContent}
-          content={newsevent.id}
+          content={newsevent?.id}
           type={isNews ? types.news.keyWord : types.event.keyWord}
           onEdit={refetchImages}
           onRemove={refetchImages}
@@ -103,16 +92,16 @@ const NewsEvent: React.FC = () => {
                   index={index}
                   params={params}
                 />
-              )
+              );
             })
           }
         </Carousel>
       </div>
       {loadNewsEvent ? (
         <Loader />
-      ) : (
+      ) : newsevent && Object.keys(newsevent)?.length ? (
         <>
-          <div className='wrapper'>
+          <div className="wrapper">
             <div className={styles.newsevent__categoty_wrapper}>
               <Link
                 className={styles.newsevent__category}
@@ -121,15 +110,17 @@ const NewsEvent: React.FC = () => {
                 <RiExternalLinkLine className={styles.newsevent__icon_link} />
                 <span>{newseventParams?.title}</span>
               </Link>
-              <ButtonTab
-                exClass={styles.newsevent__btn_edit}
-                click={() =>
-                  history.push(
-                    `${isNews ? "/edit-news/" : "/edit-event/"}${contentId}`
-                  )
-                }
-                Icon={BsPencilSquare}
-              />
+              {token && user?.id && (
+                <ButtonTab
+                  exClass={styles.newsevent__btn_edit}
+                  click={() =>
+                    history.push(
+                      `${isNews ? "/edit-news/" : "/edit-event/"}${contentId}`
+                    )
+                  }
+                  Icon={BsPencilSquare}
+                />
+              )}
             </div>
             <h1 className={styles.newsevent__title}>{newsevent.title}</h1>
             <div className={styles.newsevent__date}>
@@ -157,7 +148,7 @@ const NewsEvent: React.FC = () => {
                       >
                         <span>{link.label}</span>
                       </a>
-                    )
+                    );
                   }
                 )}
             </div>
@@ -180,6 +171,8 @@ const NewsEvent: React.FC = () => {
             </div>
           </div>
         </>
+      ) : (
+        <div className="plug-text">Порожньо</div>
       )}
       <NewsEventsModuleContainer isNews={isNews} exceptId={contentId}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
@@ -188,7 +181,7 @@ const NewsEvent: React.FC = () => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default NewsEvent
+export default NewsEvent;

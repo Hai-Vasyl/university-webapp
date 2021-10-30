@@ -1,4 +1,4 @@
-import { gql } from "apollo-server"
+import { gql } from "apollo-server";
 
 export default gql`
   type Filter {
@@ -116,11 +116,11 @@ export default gql`
   }
 
   type Query {
-    searchContent(search: String, tags: String): SearchContent!
+    searchContent(search: String, tags: String, lang: String): SearchContent!
     getUser(userId: String!): User!
     getAllUsers: [User]!
-    getFilters(url: String!): [Filter]!
-    getAllPageSections(urls: [String]!): [PageSection]!
+    getFilters(url: String!, lang: String): [Filter]!
+    getAllPageSections(urls: [String]!, lang: String): [PageSection]!
     getPageSections(
       search: String
       url: String!
@@ -128,8 +128,9 @@ export default gql`
       from: Int!
       to: Int
       exceptId: ID
+      lang: String
     ): PageSections!
-    getPageSection(sectionId: ID!): PageSection!
+    getPageSection(sectionId: ID!, lang: String): PageSection!
     getNewsEvents(
       search: String
       type: String!
@@ -139,8 +140,9 @@ export default gql`
       from: Int!
       to: Int!
       exceptId: ID
+      lang: String
     ): NewsEvents!
-    getNewsEvent(contentId: ID!, type: String!): NewsEvent!
+    getNewsEvent(contentId: ID!, type: String!, lang: String): NewsEvent!
     getContentImages(contentId: ID!): [UploadFile]!
     login(email: String!, password: String!): Auth
     register(
@@ -179,6 +181,7 @@ export default gql`
       priority: Int!
       filters: [InputFilter]!
       optContent: Boolean
+      lang: String
     ): Msg!
     editPageSection(
       sectionId: ID!
@@ -187,6 +190,7 @@ export default gql`
       priority: Int!
       filters: [InputFilterEdit]!
       optContent: Boolean
+      lang: String
     ): Msg!
     deletePageSection(sectionId: ID!): Msg!
     createNewsEvent(
@@ -196,6 +200,7 @@ export default gql`
       category: String!
       dateEvent: String!
       links: [InputLink]
+      lang: String
     ): String!
     editNewsEvent(
       contentId: ID!
@@ -205,6 +210,7 @@ export default gql`
       category: String!
       dateEvent: String!
       links: [InputLink]
+      lang: String
     ): Msg!
     deleteNewsEvent(contentId: ID!): Msg!
     createUpload(
@@ -224,4 +230,4 @@ export default gql`
     deleteUpload(imageId: ID!): Msg!
     setPageImage(url: String!, image: Upload, deleting: Boolean!): Msg!
   }
-`
+`;

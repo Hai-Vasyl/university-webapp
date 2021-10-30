@@ -1,37 +1,37 @@
-import React from "react"
-import { IImageSlide } from "../interfaces"
+import React from "react";
+import { IImageSlide } from "../interfaces";
 // @ts-ignore
-import styles from "../styles/carousel.module"
-import Loader from "../components/Loader"
+import styles from "../styles/carousel.module";
+import Loader from "../components/Loader";
 import {
   BsArrowLeft,
   BsArrowRight,
   BsPlus,
   BsPencilSquare,
   BsPip,
-} from "react-icons/bs"
-import ButtonTab from "./ButtonTab"
+} from "react-icons/bs";
+import ButtonTab from "./ButtonTab";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
-import { useSelector, useDispatch } from "react-redux"
-import { RootStore } from "../redux/store"
-import { access } from "../modules/accessModifiers"
-import useCarousel from "../hooks/useCarousel"
-import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes"
-import useLightBox from "../hooks/useLightBox"
+import stylesBtn from "../styles/button.module";
+import { useSelector, useDispatch } from "react-redux";
+import { RootStore } from "../redux/store";
+import { access } from "../modules/accessModifiers";
+import useCarousel from "../hooks/useCarousel";
+import { MODIMAGE_OPEN, LIGHTBOX_OPEN } from "../redux/toggle/toggleTypes";
+import useLightBox from "../hooks/useLightBox";
 
 interface ICarouselProps {
-  slides: IImageSlide[]
-  load?: boolean
-  content: string
-  type: string
-  isOwnerContent: boolean
-  onEdit?(): any
-  onRemove?(): any
-  onCreate?(): any
-  exClass?: string
-  children: any
-  noImage?: boolean
+  slides: IImageSlide[];
+  load?: boolean;
+  content: string;
+  type: string;
+  isOwnerContent: boolean;
+  onEdit?(): any;
+  onRemove?(): any;
+  onCreate?(): any;
+  exClass?: string;
+  children: any;
+  noImage?: boolean;
 }
 
 const Carousel: React.FC<ICarouselProps> = ({
@@ -49,18 +49,18 @@ const Carousel: React.FC<ICarouselProps> = ({
 }) => {
   const {
     auth: { user },
-  } = useSelector((state: RootStore) => state)
-  const dispatch = useDispatch()
+  } = useSelector((state: RootStore) => state);
+  const dispatch = useDispatch();
   const { params, handleMoveSlide, handleClickSlide } = useCarousel(
     slides.length
-  )
-  const { getLightBox } = useLightBox()
+  );
+  const { getLightBox } = useLightBox();
 
   const handlePopupEditImage = (
     imageId: string,
     event?: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event && event.stopPropagation()
+    event && event.stopPropagation();
     dispatch({
       type: MODIMAGE_OPEN,
       payload: {
@@ -71,8 +71,8 @@ const Carousel: React.FC<ICarouselProps> = ({
         onRemove,
         onCreate,
       },
-    })
-  }
+    });
+  };
 
   const handlePopupCreateImage = () => {
     dispatch({
@@ -83,12 +83,12 @@ const Carousel: React.FC<ICarouselProps> = ({
         type: type,
         onCreate,
       },
-    })
-  }
+    });
+  };
 
   const handlePopupLightBox = (imageId: string) => {
-    const { getIndexImage, checkMoveAccess, onMove } = getLightBox(slides)
-    const { isLeft, isRight } = checkMoveAccess(getIndexImage(imageId))
+    const { getIndexImage, checkMoveAccess, onMove } = getLightBox(slides);
+    const { isLeft, isRight } = checkMoveAccess(getIndexImage(imageId));
     dispatch({
       type: LIGHTBOX_OPEN,
       payload: {
@@ -98,8 +98,8 @@ const Carousel: React.FC<ICarouselProps> = ({
         isRight,
         handleEditImage: handlePopupEditImage,
       },
-    })
-  }
+    });
+  };
 
   const buttons = slides.map((slide: any, index) => {
     return (
@@ -110,12 +110,12 @@ const Carousel: React.FC<ICarouselProps> = ({
           params.currentItem === index && styles.btn_dot__active
         }`}
       ></button>
-    )
-  })
+    );
+  });
 
   const isImageOwner =
     user.role === access.admin.keyWord ||
-    user.id === slides[params.currentItem]?.owner.id
+    user.id === slides[params.currentItem]?.owner.id;
 
   return (
     <div
@@ -126,7 +126,7 @@ const Carousel: React.FC<ICarouselProps> = ({
       }`}
     >
       {load ? (
-        <Loader center />
+        <Loader />
       ) : (
         <>
           {!!slides.length && (
@@ -206,7 +206,7 @@ const Carousel: React.FC<ICarouselProps> = ({
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Carousel
+export default Carousel;

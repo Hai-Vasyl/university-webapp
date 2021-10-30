@@ -1,109 +1,116 @@
-import React, { useEffect, useState, useRef } from "react"
-import { RootStore } from "../redux/store"
-import { Link, useHistory, useLocation } from "react-router-dom"
-import { BsSearch, BsCaretRightFill } from "react-icons/bs"
-import { AiOutlineLogout } from "react-icons/ai"
-import { BiUserCircle } from "react-icons/bi"
-import { MdBlurOn, MdBlurOff } from "react-icons/md"
-import { useSelector, useDispatch } from "react-redux"
+import React, { useEffect, useState, useRef } from "react";
+import { RootStore } from "../redux/store";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { BsSearch, BsCaretRightFill } from "react-icons/bs";
+import { AiOutlineLogout } from "react-icons/ai";
+import { BiUserCircle } from "react-icons/bi";
+import { MdBlurOn, MdBlurOff } from "react-icons/md";
+import { useSelector, useDispatch } from "react-redux";
 import {
   AUTHFORM_TOGGLE,
   RESET_TOGGLE,
   NAVBAR_TOGGLE,
   NAVBAR_RESET,
-} from "../redux/toggle/toggleTypes"
+} from "../redux/toggle/toggleTypes";
 // @ts-ignore
-import styles from "../styles/navbar.module"
-import NavigLink from "./NavigLink"
-import NavigQueryLink from "./NavigQueryLink"
+import styles from "../styles/navbar.module";
+import NavigLink from "./NavigLink";
+import NavigQueryLink from "./NavigQueryLink";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
-import { ILink } from "../interfaces"
-import UserAva from "./UserAva"
-import { RESET_AUTH } from "../redux/auth/authTypes"
-import {CHANGE_LANGUAGE_CONFIG} from "../redux/configs/configsTypes"
-import ButtonTab from "./ButtonTab"
-import ButtonPicker from "./ButtonPicker"
-import useRoutes from "../hooks/useRoutes"
+import stylesBtn from "../styles/button.module";
+import { ILink } from "../interfaces";
+import UserAva from "./UserAva";
+import { RESET_AUTH } from "../redux/auth/authTypes";
+import {
+  CHANGE_LANGUAGE_CONFIG,
+  Languages,
+} from "../redux/configs/configsTypes";
+import ButtonTab from "./ButtonTab";
+import ButtonPicker from "./ButtonPicker";
+import useRoutes from "../hooks/useRoutes";
 
 const Navbar: React.FC = () => {
-  const history = useHistory()
-  const location = useLocation()
+  const history = useHistory();
+  const location = useLocation();
 
   const {
     auth: { user, token },
     toggle: { authForm, navbar },
-    configs: {lang}
-  } = useSelector((state: RootStore) => state)
+    configs: { lang },
+  } = useSelector((state: RootStore) => state);
 
-  const [blur, setBlur] = useState(false)
-  const [search, setSearch] = useState("")
-  const [changeNav, setChangeNav] = useState(false)
-  const dispatch = useDispatch()
+  const [blur, setBlur] = useState(true);
+  const [search, setSearch] = useState("");
+  const [changeNav, setChangeNav] = useState(false);
+  const dispatch = useDispatch();
 
-  const { links, linksResponsive } = useRoutes()
+  const { links, linksResponsive } = useRoutes();
 
   const optionsLanguage = [
-    {label: "EN", value: "en"},
-    {label: "UK", value: "uk"},
-  ]
+    { label: "EN", value: "en" },
+    { label: "UK", value: "uk" },
+  ];
 
   useEffect(() => {
-    const toggleBlur = JSON.parse(localStorage.getItem("blur") || "{}")
-    const blurValue = toggleBlur?.toggle
+    localStorage.setItem("lang", lang);
+  }, [lang]);
+
+  useEffect(() => {
+    const toggleBlur = JSON.parse(localStorage.getItem("blur") || "{}");
+    const blurValue = toggleBlur?.toggle;
 
     if (toggleBlur && typeof blurValue === "boolean") {
-      setBlur(blurValue)
+      setBlur(blurValue);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("blur", JSON.stringify({ toggle: blur }))
-  }, [blur])
+    localStorage.setItem("blur", JSON.stringify({ toggle: blur }));
+  }, [blur]);
 
   useEffect(() => {
-    window.addEventListener("scroll", changeNavbar)
+    window.addEventListener("scroll", changeNavbar);
     return () => {
-      window.removeEventListener("scroll", changeNavbar)
-    }
-  })
+      window.removeEventListener("scroll", changeNavbar);
+    };
+  });
 
   useEffect(() => {
-    dispatch({ type: NAVBAR_RESET })
-  }, [changeNav, dispatch])
+    dispatch({ type: NAVBAR_RESET });
+  }, [changeNav, dispatch]);
 
   const changeNavbar = () => {
     if (window.scrollY > 80) {
-      setChangeNav(true)
+      setChangeNav(true);
     } else {
-      setChangeNav(false)
+      setChangeNav(false);
     }
-  }
+  };
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value)
-  }
+    setSearch(event.target.value);
+  };
 
   const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (search.trim()) {
-      history.push(`/discover?tags=all&search=${search}`)
+      history.push(`/discover?tags=all&search=${search}`);
     }
-  }
+  };
 
   const handleLogout = () => {
-    dispatch({ type: RESET_TOGGLE })
-    dispatch({ type: RESET_AUTH })
-  }
+    dispatch({ type: RESET_TOGGLE });
+    dispatch({ type: RESET_AUTH });
+  };
 
   const handleClickLink = () => {
-    dispatch({ type: RESET_TOGGLE })
-  }
+    dispatch({ type: RESET_TOGGLE });
+  };
 
-  const handleChangeLanguage = ({target}: any) => {
-    dispatch({type: CHANGE_LANGUAGE_CONFIG, payload: target.value})
-  }
+  const handleChangeLanguage = ({ target }: any) => {
+    dispatch({ type: CHANGE_LANGUAGE_CONFIG, payload: target.value });
+  };
 
   const reduceMapLins = (links: ILink[]) => {
     return links.map(({ to, exact, title, extraLinks }) => {
@@ -130,17 +137,17 @@ const Navbar: React.FC = () => {
                     dropdown
                     to={link.to || ""}
                   />
-                )
+                );
               })}
             </div>
           </div>
-        )
+        );
       }
       return (
         <NavigLink key={title} title={title} exact={!!exact} to={to || ""} />
-      )
-    })
-  }
+      );
+    });
+  };
 
   const linksResp = linksResponsive.map((link: ILink) => {
     return (
@@ -151,8 +158,8 @@ const Navbar: React.FC = () => {
         dropdown
         to={link.to || ""}
       />
-    )
-  })
+    );
+  });
 
   return (
     <div className={`${styles.menu} ${changeNav && styles.menu__reduce}`}>
@@ -161,18 +168,18 @@ const Navbar: React.FC = () => {
         <div className={styles.nav__actions_wrapper}>
           <div className={styles.nav__actions}>
             <Link
-              to='/'
+              to="/"
               className={styles.nav__logo}
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <img
-                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg'
+                src="https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg"
                 className={styles.nav__logo_img}
-                alt='logotype'
+                alt="logotype"
               />
             </Link>
             <div className={styles.nav__title}>
-              <Link to='/' onClick={() => dispatch({ type: RESET_TOGGLE })}>
+              <Link to="/" onClick={() => dispatch({ type: RESET_TOGGLE })}>
                 Інститут Підприємництва
                 <br />
                 та Перспективних технологій
@@ -190,15 +197,20 @@ const Navbar: React.FC = () => {
             />
             <form onSubmit={handleSubmitSearch} className={styles.search}>
               <input
-                type='text'
+                type="text"
                 value={search}
                 className={styles.search__input}
-                placeholder='Пошук'
+                placeholder="Пошук"
                 onChange={handleChangeSearch}
               />
               <BsSearch className={styles.search__button} />
             </form>
-            <ButtonPicker field={lang} options={optionsLanguage} change={handleChangeLanguage} />
+            <ButtonPicker
+              field={lang}
+              options={optionsLanguage}
+              change={handleChangeLanguage}
+              exClass={`${stylesBtn.btn_tab_glass} ${stylesBtn.btn_option}`}
+            />
           </div>
         </div>
         <div className={styles.nav__border_second}>
@@ -212,16 +224,16 @@ const Navbar: React.FC = () => {
         <div className={styles.nav__wrapper_menu}>
           <div className={styles.nav__menu}>
             <Link
-              to='/'
+              to="/"
               className={`${styles.nav__logo_mini} ${
                 changeNav && styles.nav__logo_mini__active
               }`}
               onClick={() => dispatch({ type: RESET_TOGGLE })}
             >
               <img
-                src='https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg'
+                src="https://university-upload-bucket.s3.eu-central-1.amazonaws.com/logo.svg"
                 className={styles.nav__logo_mini_img}
-                alt='logotype'
+                alt="logotype"
               />
             </Link>
             <div className={styles.nav__links}>{reduceMapLins(links)}</div>
@@ -255,7 +267,7 @@ const Navbar: React.FC = () => {
                 >
                   <NavigLink
                     to={`/profile/${user.id}`}
-                    title='Мій кабінет'
+                    title="Мій кабінет"
                     dropdown
                     Icon={BiUserCircle}
                   />
@@ -302,7 +314,7 @@ const Navbar: React.FC = () => {
         <div className={styles.respns_menu__container}>{linksResp}</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -63,15 +63,14 @@ $shadows: (
 
 $fonts: (
   main: (
-    "Nunito",
+    "Open Sans",
     sans-serif,
   ),
   second: (
-    "Marck Script",
-    cursive,
+    "Open Sans",
   ),
   third: (
-    "Cormorant",
+    "Arial Black",
     serif,
   ),
 );
@@ -159,17 +158,16 @@ $gradients: (
   position: fixed;
   top: 50%;
   left: 50%;
-  // box-shadow: getShadow(main);
+  z-index: 11;
   transition: getTransition(main);
+  transform: translate(-50%, -50%) scale(0.9);
   opacity: 0;
   visibility: hidden;
-  transform: translate(-50%, -50%) scale(0.9);
-  z-index: 11;
 }
 %popup-fade-in {
   opacity: 1;
-  visibility: visible;
   transform: translate(-50%, -50%) scale(1);
+  visibility: visible;
 }
 %background-accent {
   background-image: repeating-linear-gradient(
@@ -185,7 +183,7 @@ $gradients: (
     ),
     repeating-linear-gradient(
       45deg,
-      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(313, 84%, 64%, 0.05) 0px,
       hsla(210, 79%, 75%, 0.05) 1px,
       transparent 1px,
       transparent 11px,
@@ -196,7 +194,7 @@ $gradients: (
     ),
     repeating-linear-gradient(
       45deg,
-      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(147, 68%, 40%, 0.05) 0px,
       hsla(210, 79%, 75%, 0.05) 1px,
       transparent 1px,
       transparent 11px,
@@ -207,7 +205,7 @@ $gradients: (
     ),
     repeating-linear-gradient(
       -45deg,
-      hsla(210, 79%, 75%, 0.05) 0px,
+      hsla(44, 79%, 46%, 0.05) 0px,
       hsla(210, 79%, 75%, 0.05) 1px,
       transparent 1px,
       transparent 11px,
@@ -216,7 +214,7 @@ $gradients: (
       transparent 12px,
       transparent 32px
     ),
-    linear-gradient(-170deg, rgb(83, 220, 200), rgb(58, 78, 174));
+    linear-gradient(-170deg, rgb(60, 192, 137), rgb(43, 61, 148));
 }
 %link-reset {
   text-decoration: none;

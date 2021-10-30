@@ -13,14 +13,15 @@
 }
 
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: getFont(main);
   background-color: getColor(main);
-  font-size: 1.02em;
+  font-size: 1em;
   color: getColor(font);
 }
 
 button,
-input {
+input,
+select {
   border: none;
   font-size: inherit;
   font-family: inherit;
@@ -71,16 +72,17 @@ blockquote {
 
 .i {
   width: 100%;
-  &_l, &_r{
+  &_l,
+  &_r {
     margin: 10px;
     width: 30%;
     min-width: 150px;
   }
-  &_l{
+  &_l {
     float: left;
     margin-left: 0px;
   }
-  &_r{
+  &_r {
     float: right;
     margin-right: 0px;
   }
@@ -211,17 +213,7 @@ blockquote {
   font-size: 2em;
   position: relative;
   font-family: getFont(third);
-  &::before {
-    content: "";
-    width: 60px;
-    height: 5px;
-    display: block;
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    z-index: 1;
-    background-color: getColor(main-dark);
-  }
+  line-height: 50px;
 }
 
 figure {
@@ -266,6 +258,7 @@ thead th {
   padding: 10px;
   background-color: getColor(bg-light);
   font-family: getFont(third);
+  font-size: 0.7em;
 }
 
 .Papercups-chatWindowContainer.css-um7ixe {

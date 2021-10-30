@@ -39,9 +39,6 @@
     &:focus {
       border-color: getColor(accent);
     }
-    &_password {
-      padding-right: 44px;
-    }
     &__error {
       border-color: getColor(danger);
     }

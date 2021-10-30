@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose"
+import { Schema, model, Types } from "mongoose";
 
 const schema = new Schema({
   title: { type: String, required: true },
@@ -19,6 +19,7 @@ const schema = new Schema({
     required: true,
   },
   dateEvent: { type: String, required: true },
-})
+  lang: { type: String, default: "uk" },
+});
 
-export default model("NewsEvent", schema)
+export default model("NewsEvent", schema);

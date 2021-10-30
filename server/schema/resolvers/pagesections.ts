@@ -1,111 +1,120 @@
-import { PageSection, Page, Filter, Upload, NewsEvent } from "../models"
-import { IField, IIsAuth, IPageSection } from "../interfaces"
-import { types } from "../../modules/messageTypes"
-import { createEditValid } from "../validation/pageSections"
-import { deleteFile } from "../helpers/upload"
-import { config } from "dotenv"
-config()
-const { UPLOADS = "" } = process.env
+import { PageSection, Page, Filter, Upload, NewsEvent } from "../models";
+import { IField, IIsAuth, IPageSection } from "../interfaces";
+import { types } from "../../modules/messageTypes";
+import { createEditValid } from "../validation/pageSections";
+import { deleteFile } from "../helpers/upload";
+import { config } from "dotenv";
+config();
+const { UPLOADS = "" } = process.env;
 
 export const Query = {
-  async getAllPageSections(_: any, { urls }: IField) {
+  async getAllPageSections(_: any, { urls, lang }: IField) {
     try {
-      const pageSections = await PageSection.find({ url: { $in: urls } }).sort({priority: -1})
+      const pageSections = await PageSection.find({
+        url: { $in: urls },
+        lang,
+      }).sort({
+        priority: -1,
+      });
 
-      return pageSections
-    } catch (error) {
-      throw new Error(`Getting all page sections error: ${error.message}`)
+      return pageSections;
+    } catch (error: any) {
+      throw new Error(`Getting all page sections error: ${error.message}`);
     }
   },
   async getPageSections(
     _: any,
-    { search, url, filters, from, to, exceptId }: IField
+    { search, url, filters, from, to, exceptId, lang }: IField
   ) {
     try {
-      const searchQuery = search && { $text: { $search: search } }
-      let collection: any = []
-      let quantity = 0
+      const searchQuery = search && { $text: { $search: search } };
+      let collection: any = [];
+      let quantity = 0;
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
           const sections: any = await PageSection.find({
             url,
+            lang,
             ...searchQuery,
           }).populate({
             path: "filters",
             match: { keyWord: filters[i].keyWord, value: filters[i].value },
-          })
+          });
 
-          let colectionTemp: IPageSection[] = []
+          let colectionTemp: IPageSection[] = [];
           sections.forEach((item: any) => {
             if (item.filters.length) {
-              colectionTemp.push(item)
+              colectionTemp.push(item);
             }
-          })
+          });
           if (i === 0) {
-            collection = colectionTemp
+            collection = colectionTemp;
           } else {
-            let collectionNew = []
+            let collectionNew = [];
             for (let i = 0; i < collection.length; i++) {
               for (let j = 0; j < colectionTemp.length; j++) {
                 if (
                   String(collection[i]._id) === String(colectionTemp[j]._id)
                 ) {
-                  collectionNew.push(collection[i])
+                  collectionNew.push(collection[i]);
                 }
               }
             }
-            collection = collectionNew
+            collection = collectionNew;
           }
         }
-        let collectionNew: IPageSection[] = []
+        let collectionNew: IPageSection[] = [];
         collection.forEach((item: IPageSection, index: number) => {
           if (from <= index && index < from + to) {
-            collectionNew.push(item)
+            collectionNew.push(item);
           }
-        })
-        quantity = collection.length
+        });
+        quantity = collection.length;
         const sections = await PageSection.find({
           _id: { $in: collectionNew.map((item) => item._id) },
-        }).populate({ path: "filters" })
-        collection = sections
+          lang,
+        }).populate({ path: "filters" });
+        collection = sections;
       } else {
         const sections: any = await PageSection.find({
           _id: exceptId ? { $ne: exceptId } : { $exists: true },
           ...searchQuery,
           url,
+          lang,
         })
           .populate({ path: "filters" })
           .sort({
             priority: 1,
           })
           .skip(from)
-          .limit(to)
+          .limit(to);
         quantity = await PageSection.find({
           ...searchQuery,
           url,
-        }).countDocuments()
-        collection = sections
+          lang,
+        }).countDocuments();
+        collection = sections;
       }
 
       return {
         items: collection,
         quantity,
-      }
-    } catch (error) {
-      throw new Error(`Getting page sections error: ${error.message}`)
+      };
+    } catch (error: any) {
+      throw new Error(`Getting page sections error: ${error.message}`);
     }
   },
-  async searchContent(_: any, { search, tags }: IField) {
+  async searchContent(_: any, { search, tags, lang }: IField) {
     try {
-      const searchQuery = search && { $text: { $search: search } }
-      const keyWords = tags.split(" ")
+      const searchQuery = search && { $text: { $search: search } };
+      const keyWords = tags.split(" ");
 
       const collection: any = {
         images: [],
         news: [],
         events: [],
         other: [],
-      }
+      };
       if (!!keyWords.includes("images") || !tags.length) {
         const uploads = await Upload.find({
           ...searchQuery,
@@ -113,66 +122,77 @@ export const Query = {
           format: "image",
         })
           .sort({ date: -1 })
-          .limit(4)
-        collection.images = uploads
+          .limit(4);
+        collection.images = uploads;
       }
       if (!!keyWords.includes("news") || !tags.length) {
-        const news = await NewsEvent.find({ ...searchQuery, type: "news" })
+        const news = await NewsEvent.find({
+          ...searchQuery,
+          type: "news",
+          lang,
+        })
           .sort({ date: -1 })
-          .limit(4)
-        collection.news = news
+          .limit(4);
+        collection.news = news;
       }
       if (!!keyWords.includes("events") || !tags.length) {
-        const events = await NewsEvent.find({ ...searchQuery, type: "event" })
+        const events = await NewsEvent.find({
+          ...searchQuery,
+          type: "event",
+          lang,
+        })
           .sort({ date: -1 })
-          .limit(4)
-        collection.events = events
+          .limit(4);
+        collection.events = events;
       }
       if (!!keyWords.includes("other") || !tags.length) {
-        let sections
-        let pagesection = PageSection.find({ ...searchQuery }).sort({
+        let sections;
+        let pagesection = PageSection.find({ ...searchQuery, lang }).sort({
           date: -1,
-        })
+        });
 
         if (!tags.length && !search.length) {
-          sections = await pagesection.limit(10)
+          sections = await pagesection.limit(10);
         } else {
           if (!search.length) {
-            sections = await pagesection.limit(10)
+            sections = await pagesection.limit(10);
           } else {
-            sections = await pagesection
+            sections = await pagesection;
           }
         }
 
-        collection.other = sections
+        collection.other = sections;
       }
 
-      return collection
-    } catch (error) {
-      throw new Error(`Getting searched content error: ${error.message}`)
+      return collection;
+    } catch (error: any) {
+      throw new Error(`Getting searched content error: ${error.message}`);
     }
   },
-  async getPageSection(_: any, { sectionId }: IField) {
+  async getPageSection(_: any, { sectionId, lang }: IField) {
     try {
-      const section = await PageSection.findById(sectionId).populate({
+      const section = await PageSection.findOne({
+        _id: sectionId,
+        lang,
+      }).populate({
         path: "filters",
-      })
-      return section
-    } catch (error) {
-      throw new Error(`Getting page section error: ${error.message}`)
+      });
+      return section;
+    } catch (error: any) {
+      throw new Error(`Getting page section error: ${error.message}`);
     }
   },
-}
+};
 
 export const Mutation = {
   async createPageSection(
     _: any,
-    { title, content, priority, url, filters, optContent }: IField,
+    { title, content, priority, url, filters, optContent, lang }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
       if (!isAuth.auth) {
-        throw new Error("Access denied!")
+        throw new Error("Access denied!");
       }
 
       const {
@@ -186,15 +206,15 @@ export const Mutation = {
         content: optContent ? undefined : content,
         priority,
         url,
-      })
-      let errors: any = {}
+      });
+      let errors: any = {};
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
           if (!filters[i].value) {
             errors[filters[i].keyWord] = {
               value: filters[i].value,
               msg: ["Це поле не може бути порожнім!"],
-            }
+            };
           }
         }
       }
@@ -207,19 +227,19 @@ export const Mutation = {
             url: vUrl,
             ...errors,
           })
-        )
+        );
       }
 
-      const page: any = await Page.findOne({ url })
-      let savedPage: any
+      const page: any = await Page.findOne({ url });
+      let savedPage: any;
       if (!page) {
         const newPage = new Page({
           url,
           date: new Date(),
-        })
-        savedPage = await newPage.save()
+        });
+        savedPage = await newPage.save();
       }
-      let pageCollection = page || savedPage
+      let pageCollection = page || savedPage;
 
       const newSection = new PageSection({
         page: pageCollection._id,
@@ -229,8 +249,9 @@ export const Mutation = {
         priority,
         owner: isAuth.userId,
         date: new Date(),
-      })
-      const section: any = await newSection.save()
+        lang,
+      });
+      const section: any = await newSection.save();
 
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
@@ -241,29 +262,30 @@ export const Mutation = {
             keyWord: filters[i].keyWord,
             value: filters[i].value,
             date: new Date(),
-          })
-          const newFilter = await filter.save()
-          section.filters.push(newFilter._id)
+            lang,
+          });
+          const newFilter = await filter.save();
+          section.filters.push(newFilter._id);
         }
-        await section.save()
+        await section.save();
       }
 
       return {
         message: "Розділ створено успішно!",
         type: types.success.keyWord,
-      }
-    } catch (error) {
-      throw new Error(error.message)
+      };
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   },
   async editPageSection(
     _: any,
-    { sectionId, title, content, priority, filters, optContent }: IField,
+    { sectionId, title, content, priority, filters, optContent, lang }: IField,
     { isAuth }: { isAuth: IIsAuth }
   ) {
     try {
       if (!isAuth.auth) {
-        throw new Error("Access denied!")
+        throw new Error("Access denied!");
       }
 
       const {
@@ -275,15 +297,15 @@ export const Mutation = {
         title,
         content: optContent ? undefined : content,
         priority,
-      })
-      let errors: any = {}
+      });
+      let errors: any = {};
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
           if (!filters[i].value) {
             errors[filters[i].keyWord] = {
               value: filters[i].value,
               msg: ["Це поле не може бути порожнім!"],
-            }
+            };
           }
         }
       }
@@ -295,7 +317,7 @@ export const Mutation = {
             priority: vPriority,
             ...errors,
           })
-        )
+        );
       }
 
       await PageSection.findByIdAndUpdate(sectionId, {
@@ -303,21 +325,23 @@ export const Mutation = {
         content,
         priority,
         date: new Date(),
-      })
+        lang,
+      });
       if (filters.length) {
         for (let i = 0; i < filters.length; i++) {
           await Filter.findByIdAndUpdate(filters[i].filterId, {
             value: filters[i].value,
-          })
+            lang,
+          });
         }
       }
 
       return {
         message: "Розділ оновлено успішно!",
         type: types.success.keyWord,
-      }
-    } catch (error) {
-      throw new Error(error.message)
+      };
+    } catch (error: any) {
+      throw new Error(error.message);
     }
   },
   async deletePageSection(
@@ -327,26 +351,26 @@ export const Mutation = {
   ) {
     try {
       if (!isAuth.auth) {
-        throw new Error("Access denied!")
+        throw new Error("Access denied!");
       }
 
-      const uploads: any = await Upload.find({ content: sectionId })
+      const uploads: any = await Upload.find({ content: sectionId });
       if (uploads.length) {
         for (let i = 0; i < uploads.length; i++) {
-          await deleteFile(uploads[i].location, UPLOADS)
+          await deleteFile(uploads[i].location, UPLOADS);
         }
-        await Upload.deleteMany({ content: sectionId })
+        await Upload.deleteMany({ content: sectionId });
       }
 
-      await Filter.deleteMany({ section: sectionId })
-      await PageSection.findByIdAndDelete(sectionId)
+      await Filter.deleteMany({ section: sectionId });
+      await PageSection.findByIdAndDelete(sectionId);
 
       return {
         message: "Розділ видалено успішно!",
         type: types.success.keyWord,
-      }
-    } catch (error) {
-      throw new Error(`Deleting page section error: ${error.message}`)
+      };
+    } catch (error: any) {
+      throw new Error(`Deleting page section error: ${error.message}`);
     }
   },
-}
+};
