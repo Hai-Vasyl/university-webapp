@@ -18,7 +18,6 @@ import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import ContactsModule from "../components/ContactsModule";
 import UsefulLinksModule from "../components/UsefulLinksModule";
 import FooterModule from "../components/FooterModule";
-import DesignLayout_1 from "../components/DesignLayout_1";
 
 const Home: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -66,6 +65,7 @@ const Home: React.FC = () => {
           content=""
           type=""
           noImage
+          exClass="carousel__wide"
         >
           {(params: any) =>
             news.map((item: INewsEventSlider, index: number) => {
@@ -81,9 +81,7 @@ const Home: React.FC = () => {
           }
         </Carousel>
       </div>
-      {/* <DesignLayout_1> */}
       <AboutModule />
-      {/* </DesignLayout_1> */}
       <GalleryModule />
 
       <NewsEventsModuleContainer from={3} isNews={true}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GET_PAGE_SECTIONS } from "../fetching/queries";
 import { useQuery } from "@apollo/client";
 import Title from "./Title";
@@ -18,7 +18,6 @@ import SectionAbout from "./SectionAbout";
 import SideNavbar from "./SideNavbar";
 import NewsEventsModuleContainer from "./NewsEventsModuleContainer";
 import FooterModule from "./FooterModule";
-// import DesignLayout_1 from "./DesignLayout_1";
 
 interface ILayoutTabsProps {
   imgsPrivate?: boolean;
@@ -31,11 +30,8 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 }) => {
   const { pathname, search } = useLocation();
   const params = new URLSearchParams(search);
-  const section = params.get("section");
+  const sectionId = params.get("section") || "";
   const isAboutUrl = pathname === "/about";
-
-  const [activeSection, setActiveSection] = useState("");
-  // const anchor = useRef<HTMLDivElement>(null);
 
   const {
     auth: { user },
@@ -57,25 +53,6 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   const [toggleCreate, setToggleCreate] = useState(false);
 
-  // useEffect(() => {
-  //   anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  // }, [activeSection]);
-
-  useEffect(() => {
-    const data = dataSections && dataSections.getPageSections;
-    if (data && data.items.length) {
-      if (!section) {
-        let indexSection = 0;
-        if (isAboutUrl) {
-          indexSection = 1;
-        }
-        setActiveSection(data.items[indexSection].id);
-      } else {
-        setActiveSection(section);
-      }
-    }
-  }, [dataSections, section, isAboutUrl]);
-
   const handleRefetchAll = () => {
     refetchSections();
   };
@@ -93,11 +70,11 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   const sectionsJSX =
     sections &&
-    sections.map((section: IPageSection) => {
+    sections.map((section: IPageSection, index: number) => {
       return (
         <div
           className={
-            activeSection === section.id
+            sectionId === section.id || (!sectionId && index === 0)
               ? styles.section__active
               : styles.section__close
           }
@@ -125,19 +102,16 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   return (
     <div className="container">
-      {/* <div ref={anchor}></div> */}
       <Title title={title} />
       <NavbarPage
         sectionLinks={links}
-        setActiveSection={setActiveSection}
-        activeSection={activeSection}
+        activeSection={sectionId || sections[0]?.id}
         onCreate={() => setToggleCreate((prev) => !prev)}
         toggle={toggleCreate}
       />
       {user.role === access.admin.keyWord && toggleCreate && (
         <ModSectionForm onCreate={handleCreate} isOptContent />
       )}
-      {/* <DesignLayout_1> */}
       <div className="wrapper">
         {loadSections ? (
           <Loader />
@@ -146,8 +120,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
             {links.length > 1 && (
               <SideNavbar
                 links={links}
-                active={activeSection}
-                setActive={setActiveSection}
+                active={sectionId || sections[0]?.id}
                 exClass={styles.page_wrapper_flex__sidebar}
               />
             )}
@@ -159,7 +132,6 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
           <div className="plug-text">Порожньо</div>
         )}
       </div>
-      {/* </DesignLayout_1> */}
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />

@@ -207,6 +207,9 @@ blockquote {
   height: 100vh;
   overflow: hidden;
   transition: getTransition(main);
+  &__wide {
+    min-height: 800px;
+  }
 }
 
 .title-second {
@@ -264,4 +267,11 @@ thead th {
 .Papercups-chatWindowContainer.css-um7ixe {
   top: auto;
   bottom: 80px;
+}
+
+@media (max-width: 600px) {
+  .title-second {
+    font-size: 2em !important;
+    line-height: 35px;
+  }
 }

@@ -8,7 +8,6 @@ import { Link, useHistory } from "react-router-dom";
 // @ts-ignore
 import stylesBtn from "../styles/button.module";
 import Button from "./Button";
-import DesignLayout_2 from "./DesignLayout_2";
 
 interface INewsEventsModuleProps {
   loading: boolean;
@@ -23,7 +22,6 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
 }) => {
   const history = useHistory();
   return (
-    // <DesignLayout_2>
     <div className={styles.module}>
       <div className="wrapper">
         <div>
@@ -54,7 +52,6 @@ const NewsEventsModule: React.FC<INewsEventsModuleProps> = ({
         </div>
       </div>
     </div>
-    // </DesignLayout_2>
   );
 };
 

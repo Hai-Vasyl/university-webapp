@@ -11,7 +11,6 @@ import FilterSearch from "../components/FilterSearch";
 import Pagination from "../components/Pagination";
 import Loader from "../components/Loader";
 import NewsEvent from "../components/NewsEvent";
-import DesignLayout_3 from "../components/DesignLayout_3";
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import NewsEventsModule from "../components/NewsEventsModule";
 import FooterModule from "../components/FooterModule";
@@ -205,41 +204,39 @@ const NewsEvents: React.FC = () => {
         isDateError={isDateError}
         setIsDateError={setIsDateError}
       />
-      <DesignLayout_3>
-        <div className="wrapper">
-          {!!quantityItems && (
-            <Pagination
-              getRedirectLink={getRedirectPagination}
-              quantityItem={quantityItems}
-              amountItemsPage={amountItems}
-              currentPageNumber={page}
-              isTop
-            />
-          )}
-          <div
-            className={`${styles.content_wrapper} ${
-              (loadNewsEvents || !(newsEventsJSX && newsEventsJSX.length)) &&
-              styles.content_wrapper__load
-            }`}
-          >
-            {loadNewsEvents ? (
-              <Loader />
-            ) : newsEventsJSX?.length ? (
-              newsEventsJSX
-            ) : (
-              <div className="plug-text">Порожньо</div>
-            )}
-          </div>
-          {!!quantityItems && (
-            <Pagination
-              getRedirectLink={getRedirectPagination}
-              quantityItem={quantityItems}
-              amountItemsPage={amountItems}
-              currentPageNumber={page}
-            />
+      <div className="wrapper">
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+            isTop
+          />
+        )}
+        <div
+          className={`${styles.content_wrapper} ${
+            (loadNewsEvents || !(newsEventsJSX && newsEventsJSX.length)) &&
+            styles.content_wrapper__load
+          }`}
+        >
+          {loadNewsEvents ? (
+            <Loader />
+          ) : newsEventsJSX?.length ? (
+            newsEventsJSX
+          ) : (
+            <div className="plug-text">Порожньо</div>
           )}
         </div>
-      </DesignLayout_3>
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+          />
+        )}
+      </div>
       <NewsEventsModuleContainer isNews={!isNews}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />

@@ -1,30 +1,28 @@
-import React from "react"
+import React from "react";
 // @ts-ignore
-import styles from "../styles/button.module"
-import { useSelector, useDispatch } from "react-redux"
-import { MENU_PAGE_TOGGLE } from "../redux/toggle/toggleTypes"
-import { RootStore } from "../redux/store"
+import styles from "../styles/button.module";
+import { useSelector, useDispatch } from "react-redux";
+import { MENU_PAGE_TOGGLE } from "../redux/toggle/toggleTypes";
+import { RootStore } from "../redux/store";
+import { useHistory, useLocation } from "react-router";
 
 interface IButtonMenuProps {
-  active?: string
-  setActive: any
-  links: { title: string; id: string }[]
+  active?: string;
+  links: { title: string; id: string }[];
 }
 
-const ButtonMenu: React.FC<IButtonMenuProps> = ({
-  active,
-  links,
-  setActive,
-}) => {
+const ButtonMenu: React.FC<IButtonMenuProps> = ({ active, links }) => {
+  const history = useHistory();
+  const location = useLocation();
   const {
     toggle: { menuPage },
-  } = useSelector((state: RootStore) => state)
-  const dispatch = useDispatch()
+  } = useSelector((state: RootStore) => state);
+  const dispatch = useDispatch();
 
   const handleSetActive = (value: string) => {
-    setActive(value)
-    dispatch({ type: MENU_PAGE_TOGGLE })
-  }
+    history.push(`${location.pathname}?section=${value}`);
+    dispatch({ type: MENU_PAGE_TOGGLE });
+  };
 
   const btns = links.map((link) => {
     return (
@@ -37,8 +35,8 @@ const ButtonMenu: React.FC<IButtonMenuProps> = ({
       >
         {link.title}
       </button>
-    )
-  })
+    );
+  });
 
   return (
     <div className={styles.btn_menu}>
@@ -62,7 +60,7 @@ const ButtonMenu: React.FC<IButtonMenuProps> = ({
         {btns}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ButtonMenu
+export default ButtonMenu;

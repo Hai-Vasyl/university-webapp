@@ -82,6 +82,7 @@ const NewsEvent: React.FC = () => {
           onEdit={refetchImages}
           onRemove={refetchImages}
           onCreate={refetchImages}
+          exClass="carousel__wide"
         >
           {(params: any) =>
             images.map((slide: IImageSlide, index: number) => {

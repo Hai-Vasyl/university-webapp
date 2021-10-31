@@ -10,15 +10,16 @@
   &__reduce {
     transform: translateY(-100px);
     .nav {
-      background-color: getColor(secondary);
-      box-shadow: getShadow(secondary);
+      // background-color: rgb(17, 17, 17);
+      background-color: #0c0c0c;
+      // box-shadow: getShadow(secondary);
       backdrop-filter: none;
-      .btn_menu {
-        border-color: getColor(main-dark);
-        &__lines > span {
-          border-color: getColor(font);
-        }
-      }
+      // .btn_menu {
+      //   border-color: getColor(main-dark);
+      //   &__lines > span {
+      //     border-color: getColor(font);
+      //   }
+      // }
       .nav__border {
         height: 0;
       }
@@ -36,12 +37,13 @@
         }
       }
       .link {
+        border-right-color: transparent;
         &__text {
-          color: getColor(font);
-          text-shadow: none;
+          // color: getColor(font);
+          // text-shadow: none;
         }
         &__icon {
-          color: getColor(font);
+          // color: getColor(font);
         }
       }
       .nav__logo {
@@ -54,16 +56,16 @@
       }
       .user {
         &__name {
-          color: getColor(font);
+          // color: getColor(font);
         }
         &__ava {
-          border: 1px solid getColor(main-dark);
+          // border: 1px solid getColor(main-dark);
         }
       }
       .btn_login {
-        border-color: getColor(main-dark);
+        // border-color: getColor(main-dark);
         &__text {
-          color: getColor(font);
+          // color: getColor(font);
         }
       }
     }
@@ -86,8 +88,9 @@
 .nav {
   transition: getTransition(slow);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.2);
   &__blur {
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
   }
   &__btn_blur,
   &__btn_search {
@@ -204,14 +207,18 @@
     opacity: 1;
     overflow: hidden;
     transition: 0.3s ease;
-    // border-left: 1px solid rgba(255, 255, 255, 0.15);
+    // border: 4px solid rgba(255, 255, 255, 0.15);
     // border-right: 1px solid rgba(255, 255, 255, 0.15);
     // background-color: white;
   }
   &__logo_img {
     @extend %image;
     object-fit: contain;
-    border-radius: 10%;
+    border-top-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    // border-top: 5px solid getColor(accent-main);
+    // border-right: 5px solid getColor(accent-main);
+    // border-bottom-left-radius: 16%;
     height: 138px;
     position: absolute;
     top: 50%;
@@ -330,7 +337,6 @@
     width: 0%;
     left: 0;
     transition: getTransition(main);
-    transform: skew(45deg);
   }
   &:hover::after {
     width: 100%;
@@ -393,7 +399,7 @@
     .link {
       margin: 0px !important;
       &::after {
-        left: -7px;
+        // left: -7px;
       }
     }
     .link__active {
@@ -512,6 +518,9 @@
     &__links {
       display: none;
     }
+    &__title {
+      font-size: 0.75em;
+    }
   }
   .user {
     margin-right: 5px;
@@ -552,9 +561,17 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+  .nav {
+    &__title {
+      font-size: 0.6em;
+      & > * {
+        // line-height: 24px;
+      }
+    }
+  }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 630px) {
   .menu {
     &__reduce {
       transform: translateY(0px);

@@ -2,6 +2,7 @@
 
 .title {
   height: 50vh;
+  min-height: 400px;
   @extend %background-accent;
   position: relative;
   display: flex;
@@ -28,18 +29,19 @@
     z-index: 10;
     font-size: 4em;
     color: getColor(font-white);
-    padding-top: 18vh;
+    padding-top: calc((400px - 60px) / 2);
     font-family: getFont(third);
   }
   &__btns {
     position: absolute;
     width: 1200px;
     max-width: 100%;
-    top: 50%;
+    // top: 50%;
     padding: 0px 20px;
     z-index: 2;
     @extend %flex-center;
     justify-content: flex-end;
+    bottom: 20px;
     & > *:first-child {
       margin-right: 5px;
     }

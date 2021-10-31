@@ -1,44 +1,45 @@
-import React, { useEffect, useState, useRef } from "react"
-import Title from "../components/Title"
-import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes"
-import { useDispatch } from "react-redux"
-import { types } from "../modules/uploadTypes"
-import { useLocation, useHistory } from "react-router-dom"
-import { GET_IMAGES } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import { types as uploadTypes } from "../modules/uploadTypes"
+import React, { useEffect, useState, useRef } from "react";
+import Title from "../components/Title";
+import { MODIMAGE_OPEN } from "../redux/toggle/toggleTypes";
+import { useDispatch } from "react-redux";
+import { types } from "../modules/uploadTypes";
+import { useLocation, useHistory } from "react-router-dom";
+import { GET_IMAGES } from "../fetching/queries";
+import { useQuery } from "@apollo/client";
+import { types as uploadTypes } from "../modules/uploadTypes";
 // @ts-ignore
-import styles from "../styles/gallery.module"
-import { IImage, IOption, INewsEventSlider } from "../interfaces"
-import Pagination from "../components/Pagination"
-import Loader from "../components/Loader"
-import FilterSearch from "../components/FilterSearch"
-import DesignLayout_3 from "../components/DesignLayout_3"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import NewsEventsModule from "../components/NewsEventsModule"
-import FooterModule from "../components/FooterModule"
-import ImageCard from "../components/ImageCard"
-import {RootStore} from "../redux/store"
-import {useSelector} from "react-redux"
+import styles from "../styles/gallery.module";
+import { IImage, IOption, INewsEventSlider } from "../interfaces";
+import Pagination from "../components/Pagination";
+import Loader from "../components/Loader";
+import FilterSearch from "../components/FilterSearch";
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import NewsEventsModule from "../components/NewsEventsModule";
+import FooterModule from "../components/FooterModule";
+import ImageCard from "../components/ImageCard";
+import { RootStore } from "../redux/store";
+import { useSelector } from "react-redux";
 
 const Gallery: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
-  const location = useLocation()
-  const history = useHistory()
-  const params = new URLSearchParams(location.search)
-  const page = Number(params.get("page")) || 1
-  const type = params.get("type") || "all"
-  let search = params.get("search") || ""
-  const amountItems = 15
-  let searchWords = search.split(" ")
+  const anchor = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const history = useHistory();
+  const params = new URLSearchParams(location.search);
+  const page = Number(params.get("page")) || 1;
+  const type = params.get("type") || "all";
+  let search = params.get("search") || "";
+  const amountItems = 15;
+  let searchWords = search.split(" ");
   for (let i = 0; i < searchWords.length; i++) {
-    searchWords[i] = searchWords[i].replace("hash_", "#")
+    searchWords[i] = searchWords[i].replace("hash_", "#");
   }
-  search = searchWords.join(" ")
+  search = searchWords.join(" ");
 
-  const {configs: {current}} = useSelector((state: RootStore) => state)
+  const {
+    configs: { current },
+  } = useSelector((state: RootStore) => state);
 
-  const [searchStr, setSearchStr] = useState(search)
+  const [searchStr, setSearchStr] = useState(search);
   const [typeImage, setTypeImage] = useState([
     {
       param: "type",
@@ -47,7 +48,7 @@ const Gallery: React.FC = () => {
       title: "Тип зображення",
       msg: "",
     },
-  ])
+  ]);
   const {
     data: dataImages,
     loading: loadImages,
@@ -60,61 +61,61 @@ const Gallery: React.FC = () => {
       type: type === "all" ? "" : type,
     },
     fetchPolicy: "cache-and-network",
-  })
-  const dispatch = useDispatch()
+  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
   useEffect(() => {
-    setSearchStr(search)
-  }, [search])
+    setSearchStr(search);
+  }, [search]);
 
-  let options: IOption[] = []
+  let options: IOption[] = [];
   Object.keys(uploadTypes).forEach((item) => {
     // @ts-ignore
     if (uploadTypes[item].keyWord === uploadTypes.private.keyWord) {
-      return
+      return;
     }
     options.push({
       // @ts-ignore
       value: uploadTypes[item].keyWord,
       // @ts-ignore
       label: uploadTypes[item].label,
-    })
-  })
+    });
+  });
 
   const getRedirectLink = (
     number: number,
     typeCustom?: string,
     searchCustom?: string
   ) => {
-    let searchParam = searchCustom || search
-    let searchWords = searchParam.split(" ")
+    let searchParam = searchCustom || search;
+    let searchWords = searchParam.split(" ");
     for (let i = 0; i < searchWords.length; i++) {
-      searchWords[i] = searchWords[i].replace("#", "hash_")
+      searchWords[i] = searchWords[i].replace("#", "hash_");
     }
-    searchParam = searchWords.join(" ")
-    const typeParam = typeCustom || type
-    const typeQuery = `${typeParam ? "type=" + typeParam + "&" : ""}`
+    searchParam = searchWords.join(" ");
+    const typeParam = typeCustom || type;
+    const typeQuery = `${typeParam ? "type=" + typeParam + "&" : ""}`;
     const searchQuery =
       searchCustom === "all"
         ? ""
-        : `${searchParam ? "search=" + searchParam + "&" : ""}`
-    let link = `/gallery?page=${number}&${typeQuery}${searchQuery}`
-    history.push(link.slice(0, link.length - 1))
-  }
+        : `${searchParam ? "search=" + searchParam + "&" : ""}`;
+    let link = `/gallery?page=${number}&${typeQuery}${searchQuery}`;
+    history.push(link.slice(0, link.length - 1));
+  };
 
   const handleResetSearch = () => {
-    setSearchStr("")
-    getRedirectLink(1, typeImage[0].value, "all")
-  }
+    setSearchStr("");
+    getRedirectLink(1, typeImage[0].value, "all");
+  };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    getRedirectLink(1, typeImage[0].value, searchStr.trim())
-  }
+    event.preventDefault();
+    getRedirectLink(1, typeImage[0].value, searchStr.trim());
+  };
 
   const handlePopupCreateImage = () => {
     dispatch({
@@ -124,13 +125,13 @@ const Gallery: React.FC = () => {
         content: null,
         type: types.image.keyWord,
         onCreate: () => {
-          refetchImages()
+          refetchImages();
         },
       },
-    })
-  }
+    });
+  };
 
-  const images = dataImages && dataImages.getImages.images
+  const images = dataImages && dataImages.getImages.images;
   const imagesJSX = images?.map((image: IImage) => (
     <ImageCard
       key={image.id}
@@ -140,11 +141,11 @@ const Gallery: React.FC = () => {
       onRemove={refetchImages}
       onCreate={refetchImages}
     />
-  ))
+  ));
 
-  const quantityItems = dataImages && dataImages.getImages.quantity
+  const quantityItems = dataImages && dataImages.getImages.quantity;
   return (
-    <div className='container'>
+    <div className="container">
       <div ref={anchor}></div>
       <Title title={current.pageTitles[location.pathname]} />
       <FilterSearch
@@ -159,41 +160,39 @@ const Gallery: React.FC = () => {
         setFormPicker={setTypeImage}
         fieldPicker={typeImage[0]}
       />
-      <DesignLayout_3>
-        <div className='wrapper'>
-          {!!quantityItems && (
-            <Pagination
-              getRedirectLink={getRedirectLink}
-              quantityItem={quantityItems}
-              amountItemsPage={amountItems}
-              currentPageNumber={page}
-              isTop
-            />
-          )}
-          <div
-            className={`${styles.images} ${
-              (loadImages || !(imagesJSX && imagesJSX.length)) &&
-              styles.images__load
-            }`}
-          >
-            {loadImages ? (
-              <Loader />
-            ) : imagesJSX?.length ? (
-              imagesJSX
-            ) : (
-              <div className='plug-text'>Порожньо</div>
-            )}
-          </div>
-          {!!quantityItems && (
-            <Pagination
-              getRedirectLink={getRedirectLink}
-              quantityItem={quantityItems}
-              amountItemsPage={amountItems}
-              currentPageNumber={page}
-            />
+      <div className="wrapper">
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectLink}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+            isTop
+          />
+        )}
+        <div
+          className={`${styles.images} ${
+            (loadImages || !(imagesJSX && imagesJSX.length)) &&
+            styles.images__load
+          }`}
+        >
+          {loadImages ? (
+            <Loader />
+          ) : imagesJSX?.length ? (
+            imagesJSX
+          ) : (
+            <div className="plug-text">Порожньо</div>
           )}
         </div>
-      </DesignLayout_3>
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectLink}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+          />
+        )}
+      </div>
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />
@@ -201,7 +200,7 @@ const Gallery: React.FC = () => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default Gallery
+export default Gallery;

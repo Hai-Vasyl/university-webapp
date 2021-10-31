@@ -25,6 +25,7 @@
     width: 710px;
     max-width: 100%;
     margin: 0 auto;
+    overflow-x: auto;
   }
 }
 
@@ -157,10 +158,11 @@
     }
   }
   &__title {
-    font-size: 1.2em;
+    // font-size: 1em;
     font-family: getFont(third);
     transition: getTransition(main);
     color: getColor(font);
+    text-align: center;
   }
   &:hover {
     background-color: getColor(main);
@@ -1343,6 +1345,15 @@
   }
   .link {
     padding: 3vh 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .module {
+    &__title {
+      font-size: 2em;
+      line-height: 35px;
+    }
   }
 }
 

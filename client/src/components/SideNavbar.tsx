@@ -1,30 +1,32 @@
-import React from "react"
+import React from "react";
 // @ts-ignore
-import styles from "../styles/pages.module"
+import styles from "../styles/pages.module";
+import { useHistory, useLocation } from "react-router-dom";
 
 interface ILink {
-  title: string
-  id: string
+  title: string;
+  id: string;
 }
 
 interface ISideNavbarProps {
-  links?: ILink[]
-  active?: string
-  setActive?: any
-  exClass: string
-  children?: any
+  links?: ILink[];
+  active?: string;
+  exClass: string;
+  children?: any;
 }
 
 const SideNavbar: React.FC<ISideNavbarProps> = ({
   links,
   active,
-  setActive,
   exClass,
   children,
 }) => {
+  const history = useHistory();
+  const location = useLocation();
+
   const handleSetActive = (value: string) => {
-    setActive(value)
-  }
+    history.push(`${location.pathname}?section=${value}`);
+  };
 
   const linksJSX =
     links &&
@@ -39,14 +41,14 @@ const SideNavbar: React.FC<ISideNavbarProps> = ({
         >
           {link.title}
         </button>
-      )
-    })
+      );
+    });
 
   return (
     <div className={`${styles.side_navbar} ${exClass}`}>
       {children || linksJSX}
     </div>
-  )
-}
+  );
+};
 
-export default SideNavbar
+export default SideNavbar;
