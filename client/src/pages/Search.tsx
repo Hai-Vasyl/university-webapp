@@ -28,6 +28,7 @@ import { FiLink2 } from "react-icons/fi";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { RootStore } from "../redux/store";
+import Head from "../components/Head";
 
 const Search: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -242,10 +243,13 @@ const Search: React.FC = () => {
     );
   });
 
+  const { title, description } = current.page[location.pathname];
+
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title={current.pageTitles[location.pathname]} />
+      <Title title={title} />
       <div className={stylesForm.form_filter_container}>
         <div className="wrapper-clear">
           <form onSubmit={handleSubmitForm} className={stylesForm.form_filter}>

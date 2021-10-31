@@ -1,14 +1,8 @@
-import React from "react"
-import LayoutTabs from "../components/LayoutTabs"
-import {RootStore} from "../redux/store"
-import {useSelector} from "react-redux"
-import { useLocation } from "react-router"
+import React from "react";
+import LayoutTabs from "../components/LayoutTabs";
 
 const Проекти: React.FC = () => {
-  const location = useLocation()
-  const {configs: {current}} = useSelector((state: RootStore) => state)
-  return <LayoutTabs title={current.pageTitles[location.pathname]} />
-}
+  return <LayoutTabs />;
+};
 
-export default Проекти
-
+export default Проекти;

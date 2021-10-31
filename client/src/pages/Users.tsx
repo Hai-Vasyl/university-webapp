@@ -1,45 +1,47 @@
-import React, { useEffect, useRef } from "react"
-import Title from "../components/Title"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import NewsEventsModule from "../components/NewsEventsModule"
-import FooterModule from "../components/FooterModule"
-import { INewsEventSlider } from "../interfaces"
-import { GET_USERS } from "../fetching/queries"
-import { useQuery } from "@apollo/client"
-import Loader from "../components/Loader"
-import { Link } from "react-router-dom"
-import { getUserAccess } from "../modules/accessModifiers"
-import { useSelector } from "react-redux"
-import { RootStore } from "../redux/store"
+import React, { useEffect, useRef } from "react";
+import Title from "../components/Title";
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import NewsEventsModule from "../components/NewsEventsModule";
+import FooterModule from "../components/FooterModule";
+import { INewsEventSlider } from "../interfaces";
+import { GET_USERS } from "../fetching/queries";
+import { useQuery } from "@apollo/client";
+import Loader from "../components/Loader";
+import { Link } from "react-router-dom";
+import { getUserAccess } from "../modules/accessModifiers";
+import { useSelector } from "react-redux";
+import { RootStore } from "../redux/store";
 // @ts-ignore
-import styles from "../styles/users.module"
-import UserAva from "../components/UserAva"
+import styles from "../styles/users.module";
+import UserAva from "../components/UserAva";
+import Head from "../components/Head";
 
 interface IUserCard {
-  id: string
-  email: string
-  ava: string
-  color: string
-  firstname: string
-  lastname: string
-  role: string
+  id: string;
+  email: string;
+  ava: string;
+  color: string;
+  firstname: string;
+  lastname: string;
+  role: string;
 }
 
 const Users: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
+  const anchor = useRef<HTMLDivElement>(null);
   const {
     auth: { user },
-  } = useSelector((state: RootStore) => state)
-  const { data: users, loading: loadUsers } = useQuery(GET_USERS)
+    configs: { current },
+  } = useSelector((state: RootStore) => state);
+  const { data: users, loading: loadUsers } = useQuery(GET_USERS);
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
   const cards =
     users &&
     users.getAllUsers.map((item: IUserCard) => {
-      const userParams = getUserAccess(item.role)
+      const userParams = getUserAccess(item.role);
       return (
         <div
           key={item.id}
@@ -66,14 +68,17 @@ const Users: React.FC = () => {
             <span className={styles.card__subtitle}>{item.email}</span>
           </div>
         </div>
-      )
-    })
+      );
+    });
+
+  const { title, description } = current.page[location.pathname];
 
   return (
-    <div className='container'>
+    <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title='Усі користувачі' path='/profile' />
-      <div className='wrapper'>
+      <Title title={title} path="/profile" />
+      <div className="wrapper">
         {loadUsers ? <Loader /> : <div className={styles.users}>{cards}</div>}
       </div>
       <NewsEventsModuleContainer isNews={true}>
@@ -83,7 +88,7 @@ const Users: React.FC = () => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;

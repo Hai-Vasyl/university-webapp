@@ -19,6 +19,7 @@ import FooterModule from "../components/FooterModule";
 import ImageCard from "../components/ImageCard";
 import { RootStore } from "../redux/store";
 import { useSelector } from "react-redux";
+import Head from "../components/Head";
 
 const Gallery: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -144,10 +145,13 @@ const Gallery: React.FC = () => {
   ));
 
   const quantityItems = dataImages && dataImages.getImages.quantity;
+  const { title, description } = current.page[location.pathname];
+
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title={current.pageTitles[location.pathname]} />
+      <Title title={title} />
       <FilterSearch
         handleSubmit={handleSubmitForm}
         quantityItems={quantityItems}

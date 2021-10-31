@@ -1,28 +1,28 @@
-import React, { useEffect, useState, useCallback, useRef } from "react"
-import { GET_DATA_USER } from "../fetching/queries"
-import { SET_USER_AVA, UPDATE_USER_DATA } from "../fetching/mutations"
-import { useLazyQuery, useMutation } from "@apollo/client"
-import Title from "../components/Title"
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import { GET_DATA_USER } from "../fetching/queries";
+import { SET_USER_AVA, UPDATE_USER_DATA } from "../fetching/mutations";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import Title from "../components/Title";
 // @ts-ignore
-import styles from "../styles/profile.module"
+import styles from "../styles/profile.module";
 // @ts-ignore
-import stylesForm from "../styles/form.module"
-import { useParams } from "react-router-dom"
-import Loader from "../components/Loader"
-import LoaderData from "../components/LoaderData"
-import { useSelector, useDispatch } from "react-redux"
-import { RootStore } from "../redux/store"
-import { INewsEventSlider } from "../interfaces"
-import NewsEventsModule from "../components/NewsEventsModule"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import FooterModule from "../components/FooterModule"
-import ButtonFile from "../components/ButtonFile"
-import UserAva from "../components/UserAva"
-import ButtonTab from "../components/ButtonTab"
-import Button from "../components/Button"
+import stylesForm from "../styles/form.module";
+import { useParams } from "react-router-dom";
+import Loader from "../components/Loader";
+import LoaderData from "../components/LoaderData";
+import { useSelector, useDispatch } from "react-redux";
+import { RootStore } from "../redux/store";
+import { INewsEventSlider } from "../interfaces";
+import NewsEventsModule from "../components/NewsEventsModule";
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import FooterModule from "../components/FooterModule";
+import ButtonFile from "../components/ButtonFile";
+import UserAva from "../components/UserAva";
+import ButtonTab from "../components/ButtonTab";
+import Button from "../components/Button";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
-import { RiImageAddFill } from "react-icons/ri"
+import stylesBtn from "../styles/button.module";
+import { RiImageAddFill } from "react-icons/ri";
 import {
   BsArrowRepeat,
   BsArrowLeft,
@@ -30,25 +30,27 @@ import {
   BsTrash,
   BsArrowClockwise,
   BsPencilSquare,
-} from "react-icons/bs"
-import { SET_TOAST } from "../redux/toasts/toastsTypes"
-import { SET_USER_DATA } from "../redux/auth/authTypes"
-import { LIGHTBOX_LIGHT_OPEN } from "../redux/toggle/toggleTypes"
-import { getUserAccess } from "../modules/accessModifiers"
-import Field from "../components/Field"
-import { convertDate } from "../helpers/convertDate"
-import useSetErrorsFields from "../hooks/useSetErrorsFields"
+} from "react-icons/bs";
+import { SET_TOAST } from "../redux/toasts/toastsTypes";
+import { SET_USER_DATA } from "../redux/auth/authTypes";
+import { LIGHTBOX_LIGHT_OPEN } from "../redux/toggle/toggleTypes";
+import { getUserAccess } from "../modules/accessModifiers";
+import Field from "../components/Field";
+import { convertDate } from "../helpers/convertDate";
+import useSetErrorsFields from "../hooks/useSetErrorsFields";
+import Head from "../components/Head";
 
 const Profile: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
-  const { userId }: any = useParams()
+  const anchor = useRef<HTMLDivElement>(null);
+  const { userId }: any = useParams();
   const {
-    auth: { user, token },
-  } = useSelector((state: RootStore) => state)
-  const dispatch = useDispatch()
-  const [initLoad, setInitLoad] = useState(true)
-  const isMyProfile = userId === user.id
-  const { setErrors } = useSetErrorsFields()
+    auth: { user },
+    configs: { current },
+  } = useSelector((state: RootStore) => state);
+  const dispatch = useDispatch();
+  const [initLoad, setInitLoad] = useState(true);
+  const isMyProfile = userId === user.id;
+  const { setErrors } = useSetErrorsFields();
 
   const [form, setForm] = useState([
     {
@@ -103,120 +105,120 @@ const Profile: React.FC = () => {
       title: "Новий пароль",
       msg: "",
     },
-  ])
+  ]);
 
   const [getUser, { data: dataUser }] = useLazyQuery(GET_DATA_USER, {
     fetchPolicy: "no-cache",
-  })
+  });
   const [setUserAva, { data: dataUserAva, loading: loadUserAva }] =
-    useMutation(SET_USER_AVA)
+    useMutation(SET_USER_AVA);
   const [
     updateUserData,
     { data: dataUserData, error: errorUserData, loading: loadUserData },
-  ] = useMutation(UPDATE_USER_DATA)
+  ] = useMutation(UPDATE_USER_DATA);
 
-  const [toggleForm, setToggleForm] = useState(false)
+  const [toggleForm, setToggleForm] = useState(false);
 
   const refreshForm = useCallback(() => {
     setForm((prevForm) =>
       prevForm.map((field) => {
-        let fieldValue = field.value
+        let fieldValue = field.value;
         Object.keys(user).map((key) => {
           if (field.param === key) {
             // @ts-ignore
-            fieldValue = user[key]
+            fieldValue = user[key];
           }
-        })
-        return { ...field, value: fieldValue }
+        });
+        return { ...field, value: fieldValue };
       })
-    )
-  }, [user])
+    );
+  }, [user]);
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
   useEffect(() => {
     if (isMyProfile) {
-      refreshForm()
-      setInitLoad(false)
+      refreshForm();
+      setInitLoad(false);
     }
-  }, [refreshForm])
+  }, [refreshForm]);
 
   useEffect(() => {
-    const data = dataUserData && dataUserData.updateUserData
+    const data = dataUserData && dataUserData.updateUserData;
     if (errorUserData) {
-      setErrors(errorUserData.message, setForm)
+      setErrors(errorUserData.message, setForm);
     } else if (data) {
       dispatch({
         type: SET_TOAST,
         payload: data,
-      })
-      setToggleForm(false)
-      getUser({ variables: { userId: user.id } })
+      });
+      setToggleForm(false);
+      getUser({ variables: { userId: user.id } });
     }
-  }, [dataUserData, errorUserData, dispatch])
+  }, [dataUserData, errorUserData, dispatch]);
 
   useEffect(() => {
-    const data = dataUser && dataUser.getUser
+    const data = dataUser && dataUser.getUser;
     if (isMyProfile && !!data) {
-      dispatch({ type: SET_USER_DATA, payload: data })
+      dispatch({ type: SET_USER_DATA, payload: data });
     }
-  }, [dispatch, isMyProfile, dataUser])
+  }, [dispatch, isMyProfile, dataUser]);
 
   useEffect(() => {
     if (!isMyProfile) {
-      getUser({ variables: { userId } })
+      getUser({ variables: { userId } });
     }
-  }, [getUser, isMyProfile, userId])
+  }, [getUser, isMyProfile, userId]);
 
   useEffect(() => {
-    const data = dataUser && dataUser.getUser
+    const data = dataUser && dataUser.getUser;
     if (!!data) {
-      setInitLoad(false)
+      setInitLoad(false);
     }
-  }, [dataUser])
+  }, [dataUser]);
 
   useEffect(() => {
-    const data = dataUserAva && dataUserAva.setUserAva
+    const data = dataUserAva && dataUserAva.setUserAva;
     if (data) {
       dispatch({
         type: SET_TOAST,
         payload: data,
-      })
-      getUser({ variables: { userId: user.id } })
+      });
+      getUser({ variables: { userId: user.id } });
     }
-  }, [dispatch, dataUserAva])
+  }, [dispatch, dataUserAva]);
 
   const handleModImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
+    const { files } = event.target;
     if (files && files.length) {
       setUserAva({
         variables: {
           image: files[0],
           deleting: false,
         },
-      })
+      });
     }
-  }
+  };
 
   const handleDeleteImage = () => {
     setUserAva({
       variables: {
         deleting: true,
       },
-    })
-  }
+    });
+  };
 
   const handleFlipForm = () => {
     if (toggleForm) {
-      refreshForm()
+      refreshForm();
     }
-    setToggleForm((prev) => !prev)
-  }
+    setToggleForm((prev) => !prev);
+  };
 
-  const userData = isMyProfile ? user : dataUser?.getUser || user
-  const userParams = getUserAccess(userData.role)
+  const userData = isMyProfile ? user : dataUser?.getUser || user;
+  const userParams = getUserAccess(userData.role);
 
   const handlePopupLightBox = () => {
     dispatch({
@@ -225,14 +227,14 @@ const Profile: React.FC = () => {
         image: userData.ava,
         title: `${userData.firstname} ${userData.lastname}`,
       },
-    })
-  }
+    });
+  };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const [firstname, lastname, middlename, email, phone, address, password] =
-      form
+      form;
 
     updateUserData({
       variables: {
@@ -244,12 +246,12 @@ const Profile: React.FC = () => {
         email: email.value.trim(),
         password: password.value.trim(),
       },
-    })
-  }
+    });
+  };
 
   const handleRefreshForm = () => {
-    refreshForm()
-  }
+    refreshForm();
+  };
 
   const fields = form.map((field) => {
     return (
@@ -259,17 +261,16 @@ const Profile: React.FC = () => {
         change={setForm}
         key={field.param}
       />
-    )
-  })
+    );
+  });
+  const { title, description } = current.page["/profile"];
 
   return (
-    <div className='container'>
+    <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title
-        title={isMyProfile ? "Особистий кабінет" : "Профіль користувача"}
-        path='/profile'
-      />
-      <div className='wrapper'>
+      <Title title={title} path="/profile" />
+      <div className="wrapper">
         {initLoad ? (
           <Loader />
         ) : (
@@ -285,7 +286,7 @@ const Profile: React.FC = () => {
                   <img
                     className={styles.user__ava}
                     src={userData.ava}
-                    alt='avaImg'
+                    alt="avaImg"
                   />
                 ) : (
                   <UserAva
@@ -396,10 +397,10 @@ const Profile: React.FC = () => {
                         exClass={stylesBtn.btn_simple}
                         Icon={BsArrowClockwise}
                         click={handleRefreshForm}
-                        type='button'
+                        type="button"
                       />
                       <Button
-                        title='Застосувати'
+                        title="Застосувати"
                         exClass={stylesBtn.btn_primary}
                         Icon={BsPencil}
                       />
@@ -418,7 +419,7 @@ const Profile: React.FC = () => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

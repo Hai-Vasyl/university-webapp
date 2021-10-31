@@ -1,37 +1,40 @@
-import React, { useState, useEffect, useRef } from "react"
-import Field from "../components/Field"
-import Title from "../components/Title"
+import React, { useState, useEffect, useRef } from "react";
+import Field from "../components/Field";
+import Title from "../components/Title";
 // @ts-ignore
-import styles from "../styles/form.module"
+import styles from "../styles/form.module";
 // @ts-ignore
-import stylesBtn from "../styles/button.module"
-import FieldArea from "../components/FieldArea"
-import Button from "../components/Button"
-import { RiMailSendLine } from "react-icons/ri"
-import { SEND_EMAIL } from "../fetching/mutations"
-import { useMutation } from "@apollo/client"
-import { useDispatch } from "react-redux"
-import useSetErrorsFields from "../hooks/useSetErrorsFields"
-import { SET_TOAST } from "../redux/toasts/toastsTypes"
-import { types } from "../modules/messageTypes"
-import LoaderData from "../components/LoaderData"
-import Map from "../components/Map"
-import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer"
-import NewsEventsModule from "../components/NewsEventsModule"
-import FooterModule from "../components/FooterModule"
-import { INewsEventSlider } from "../interfaces"
-import ContactsModule from "../components/ContactsModule"
-import { useLocation } from "react-router"
-import {RootStore} from "../redux/store"
-import {useSelector} from "react-redux"
+import stylesBtn from "../styles/button.module";
+import FieldArea from "../components/FieldArea";
+import Button from "../components/Button";
+import { RiMailSendLine } from "react-icons/ri";
+import { SEND_EMAIL } from "../fetching/mutations";
+import { useMutation } from "@apollo/client";
+import { useDispatch } from "react-redux";
+import useSetErrorsFields from "../hooks/useSetErrorsFields";
+import { SET_TOAST } from "../redux/toasts/toastsTypes";
+import { types } from "../modules/messageTypes";
+import LoaderData from "../components/LoaderData";
+import Map from "../components/Map";
+import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
+import NewsEventsModule from "../components/NewsEventsModule";
+import FooterModule from "../components/FooterModule";
+import { INewsEventSlider } from "../interfaces";
+import ContactsModule from "../components/ContactsModule";
+import { useLocation } from "react-router";
+import { RootStore } from "../redux/store";
+import { useSelector } from "react-redux";
+import Head from "../components/Head";
 
 const Contacts: React.FC = () => {
-  const anchor = useRef<HTMLDivElement>(null)
-  const dispatch = useDispatch()
-  const location = useLocation()
-  
-  const {configs: {current}} = useSelector((state: RootStore) => state)
-  
+  const anchor = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const {
+    configs: { current },
+  } = useSelector((state: RootStore) => state);
+
   const [form, setForm] = useState([
     {
       param: "firstname",
@@ -61,45 +64,45 @@ const Contacts: React.FC = () => {
       title: "Повідомлення",
       msg: "",
     },
-  ])
-  const { setErrors } = useSetErrorsFields()
+  ]);
+  const { setErrors } = useSetErrorsFields();
 
   const [
     sendEmail,
     { data: dataEmail, error: errorEmail, loading: loadEmail },
-  ] = useMutation(SEND_EMAIL)
+  ] = useMutation(SEND_EMAIL);
 
   useEffect(() => {
-    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-  }, [])
+    anchor.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
 
   useEffect(() => {
-    const dataSendEmail = dataEmail && dataEmail.sendEmail
+    const dataSendEmail = dataEmail && dataEmail.sendEmail;
     if (errorEmail) {
-      setErrors(errorEmail.message, setForm)
+      setErrors(errorEmail.message, setForm);
       dispatch({
         type: SET_TOAST,
         payload: {
           type: types.error.keyWord,
           message: "Помилка перевірки полів форми!",
         },
-      })
+      });
     } else if (dataSendEmail) {
       setForm((prev) =>
         prev.map((field) => {
-          return { ...field, value: "", msg: "" }
+          return { ...field, value: "", msg: "" };
         })
-      )
+      );
       dispatch({
         type: SET_TOAST,
         payload: dataSendEmail,
-      })
+      });
     }
-  }, [dispatch, dataEmail, errorEmail])
+  }, [dispatch, dataEmail, errorEmail]);
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const [firstname, lastname, email, message] = form
+    event.preventDefault();
+    const [firstname, lastname, email, message] = form;
 
     sendEmail({
       variables: {
@@ -108,21 +111,23 @@ const Contacts: React.FC = () => {
         email: email.value.trim(),
         message: message.value.trim(),
       },
-    })
-  }
+    });
+  };
 
   const fields = form.map((field) => {
     if (field.param === "message") {
-      return <FieldArea key={field.param} field={field} change={setForm} />
+      return <FieldArea key={field.param} field={field} change={setForm} />;
     }
-    return <Field key={field.param} field={field} change={setForm} />
-  })
+    return <Field key={field.param} field={field} change={setForm} />;
+  });
+  const { title, description } = current.page[location.pathname];
 
   return (
-    <div className='container'>
+    <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title={current.pageTitles[location.pathname]} />
-      <div className='wrapper-side'>
+      <Title title={title} />
+      <div className="wrapper-side">
         <div className={`${styles.form} ${styles.form__extend}`}>
           <div className={styles.form__content}>
             <div className={styles.form__title}>
@@ -140,7 +145,7 @@ const Contacts: React.FC = () => {
                 <Button
                   exClass={stylesBtn.btn_primary}
                   Icon={RiMailSendLine}
-                  title='Відправити'
+                  title="Відправити"
                 />
               </div>
             </form>
@@ -158,7 +163,7 @@ const Contacts: React.FC = () => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  )
-}
+  );
+};
 
-export default Contacts
+export default Contacts;

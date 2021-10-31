@@ -18,25 +18,25 @@ import SectionAbout from "./SectionAbout";
 import SideNavbar from "./SideNavbar";
 import NewsEventsModuleContainer from "./NewsEventsModuleContainer";
 import FooterModule from "./FooterModule";
+import Head from "./Head";
 
 interface ILayoutTabsProps {
   imgsPrivate?: boolean;
-  title: string;
 }
 
-const LayoutTabs: React.FC<ILayoutTabsProps> = ({
-  imgsPrivate = false,
-  title,
-}) => {
+const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
   const { pathname, search } = useLocation();
   const params = new URLSearchParams(search);
   const sectionId = params.get("section") || "";
   const isAboutUrl = pathname === "/about";
 
   const {
+    configs: { current },
     auth: { user },
     configs: { lang },
   } = useSelector((state: RootStore) => state);
+
+  const { title, description } = current.page[pathname];
 
   const {
     data: dataSections,
@@ -102,6 +102,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <Title title={title} />
       <NavbarPage
         sectionLinks={links}
