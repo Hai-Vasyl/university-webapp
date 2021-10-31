@@ -20,6 +20,7 @@ import styles from "../styles/pages.module";
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import NewsEventsModule from "../components/NewsEventsModule";
 import FooterModule from "../components/FooterModule";
+import Head from "../components/Head";
 
 const Library: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -35,7 +36,7 @@ const Library: React.FC = () => {
 
   const {
     auth: { user },
-    configs: { lang },
+    configs: { lang, current },
   } = useSelector((state: RootStore) => state);
 
   const getFilters = (genre: string, group: string) => {
@@ -288,11 +289,13 @@ const Library: React.FC = () => {
     });
 
   const quantityItems = dataSections && dataSections.getPageSections.quantity;
+  const { title, description } = current.page[location.pathname];
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title="Бібліотека" />
+      <Title title={title} />
       <FilterFrame
         numFilters={filters.length}
         onCreate={toggleCreateForm}

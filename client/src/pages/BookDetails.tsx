@@ -15,6 +15,7 @@ import FooterModule from "../components/FooterModule";
 import { useLocation } from "react-router";
 import { RootStore } from "../redux/store";
 import { useSelector } from "react-redux";
+import Head from "../components/Head";
 
 const BookDetails: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -121,12 +122,14 @@ const BookDetails: React.FC = () => {
     history.push("/library");
   };
 
+  const { title, description } = current.page[location.pathname];
   const info = dataSection && dataSection.getPageSection;
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title={current.pageTitles[location.pathname]} path="/library" />
+      <Title title={title} path="/library" />
       <div className="wrapper">
         {loadSection ? (
           <Loader />

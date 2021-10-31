@@ -20,6 +20,7 @@ import useFindFilter from "../hooks/useFindFilter";
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import NewsEventsModule from "../components/NewsEventsModule";
 import FooterModule from "../components/FooterModule";
+import Head from "../components/Head";
 
 const Team: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -34,7 +35,7 @@ const Team: React.FC = () => {
 
   const {
     auth: { user },
-    configs: { lang },
+    configs: { lang, current },
   } = useSelector((state: RootStore) => state);
 
   const { getFormFilterParams } = useFindFilter();
@@ -273,11 +274,13 @@ const Team: React.FC = () => {
     });
 
   const quantityItems = dataSections && dataSections.getPageSections.quantity;
+  const { title, description } = current.page[location.pathname];
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title="Команда" />
+      <Title title={title} />
       <FilterFrame
         numFilters={filters.length}
         onCreate={toggleCreateForm}

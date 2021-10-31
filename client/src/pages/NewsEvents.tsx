@@ -16,10 +16,11 @@ import NewsEventsModule from "../components/NewsEventsModule";
 import FooterModule from "../components/FooterModule";
 import { useSelector } from "react-redux";
 import { RootStore } from "../redux/store";
+import Head from "../components/Head";
 
 const NewsEvents: React.FC = () => {
   const {
-    configs: { lang },
+    configs: { lang, current },
   } = useSelector((state: RootStore) => state);
   const anchor = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -180,12 +181,14 @@ const NewsEvents: React.FC = () => {
     dataNewsEvents.getNewsEvents.items.map((item: INewsEventSlider) => {
       return <NewsEvent key={item.id} info={item} isNews={isNews} />;
     });
-
+  const { title, description } = current.page[location.pathname];
   const quantityItems = dataNewsEvents && dataNewsEvents.getNewsEvents.quantity;
+
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title={isNews ? "Усі новини" : "Усі події"} />
+      <Title title={title} />
       <FilterSearch
         handleSubmit={handleSubmitForm}
         quantityItems={quantityItems}

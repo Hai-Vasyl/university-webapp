@@ -18,12 +18,13 @@ import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import ContactsModule from "../components/ContactsModule";
 import UsefulLinksModule from "../components/UsefulLinksModule";
 import FooterModule from "../components/FooterModule";
+import Head from "../components/Head";
 
 const Home: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
   const {
     auth: { user },
-    configs: { lang },
+    configs: { lang, current },
   } = useSelector((state: RootStore) => state);
 
   const { data: dataNews, loading: loadNews } = useQuery(
@@ -49,9 +50,11 @@ const Home: React.FC = () => {
   const news = dataNews ? dataNews.getNewsEvents.items : [];
   const isOwnerContent =
     user.role === access.admin.keyWord || user.role === access.teacher.keyWord;
+  const { title, description } = current.page[location.pathname];
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
       <div
         className={`${styles.page__carousel} ${

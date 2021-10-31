@@ -16,10 +16,10 @@ import SectionPerson from "../components/SectionPerson";
 import { useSelector } from "react-redux";
 import { RootStore } from "../redux/store";
 import { access } from "../modules/accessModifiers";
-import DesignLayout_3 from "../components/DesignLayout_3";
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import NewsEventsModule from "../components/NewsEventsModule";
 import FooterModule from "../components/FooterModule";
+import Head from "../components/Head";
 
 const Graduates: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -309,11 +309,13 @@ const Graduates: React.FC = () => {
     });
 
   const quantityItems = dataSections && dataSections.getPageSections.quantity;
+  const { title, description } = current.page[location.pathname];
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title title={current.pageTitles[pathname]} />
+      <Title title={title} />
       <FilterFrame
         numFilters={filters.length}
         onCreate={toggleCreateForm}
@@ -338,36 +340,34 @@ const Graduates: React.FC = () => {
           setFilters={setForm}
         />
       )}
-      <DesignLayout_3>
-        <div className="wrapper">
-          {!!quantityItems && (
-            <Pagination
-              getRedirectLink={getRedirectPagination}
-              quantityItem={quantityItems}
-              amountItemsPage={amountItems}
-              currentPageNumber={page}
-              isTop
-            />
-          )}
-          <div className="wrapper-clear">
-            {loadSections ? (
-              <Loader />
-            ) : sections?.length ? (
-              sectionsJSX
-            ) : (
-              <div className="plug-text">Порожньо</div>
-            )}
-          </div>
-          {!!quantityItems && (
-            <Pagination
-              getRedirectLink={getRedirectPagination}
-              quantityItem={quantityItems}
-              amountItemsPage={amountItems}
-              currentPageNumber={page}
-            />
+      <div className="wrapper">
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+            isTop
+          />
+        )}
+        <div className="wrapper-clear">
+          {loadSections ? (
+            <Loader />
+          ) : sections?.length ? (
+            sectionsJSX
+          ) : (
+            <div className="plug-text">Порожньо</div>
           )}
         </div>
-      </DesignLayout_3>
+        {!!quantityItems && (
+          <Pagination
+            getRedirectLink={getRedirectPagination}
+            quantityItem={quantityItems}
+            amountItemsPage={amountItems}
+            currentPageNumber={page}
+          />
+        )}
+      </div>
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (
           <NewsEventsModule items={items} loading={loading} isNews={isNews} />

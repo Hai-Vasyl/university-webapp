@@ -42,6 +42,7 @@ import NewsEventsModule from "../components/NewsEventsModule";
 import FooterModule from "../components/FooterModule";
 import { RootStore } from "../redux/store";
 import { useSelector } from "react-redux";
+import Head from "../components/Head";
 
 const ModNewsEvent: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -432,15 +433,14 @@ const ModNewsEvent: React.FC = () => {
   const fieldsLink = formLink.map((field) => {
     return <Field key={field.param} field={field} change={setFormLink} />;
   });
+  const { title, description } = current.page[location.pathname];
 
   const isFormLinkFilled = checkFormLinkFilled();
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
-      <Title
-        title={current.pageTitles[location.pathname]}
-        path="/edit-news-event"
-      />
+      <Title title={title} path="/edit-news-event" />
       <div className={styles.form}>
         <div
           className={`${styles.form__content} ${styles.form__content__article}`}
@@ -543,7 +543,6 @@ const ModNewsEvent: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
       <NewsEventsModuleContainer isNews={true}>
         {(items: INewsEventSlider[], loading: boolean, isNews: boolean) => (

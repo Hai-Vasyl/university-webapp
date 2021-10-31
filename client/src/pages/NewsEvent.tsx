@@ -22,6 +22,7 @@ import ImageSlide from "../components/ImageSlide";
 import { IImageSlide, INewsEventSlider } from "../interfaces";
 import NewsEventsModuleContainer from "../components/NewsEventsModuleContainer";
 import FooterModule from "../components/FooterModule";
+import Head from "../components/Head";
 
 const NewsEvent: React.FC = () => {
   const anchor = useRef<HTMLDivElement>(null);
@@ -30,7 +31,7 @@ const NewsEvent: React.FC = () => {
   const isNews = pathname.split("/")[1] === "news";
   const {
     auth: { user, token },
-    configs: { lang },
+    configs: { lang, current },
   } = useSelector((state: RootStore) => state);
   const history = useHistory();
 
@@ -64,9 +65,11 @@ const NewsEvent: React.FC = () => {
 
   const isOwnerContent =
     user.role === access.admin.keyWord || user?.id === newsevent?.owner?.id;
+  const { title, description } = current.page[location.pathname];
 
   return (
     <div className="container">
+      <Head title={title} description={description} />
       <div ref={anchor}></div>
       <div
         className={`${styles.newsevent__carousel} ${

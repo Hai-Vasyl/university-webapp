@@ -11,12 +11,14 @@ import { SET_TOASTS } from "./redux/toasts/toastsTypes";
 import ToastInfo from "./components/ToastInfo";
 import Loader from "./components/Loader";
 import { CHANGE_LANGUAGE_CONFIG } from "./redux/configs/configsTypes";
+import Head from "./components/Head";
 
 const App: React.FC = () => {
   const [initLoad, setInitLoad] = useState(true);
   const {
     auth: { user },
     toasts: { toasts },
+    configs: { current },
   } = useSelector((state: RootStore) => state);
   const [getUser, { data: dataUser }] = useLazyQuery(GET_DATA_USER, {
     fetchPolicy: "no-cache",
@@ -69,15 +71,20 @@ const App: React.FC = () => {
     }
   }, []);
 
+  const { title, description } = current.page["/"];
+
   if (initLoad) {
     return <Loader center={true} />;
   }
 
   return (
     <div>
-      <Routes />
+      <Head title={title} description={description} />
+      <div>
+        <Routes />
+      </div>
       <div className={`${stylesToast.wrapper} ${stylesToast.wrapper_top}`}>
-        {toasts.map((toast, index) => {
+        {toasts.map((toast: any, index: number) => {
           return <ToastInfo {...toast} key={toast.message + index} />;
         })}
       </div>
