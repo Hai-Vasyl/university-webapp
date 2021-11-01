@@ -54,7 +54,7 @@ const Team: React.FC = () => {
     {
       variables: {
         url: location.pathname,
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
     }
   );
@@ -70,7 +70,7 @@ const Team: React.FC = () => {
       from: (page - 1) * amountItems,
       to: amountItems,
       url: location.pathname,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

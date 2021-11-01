@@ -58,7 +58,7 @@ const Library: React.FC = () => {
     {
       variables: {
         url: pathname,
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
       fetchPolicy: "cache-and-network",
     }
@@ -75,7 +75,7 @@ const Library: React.FC = () => {
       from: (page - 1) * amountItems,
       to: amountItems,
       url: pathname,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

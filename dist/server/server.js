@@ -1335,7 +1335,7 @@ var Query = {
               });
               _context.next = 7;
               return _models__WEBPACK_IMPORTED_MODULE_3__.NewsEvent.find(query).skip(from).limit(to).sort({
-                date: -1
+                dateEvent: -1
               });
 
             case 7:

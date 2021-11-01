@@ -1,24 +1,24 @@
-import React from "react"
+import React from "react";
 // @ts-ignore
-import styles from "../styles/newsevents.module"
-import { INewsEventSlider } from "../interfaces"
-import { getNewsParamsByKey } from "../modules/newsCategories"
-import { Link } from "react-router-dom"
-import ImgPreviewSection from "./ImgPreviewSection"
-import { getParamsByType } from "../modules/uploadTypes"
-import { RiExternalLinkLine } from "react-icons/ri"
+import styles from "../styles/newsevents.module";
+import { INewsEventSlider } from "../interfaces";
+import { getNewsParamsByKey } from "../modules/newsCategories";
+import { Link } from "react-router-dom";
+import ImgPreviewSection from "./ImgPreviewSection";
+import { getParamsByType } from "../modules/uploadTypes";
+import { RiExternalLinkLine } from "react-icons/ri";
 
 interface INewsEventProps {
-  isNews: boolean
-  info: INewsEventSlider
+  isNews: boolean;
+  info: INewsEventSlider;
 }
 
 const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
   const linkPath = isNews
     ? `/news/details/${info.id}`
-    : `/events/details/${info.id}`
-  const linkParams = getNewsParamsByKey(info.category)
-  const contentType = getParamsByType(isNews ? "news" : "event")
+    : `/events/details/${info.id}`;
+  const linkParams = getNewsParamsByKey(info.category);
+  const contentType = getParamsByType(isNews ? "news" : "event");
 
   return (
     <div className={styles.content} key={info.id}>
@@ -32,7 +32,7 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
           {contentType && (
             <contentType.Icon className={styles.content__date_icon} />
           )}
-          <span>{info.date.split("-").join(" / ")}</span>
+          <span>{info.dateEvent.split("-").join(" / ")}</span>
         </div>
         <div>
           <Link className={styles.content__title} to={linkPath}>
@@ -54,12 +54,12 @@ const NewsEvent: React.FC<INewsEventProps> = ({ isNews, info }) => {
               <a className={styles.content__link} key={index} href={link.link}>
                 <span>{link.label}</span>
               </a>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NewsEvent
+export default NewsEvent;

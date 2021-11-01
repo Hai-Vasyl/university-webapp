@@ -36,7 +36,7 @@ const BooksModule: React.FC<IBooksModuleProps> = ({ exceptId, title }) => {
         to: amountItems,
         url: pathname,
         exceptId,
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
     }
   );

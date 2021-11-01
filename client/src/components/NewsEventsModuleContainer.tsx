@@ -31,7 +31,7 @@ const NewsEventsModuleContainer: React.FC<INewsEventsModuleContainerProps> = ({
       from: from,
       to: 3,
       exceptId,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

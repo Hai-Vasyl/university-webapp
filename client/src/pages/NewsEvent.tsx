@@ -41,7 +41,7 @@ const NewsEvent: React.FC = () => {
       variables: {
         contentId,
         type: isNews ? "news" : "event",
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
       fetchPolicy: "cache-and-network",
     }
@@ -65,7 +65,8 @@ const NewsEvent: React.FC = () => {
 
   const isOwnerContent =
     user.role === access.admin.keyWord || user?.id === newsevent?.owner?.id;
-  const { title, description } = current.page[location.pathname];
+  const { title, description } =
+    current.page[isNews ? "/news/details" : "/event/details"];
 
   return (
     <div className="container">
@@ -85,7 +86,7 @@ const NewsEvent: React.FC = () => {
           onEdit={refetchImages}
           onRemove={refetchImages}
           onCreate={refetchImages}
-          exClass="carousel__wide"
+          exClass={images.length && "carousel__wide"}
         >
           {(params: any) =>
             images.map((slide: IImageSlide, index: number) => {

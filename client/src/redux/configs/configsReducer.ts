@@ -105,6 +105,14 @@ const defaultLaguagePack = {
       description: "Створення події",
       title: "Створення Події",
     },
+    "/edit-news": {
+      description: "Редагування новини",
+      title: "Редагування Новини",
+    },
+    "/edit-event": {
+      description: "Редагування події",
+      title: "Редагування Події",
+    },
   },
 };
 
@@ -139,6 +147,8 @@ const initState: IInitState = {
       "/users": { description: "", title: "All Users" },
       "/create-news": { description: "", title: "Create News" },
       "/create-event": { description: "", title: "Create Event" },
+      "/edit-news": { description: "", title: "Edit News" },
+      "/edit-event": { description: "", title: "Edit Event" },
     },
   },
 };

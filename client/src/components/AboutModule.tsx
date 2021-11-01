@@ -42,7 +42,7 @@ const AboutModule: React.FC = () => {
       from: 0,
       to: 1,
       url: "/about",
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

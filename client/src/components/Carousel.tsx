@@ -126,7 +126,7 @@ const Carousel: React.FC<ICarouselProps> = ({
       }`}
     >
       {load ? (
-        <Loader />
+        <Loader center />
       ) : (
         <>
           {!!slides.length && (

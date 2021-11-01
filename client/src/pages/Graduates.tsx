@@ -57,7 +57,7 @@ const Graduates: React.FC = () => {
     {
       variables: {
         url: pathname,
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
     }
   );
@@ -73,7 +73,7 @@ const Graduates: React.FC = () => {
       from: (page - 1) * amountItems,
       to: amountItems,
       url: pathname,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

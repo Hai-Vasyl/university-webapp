@@ -47,7 +47,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
       filters: [],
       from: 0,
       url: pathname,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

@@ -72,7 +72,7 @@ const NewsSlide: React.FC<INewsSliderProps> = ({ params, info, index }) => {
         </div>
         <div className={`${styles.slide__date} ${styles.slide__date_right}`}>
           <BiTime className={styles.slide__date_icon} />
-          <span>{info.date}</span>
+          <span>{info.dateEvent}</span>
         </div>
       </div>
     </div>

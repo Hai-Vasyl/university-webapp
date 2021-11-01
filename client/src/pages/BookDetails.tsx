@@ -46,7 +46,7 @@ const BookDetails: React.FC = () => {
     {
       variables: {
         url: "/library",
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
     }
   );
@@ -58,7 +58,7 @@ const BookDetails: React.FC = () => {
   } = useQuery(GET_PAGE_SECTION, {
     variables: {
       sectionId: bookId,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

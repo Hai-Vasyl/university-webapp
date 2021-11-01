@@ -68,7 +68,7 @@ const Search: React.FC = () => {
     variables: {
       search,
       tags: tags === "all" ? "" : tags,
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 

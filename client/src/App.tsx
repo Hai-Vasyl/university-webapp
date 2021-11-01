@@ -74,7 +74,7 @@ const App: React.FC = () => {
   const { title, description } = current.page["/"];
 
   if (initLoad) {
-    return <Loader center={true} />;
+    return <Loader center isLogo />;
   }
 
   return (

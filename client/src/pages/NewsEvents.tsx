@@ -74,7 +74,7 @@ const NewsEvents: React.FC = () => {
         dateTo: to,
         from: (page - 1) * amountItems,
         to: amountItems,
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
     }
   );

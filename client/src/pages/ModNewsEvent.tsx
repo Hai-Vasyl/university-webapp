@@ -149,7 +149,7 @@ const ModNewsEvent: React.FC = () => {
         variables: {
           contentId,
           type: isNews ? "news" : "event",
-          lang: lang === "uk" ? undefined : lang,
+          lang,
         },
       });
     }
@@ -433,7 +433,8 @@ const ModNewsEvent: React.FC = () => {
   const fieldsLink = formLink.map((field) => {
     return <Field key={field.param} field={field} change={setFormLink} />;
   });
-  const { title, description } = current.page[location.pathname];
+  const { title, description } =
+    current.page[isNews ? "/edit-news" : "/edit-event"];
 
   const isFormLinkFilled = checkFormLinkFilled();
   return (

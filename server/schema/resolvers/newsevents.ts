@@ -45,7 +45,7 @@ export const Query = {
       const newsEvents = await NewsEvent.find(query)
         .skip(from)
         .limit(to)
-        .sort({ date: -1 });
+        .sort({ dateEvent: -1 });
 
       const quantity = await NewsEvent.find(query).countDocuments();
 

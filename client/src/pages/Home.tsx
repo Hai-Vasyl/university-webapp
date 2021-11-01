@@ -38,7 +38,7 @@ const Home: React.FC = () => {
         dateTo: null,
         from: 0,
         to: 3,
-        lang: lang === "uk" ? undefined : lang,
+        lang,
       },
     }
   );

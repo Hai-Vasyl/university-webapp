@@ -38,7 +38,7 @@ const useRoutes = () => {
   const { data: dataSections } = useQuery(GET_ALL_PAGE_SECTIONS, {
     variables: {
       urls: ["/management"],
-      lang: lang === "uk" ? undefined : lang,
+      lang,
     },
   });
 
