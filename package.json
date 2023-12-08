@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Vasyl-Hai <hai.vasyl20@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  },
   "resolutions": {
     "**/**/fs-capacitor": "^6.2.0",
     "graphql-upload": "^11.0.0"
