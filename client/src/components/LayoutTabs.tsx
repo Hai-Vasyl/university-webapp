@@ -1,42 +1,42 @@
-import React, { useState } from "react";
-import { GET_PAGE_SECTIONS } from "../fetching/queries";
-import { useQuery } from "@apollo/client";
-import Title from "./Title";
+import React, { useState } from "react"
+import { GET_PAGE_SECTIONS } from "../fetching/queries"
+import { useQuery } from "@apollo/client"
+import Title from "./Title"
 // @ts-ignore
-import styles from "../styles/pages.module";
-import { useLocation } from "react-router-dom";
-import Loader from "./Loader";
-import { useSelector } from "react-redux";
-import { RootStore } from "../redux/store";
-import { access } from "../modules/accessModifiers";
-import { INewsEventSlider, IPageSection } from "../interfaces";
-import PageSection from "./PageSection";
-import ModSectionForm from "./ModSectionForm";
-import NewsEventsModule from "./NewsEventsModule";
-import NavbarPage from "./NavbarPage";
-import SectionAbout from "./SectionAbout";
-import SideNavbar from "./SideNavbar";
-import NewsEventsModuleContainer from "./NewsEventsModuleContainer";
-import FooterModule from "./FooterModule";
-import Head from "./Head";
+import styles from "../styles/pages.module"
+import { useLocation } from "react-router-dom"
+import Loader from "./Loader"
+import { useSelector } from "react-redux"
+import { RootStore } from "../redux/store"
+import { access } from "../modules/accessModifiers"
+import { INewsEventSlider, IPageSection } from "../interfaces"
+import PageSection from "./PageSection"
+import ModSectionForm from "./ModSectionForm"
+import NewsEventsModule from "./NewsEventsModule"
+import NavbarPage from "./NavbarPage"
+import SectionAbout from "./SectionAbout"
+import SideNavbar from "./SideNavbar"
+import NewsEventsModuleContainer from "./NewsEventsModuleContainer"
+import FooterModule from "./FooterModule"
+import Head from "./Head"
 
 interface ILayoutTabsProps {
-  imgsPrivate?: boolean;
+  imgsPrivate?: boolean
 }
 
 const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
-  const { pathname, search } = useLocation();
-  const params = new URLSearchParams(search);
-  const sectionId = params.get("section") || "";
-  const isAboutUrl = pathname === "/about";
+  const { pathname, search } = useLocation()
+  const params = new URLSearchParams(search)
+  const sectionId = params.get("section") || ""
+  const isAboutUrl = pathname === "/about"
 
   const {
     configs: { current },
     auth: { user },
     configs: { lang },
-  } = useSelector((state: RootStore) => state);
+  } = useSelector((state: RootStore) => state)
 
-  const { title, description } = current.page[pathname];
+  const { title, description } = current.page[pathname]
 
   const {
     data: dataSections,
@@ -49,24 +49,24 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
       url: pathname,
       lang,
     },
-  });
+  })
 
-  const [toggleCreate, setToggleCreate] = useState(false);
+  const [toggleCreate, setToggleCreate] = useState(false)
 
   const handleRefetchAll = () => {
-    refetchSections();
-  };
+    refetchSections()
+  }
 
   const handleCreate = () => {
-    handleRefetchAll();
-    setToggleCreate((prev) => !prev);
-  };
+    handleRefetchAll()
+    setToggleCreate((prev) => !prev)
+  }
 
-  let sections = dataSections ? dataSections.getPageSections.items : [];
-  sections = isAboutUrl ? sections.slice(1) : sections;
+  let sections = dataSections ? dataSections.getPageSections.items : []
+  sections = isAboutUrl ? sections.slice(1) : sections
   const links = sections
     ? sections.map((item: IPageSection) => ({ title: item.title, id: item.id }))
-    : [];
+    : []
 
   const sectionsJSX =
     sections &&
@@ -97,11 +97,11 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
             />
           </PageSection>
         </div>
-      );
-    });
+      )
+    })
 
   return (
-    <div className="container">
+    <div className='container'>
       <Head title={title} description={description} />
       <Title title={title} />
       <NavbarPage
@@ -113,7 +113,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
       {user.role === access.admin.keyWord && toggleCreate && (
         <ModSectionForm onCreate={handleCreate} isOptContent />
       )}
-      <div className="wrapper">
+      <div className='wrapper'>
         {loadSections ? (
           <Loader />
         ) : sections.length ? (
@@ -130,7 +130,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
             </div>
           </div>
         ) : (
-          <div className="plug-text">Порожньо</div>
+          <div className='plug-text'>Порожньо</div>
         )}
       </div>
       <NewsEventsModuleContainer isNews={true}>
@@ -140,7 +140,7 @@ const LayoutTabs: React.FC<ILayoutTabsProps> = ({ imgsPrivate = false }) => {
       </NewsEventsModuleContainer>
       <FooterModule />
     </div>
-  );
-};
+  )
+}
 
-export default LayoutTabs;
+export default LayoutTabs
